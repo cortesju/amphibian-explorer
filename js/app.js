@@ -82,7 +82,7 @@ require([
         maxValue: cls.max,
         symbol: new SimpleFillSymbol({
           color: [...base, Math.round(alphas[i] * 255)],
-          outline: { color: [0,0,0,0], width: 0 }
+          outline: { color: [92, 200, 168, 150], width: 0.6 }
         }),
         label: labels[i],
       })),
@@ -221,6 +221,7 @@ require([
     document.getElementById("detail-sci").textContent    = sp.scientific_name;
     document.getElementById("detail-iucn-badge").textContent  = `${sp.iucn_code} — ${sp.iucn_label}`;
     document.getElementById("detail-iucn-badge").style.background = sp.iucn_color;
+    document.getElementById("detail-description").textContent = sp.description || "";
     document.getElementById("stat-obs").textContent     = sp.obs_count.toLocaleString();
     document.getElementById("stat-research").textContent= sp.quality_research_count.toLocaleString();
     document.getElementById("stat-years").textContent   =
@@ -284,7 +285,7 @@ require([
   rangesLayer = new FeatureLayer({
     url:        CONFIG.services.ranges,
     renderer:   makeRangesRenderer(),
-    opacity:    0.65,
+    opacity:    0.50,
     visible:    true,
     definitionExpression: "1=0",   // hidden until species selected
     outFields:  ["species_code", "season", "season_label", "obs_count"],

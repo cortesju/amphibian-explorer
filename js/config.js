@@ -37,15 +37,15 @@ const CONFIG = {
   // Basemap name — ArcGIS Online built-in basemaps:
   // "topo-vector" | "gray-vector" | "dark-gray-vector" | "oceans"
   // "streets-night-vector" | "terrain" | "human-geography-dark"
-  basemap: "gray-vector",
+  // Pale, low-saturation basemap — the transparent UI floats on top
+  basemap: "human-geography-light",
 
   // ── Hex bin renderer ────────────────────────────────────────────────────────
-  // abund_iso field values 1–5 map to these display classes
+  // Aqua-teal — matches glass frog translucent body color
   hexColors: {
-    fillBase:   "#996D5C",     // base brown — same as Audubon
-    // Fill alpha per class (1=Very Low … 5=Very High)
-    alphas:     [0.20, 0.40, 0.60, 0.80, 1.00],
-    outlineColor: [0, 0, 0, 0],  // no outline for clean look
+    fillBase:   "#5CC8A8",     // glass frog aqua-teal body
+    alphas:     [0.18, 0.35, 0.52, 0.72, 0.92],
+    outlineColor: [80, 200, 165, 160],
   },
 
   abundanceClasses: [
@@ -56,13 +56,16 @@ const CONFIG = {
     { label: "Very High", min: 5, max: 5 },
   ],
 
-  // ── Seasonal range renderer ─────────────────────────────────────────────────
+  // ── Seasonal range renderer — glass frog palette ───────────────────────────
   seasonColors: {
-    wet_season_1: { fill: [168, 210, 120, 0.40], outline: [100, 140, 60, 0.8],  label: "Rainy Season 1 (Mar–May)" },
-    dry_season_1: { fill: [220, 185, 105, 0.35], outline: [160, 130, 50, 0.8],  label: "Dry Season 1 (Jun–Aug)"   },
-    wet_season_2: { fill: [120, 190, 175, 0.40], outline: [ 60, 130, 115, 0.8], label: "Rainy Season 2 (Sep–Nov)" },
-    dry_season_2: { fill: [210, 175,  75, 0.35], outline: [150, 120,  40, 0.8], label: "Dry Season 2 (Dec–Feb)"   },
-    year_round:   { fill: [173, 208, 225, 0.30], outline: [ 80, 130, 160, 0.8], label: "Year-round Range"          },
+    // Rainy seasons: aqua-teal (frog body color) — semi-transparent
+    wet_season_1: { fill: [80, 200, 165, 0.22],  outline: [60, 185, 148, 0.80],  label: "Rainy Season 1 (Mar–May)" },
+    // Dry seasons: warm gold (toe pad yellow) — semi-transparent
+    dry_season_1: { fill: [200, 180, 30, 0.22],  outline: [175, 155, 20, 0.80],  label: "Dry Season 1 (Jun–Aug)"   },
+    wet_season_2: { fill: [60, 185, 155, 0.22],  outline: [45, 165, 135, 0.80],  label: "Rainy Season 2 (Sep–Nov)" },
+    dry_season_2: { fill: [195, 170, 25, 0.22],  outline: [168, 145, 15, 0.80],  label: "Dry Season 2 (Dec–Feb)"   },
+    // Year-round: very pale glass — like the frog's near-invisible belly skin
+    year_round:   { fill: [160, 230, 210, 0.15], outline: [100, 200, 175, 0.65], label: "Year-round Range"         },
   },
 
   // ── Time slider ─────────────────────────────────────────────────────────────

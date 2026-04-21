@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Colombia Amphibian Explorer</title>
 
-  <!-- ArcGIS JS API 4.29 — no build step, works on GitHub Pages -->
+  <!-- ArcGIS JS API 4.29 -->
   <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.29/"></script>
 
-  <!-- Google Fonts (matches Audubon clean sans-serif aesthetic) -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 
@@ -26,7 +26,7 @@
 <!-- ── Header ──────────────────────────────────────────────────── -->
 <header class="app-header">
   <div class="logo">🐸 <span>Colombia</span> Amphibian Explorer</div>
-  <div class="subtitle">Temporal distribution of endemic &amp; threatened amphibians · iNaturalist data</div>
+  <div class="subtitle">Temporal distribution of endemic &amp; threatened amphibians · iNaturalist</div>
   <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle species list"
           style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;">☰</button>
 </header>
@@ -39,55 +39,63 @@
 
     <!-- Species list view -->
     <div id="species-list-view" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
-      <div class="sidebar-search">
-        <input type="search" id="species-search" placeholder="Search species…" autocomplete="off">
+      <div class="sidebar-header">
+        <div class="sidebar-header-label">24 Species</div>
+        <div class="sidebar-search">
+          <input type="search" id="species-search" placeholder="Search species…" autocomplete="off">
+        </div>
       </div>
       <div class="species-list" id="species-list">
         <!-- populated by app.js -->
       </div>
     </div>
 
-    <!-- Species detail view (shown after clicking a species) -->
+    <!-- Species detail view -->
     <div class="species-detail" id="species-detail-view">
+
       <div class="detail-back" id="detail-back">
-        <svg viewBox="0 0 16 16" fill="currentColor">
-          <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2"
-                fill="none" stroke-linecap="round"/>
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        All species
+        Explore All Species
       </div>
+
       <div class="detail-hero">
         <img id="detail-photo" src="" alt="" style="display:none;">
         <div class="detail-hero-placeholder" id="detail-photo-placeholder">🐸</div>
         <span class="detail-iucn-badge" id="detail-iucn-badge">LC</span>
       </div>
+
       <div class="detail-body">
         <div class="detail-common" id="detail-common"></div>
         <div class="detail-sci"    id="detail-sci"></div>
+
+        <div class="detail-description" id="detail-description"></div>
 
         <div class="detail-stats">
           <div class="stat-card">
             <div class="stat-label">Observations</div>
             <div class="stat-value" id="stat-obs">—</div>
-            <div class="stat-sub">total</div>
+            <div class="stat-sub">iNaturalist records</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">Research Grade</div>
             <div class="stat-value" id="stat-research">—</div>
-            <div class="stat-sub">verified</div>
+            <div class="stat-sub">verified IDs</div>
           </div>
           <div class="stat-card" style="grid-column:1/-1;">
             <div class="stat-label">Years on Record</div>
-            <div class="stat-value" style="font-size:15px;" id="stat-years">—</div>
+            <div class="stat-value" style="font-size:16px;" id="stat-years">—</div>
           </div>
         </div>
 
-        <a class="detail-inat-link" id="detail-inat-link"
-           target="_blank" rel="noopener">
+        <a class="detail-inat-link" id="detail-inat-link" target="_blank" rel="noopener">
           View on iNaturalist ↗
         </a>
       </div>
-    </div>
+
+    </div><!-- /species-detail-view -->
 
   </aside><!-- /sidebar -->
 
@@ -110,8 +118,7 @@
         <div class="layer-toggle-row">
           <div class="layer-info">
             <div class="layer-name">Observation Density</div>
-            <div class="layer-desc">Weekly hex bin count</div>
-            <!-- Mini legend -->
+            <div class="layer-desc">Weekly abundance per 250 km² cell</div>
             <div class="legend-row">
               <div class="legend-hex l1"></div>
               <div class="legend-hex l2"></div>
@@ -120,7 +127,7 @@
               <div class="legend-hex l5"></div>
             </div>
             <div class="legend-labels">
-              <span>Very Low</span><span></span><span>Moderate</span><span></span><span>Very High</span>
+              <span>Very Low</span><span>Very High</span>
             </div>
           </div>
           <label class="toggle-switch">
@@ -133,21 +140,21 @@
         <div class="layer-toggle-row">
           <div class="layer-info">
             <div class="layer-name">Seasonal Range</div>
-            <div class="layer-desc">Known distribution by season</div>
+            <div class="layer-desc">Known distribution by Colombia season</div>
             <div class="legend-range-item">
-              <div class="legend-range-swatch" style="background:rgba(168,210,120,0.6);border:1px solid #64902c"></div>
+              <div class="legend-range-swatch" style="background:rgba(80,200,165,0.35);border:1px solid rgba(60,185,148,0.80)"></div>
               Rainy Season 1 (Mar–May)
             </div>
             <div class="legend-range-item">
-              <div class="legend-range-swatch" style="background:rgba(120,190,175,0.6);border:1px solid #3c8273"></div>
+              <div class="legend-range-swatch" style="background:rgba(60,185,155,0.35);border:1px solid rgba(45,165,135,0.80)"></div>
               Rainy Season 2 (Sep–Nov)
             </div>
             <div class="legend-range-item">
-              <div class="legend-range-swatch" style="background:rgba(220,185,105,0.6);border:1px solid #a08228"></div>
-              Dry Seasons
+              <div class="legend-range-swatch" style="background:rgba(200,180,30,0.35);border:1px solid rgba(175,155,20,0.80)"></div>
+              Dry Seasons (toe-pad gold)
             </div>
             <div class="legend-range-item">
-              <div class="legend-range-swatch" style="background:rgba(173,208,225,0.5);border:1px solid #508090"></div>
+              <div class="legend-range-swatch" style="background:rgba(160,230,210,0.25);border:1px solid rgba(100,200,175,0.65)"></div>
               Year-round Range
             </div>
           </div>
@@ -162,10 +169,12 @@
 
     <!-- Data attribution -->
     <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
-                font-size:10px;color:#666;background:rgba(255,255,255,0.85);
-                padding:3px 8px;border-radius:4px;pointer-events:none;white-space:nowrap;">
-      Observations: <a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a>
-      · Basemap: <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>
+                font-size:10px;color:#555;background:rgba(255,255,255,0.90);
+                padding:3px 10px;border-radius:4px;pointer-events:none;white-space:nowrap;
+                box-shadow:0 1px 4px rgba(0,0,0,0.10);">
+      Observations: <a href="https://www.inaturalist.org" target="_blank" rel="noopener" style="color:#C0392B;text-decoration:none;">iNaturalist</a>
+      &nbsp;·&nbsp; Basemap: <a href="https://www.esri.com" target="_blank" rel="noopener" style="color:#C0392B;text-decoration:none;">Esri</a>
+      &nbsp;·&nbsp; IUCN: <a href="https://www.iucnredlist.org" target="_blank" rel="noopener" style="color:#C0392B;text-decoration:none;">Red List</a>
     </div>
 
   </main><!-- /map-area -->
@@ -181,10 +190,12 @@
     <div class="week-label" id="week-label">MAY 1 – MAY 7</div>
 
     <div class="slider-track" id="slider-track">
-      <!-- Migration band: spring ~weeks 12–22 -->
-      <div class="migration-band" style="left:21.6%;width:19.6%" title="Spring Activity"></div>
-      <!-- Migration band: autumn ~weeks 36–46 -->
-      <div class="migration-band" style="left:68.6%;width:19.6%" title="Autumn Activity"></div>
+      <!-- Colombia rainy season 1: weeks 10–22 (Mar–May) -->
+      <div class="migration-band" style="left:17.6%;width:23.5%"></div>
+      <div class="migration-band-label" style="left:29.4%">Rainy Season 1</div>
+      <!-- Colombia rainy season 2: weeks 36–48 (Sep–Nov) -->
+      <div class="migration-band" style="left:68.6%;width:23.5%"></div>
+      <div class="migration-band-label" style="left:80.4%">Rainy Season 2</div>
 
       <div class="slider-fill"  id="slider-fill"  style="width:37%"></div>
       <div class="slider-thumb" id="slider-thumb" style="left:37%"></div>
@@ -202,16 +213,13 @@
 <script src="js/app.js"></script>
 
 <script>
-  // Layer panel collapse/expand
   document.getElementById("layers-panel-toggle").addEventListener("click", () => {
     const body    = document.getElementById("layers-panel-body");
     const chevron = document.getElementById("layers-panel-chevron");
     const hidden  = body.style.display === "none";
-    body.style.display   = hidden ? "block" : "none";
-    chevron.textContent  = hidden ? "▲" : "▼";
+    body.style.display  = hidden ? "block" : "none";
+    chevron.textContent = hidden ? "▲" : "▼";
   });
-
-  // Mobile sidebar toggle
   document.getElementById("mobile-toggle").addEventListener("click", () => {
     document.getElementById("sidebar").classList.toggle("mobile-open");
   });
