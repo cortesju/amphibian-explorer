@@ -1,0 +1,532 @@
+{
+  "species": [
+    {
+      "id": "espadarana_prosoblepon",
+      "taxon_id": 134933,
+      "scientific_name": "Espadarana prosoblepon",
+      "common_name": "Emerald Glass Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/33439/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/134933",
+      "obs_count": 2140,
+      "quality_research_count": 1746,
+      "year_range": [
+        1982,
+        2026
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 5.9888,
+        "lon": -81.237
+      }
+    },
+    {
+      "id": "leptodactylus_insularum",
+      "taxon_id": 126247,
+      "scientific_name": "Leptodactylus insularum",
+      "common_name": "Spotted Foam-nest Frog",
+      "group": "Amphibia",
+      "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/28309/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/126247",
+      "obs_count": 922,
+      "quality_research_count": 649,
+      "year_range": [
+        2000,
+        2026
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 9.2817,
+        "lon": -76.9334
+      }
+    },
+    {
+      "id": "dendropsophus_columbianus",
+      "taxon_id": 65344,
+      "scientific_name": "Dendropsophus columbianus",
+      "common_name": "Boettger's Colombian Tree Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/59470/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/65344",
+      "obs_count": 688,
+      "quality_research_count": 533,
+      "year_range": [
+        2008,
+        2026
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 4.5808,
+        "lon": -75.8589
+      }
+    },
+    {
+      "id": "hyalinobatrachium_fleischmanni",
+      "taxon_id": 21324,
+      "scientific_name": "Hyalinobatrachium fleischmanni",
+      "common_name": "Fleischmann's Glass Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/45660/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/21324",
+      "obs_count": 516,
+      "quality_research_count": 244,
+      "year_range": [
+        1969,
+        2026
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 10.6313,
+        "lon": -83.765
+      }
+    },
+    {
+      "id": "cochranella_granulosa",
+      "taxon_id": 21277,
+      "scientific_name": "Cochranella granulosa",
+      "common_name": "Granular Glass Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/66123/medium.JPG",
+      "inat_url": "https://www.inaturalist.org/taxa/21277",
+      "obs_count": 447,
+      "quality_research_count": 355,
+      "year_range": [
+        1980,
+        2026
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 9.9948,
+        "lon": -84.0345
+      }
+    },
+    {
+      "id": "pristimantis_palmeri",
+      "taxon_id": 66786,
+      "scientific_name": "Pristimantis palmeri",
+      "common_name": "Palmer's Robber Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/90369/medium.JPG",
+      "inat_url": "https://www.inaturalist.org/taxa/66786",
+      "obs_count": 277,
+      "quality_research_count": 130,
+      "year_range": [
+        2000,
+        2026
+      ],
+      "iucn_code": "VU",
+      "iucn_label": "Vulnerable",
+      "iucn_color": "#F9A800",
+      "centroid": {
+        "lat": 4.183,
+        "lon": -76.1184
+      }
+    },
+    {
+      "id": "rheobates_palmatus",
+      "taxon_id": 67082,
+      "scientific_name": "Rheobates palmatus",
+      "common_name": "Palm Rocket Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/33372/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/67082",
+      "obs_count": 220,
+      "quality_research_count": 135,
+      "year_range": [
+        2008,
+        2026
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 5.7187,
+        "lon": -73.8069
+      }
+    },
+    {
+      "id": "andinobates_bombetes",
+      "taxon_id": 135039,
+      "scientific_name": "Andinobates bombetes",
+      "common_name": "Cauca Poison Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/56360/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/135039",
+      "obs_count": 216,
+      "quality_research_count": 209,
+      "year_range": [
+        2008,
+        2026
+      ],
+      "iucn_code": "EN",
+      "iucn_label": "Endangered",
+      "iucn_color": "#FC7F3F",
+      "centroid": {
+        "lat": 4.37,
+        "lon": -76.0335
+      }
+    },
+    {
+      "id": "pristimantis_erythropleura",
+      "taxon_id": 66657,
+      "scientific_name": "Pristimantis erythropleura",
+      "common_name": "Colombian Robber Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/90241/medium.JPG",
+      "inat_url": "https://www.inaturalist.org/taxa/66657",
+      "obs_count": 129,
+      "quality_research_count": 110,
+      "year_range": [
+        2011,
+        2026
+      ],
+      "iucn_code": "EN",
+      "iucn_label": "Endangered",
+      "iucn_color": "#FC7F3F",
+      "centroid": {
+        "lat": 5.2108,
+        "lon": -76.0508
+      }
+    },
+    {
+      "id": "atelopus_laetissimus",
+      "taxon_id": 21663,
+      "scientific_name": "Atelopus laetissimus",
+      "common_name": "San Lorenzo Stubfoot Toad",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/106402/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/21663",
+      "obs_count": 90,
+      "quality_research_count": 85,
+      "year_range": [
+        2008,
+        2025
+      ],
+      "iucn_code": "CR",
+      "iucn_label": "Critically Endangered",
+      "iucn_color": "#D81E05",
+      "centroid": {
+        "lat": 10.9846,
+        "lon": -74.049
+      }
+    },
+    {
+      "id": "centrolene_savagei",
+      "taxon_id": 135068,
+      "scientific_name": "Centrolene savagei",
+      "common_name": "Savage's Cochran Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/65629/medium.JPG",
+      "inat_url": "https://www.inaturalist.org/taxa/135068",
+      "obs_count": 76,
+      "quality_research_count": 66,
+      "year_range": [
+        2007,
+        2026
+      ],
+      "iucn_code": "EN",
+      "iucn_label": "Endangered",
+      "iucn_color": "#FC7F3F",
+      "centroid": {
+        "lat": 4.7207,
+        "lon": -75.7912
+      }
+    },
+    {
+      "id": "rulyrana_susatamai",
+      "taxon_id": 21271,
+      "scientific_name": "Rulyrana susatamai",
+      "common_name": "",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/45004/medium.JPG",
+      "inat_url": "https://www.inaturalist.org/taxa/21271",
+      "obs_count": 68,
+      "quality_research_count": 57,
+      "year_range": [
+        2008,
+        2026
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 6.1121,
+        "lon": -75.1064
+      }
+    },
+    {
+      "id": "colostethus_inguinalis",
+      "taxon_id": 21038,
+      "scientific_name": "Colostethus inguinalis",
+      "common_name": "Common Rocket Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/65664/medium.png",
+      "inat_url": "https://www.inaturalist.org/taxa/21038",
+      "obs_count": 51,
+      "quality_research_count": 42,
+      "year_range": [
+        2010,
+        2026
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 7.6812,
+        "lon": -75.1234
+      }
+    },
+    {
+      "id": "oophaga_lehmanni",
+      "taxon_id": 66276,
+      "scientific_name": "Oophaga lehmanni",
+      "common_name": "Red-banded Poison Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/14324815/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/66276",
+      "obs_count": 42,
+      "quality_research_count": 36,
+      "year_range": [
+        2010,
+        2026
+      ],
+      "iucn_code": "CR",
+      "iucn_label": "Critically Endangered",
+      "iucn_color": "#D81E05",
+      "centroid": {
+        "lat": 4.9517,
+        "lon": -78.2996
+      }
+    },
+    {
+      "id": "bolitoglossa_ramosi",
+      "taxon_id": 26944,
+      "scientific_name": "Bolitoglossa ramosi",
+      "common_name": "Ramos' Mushroomtongue Salamander",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/92007/medium.JPG",
+      "inat_url": "https://www.inaturalist.org/taxa/26944",
+      "obs_count": 39,
+      "quality_research_count": 25,
+      "year_range": [
+        2008,
+        2026
+      ],
+      "iucn_code": "EN",
+      "iucn_label": "Endangered",
+      "iucn_color": "#FC7F3F",
+      "centroid": {
+        "lat": 5.8864,
+        "lon": -75.1586
+      }
+    },
+    {
+      "id": "bolitoglossa_vallecula",
+      "taxon_id": 27015,
+      "scientific_name": "Bolitoglossa vallecula",
+      "common_name": "Yarmal Mushroom-tongue Salamander",
+      "group": "Amphibia",
+      "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/355975595/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/27015",
+      "obs_count": 37,
+      "quality_research_count": 26,
+      "year_range": [
+        2017,
+        2026
+      ],
+      "iucn_code": "VU",
+      "iucn_label": "Vulnerable",
+      "iucn_color": "#F9A800",
+      "centroid": {
+        "lat": 6.3197,
+        "lon": -75.4067
+      }
+    },
+    {
+      "id": "pristimantis_mutabilis",
+      "taxon_id": 476729,
+      "scientific_name": "Pristimantis mutabilis",
+      "common_name": "Mutable Rainfrog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/6362036/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/476729",
+      "obs_count": 11,
+      "quality_research_count": 10,
+      "year_range": [
+        2012,
+        2023
+      ],
+      "iucn_code": "VU",
+      "iucn_label": "Vulnerable",
+      "iucn_color": "#F9A800",
+      "centroid": {
+        "lat": 0.1814,
+        "lon": -78.6784
+      }
+    },
+    {
+      "id": "hyalinobatrachium_tatayoi",
+      "taxon_id": 65547,
+      "scientific_name": "Hyalinobatrachium tatayoi",
+      "common_name": "Tatayo's Glass Frog",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/194549/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/65547",
+      "obs_count": 3,
+      "quality_research_count": 3,
+      "year_range": [
+        2012,
+        2017
+      ],
+      "iucn_code": "EN",
+      "iucn_label": "Endangered",
+      "iucn_color": "#FC7F3F",
+      "centroid": {
+        "lat": 5.0371,
+        "lon": -79.6634
+      }
+    },
+    {
+      "id": "dendropsophus_ebraccatus",
+      "taxon_id": 65349,
+      "scientific_name": "Dendropsophus ebraccatus",
+      "common_name": "Harlequin Treefrog",
+      "group": "Amphibia",
+      "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/332439089/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/65349",
+      "obs_count": 2,
+      "quality_research_count": 2,
+      "year_range": [
+        2023,
+        2024
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 9.5361,
+        "lon": -82.4167
+      }
+    },
+    {
+      "id": "atelopus_lozanoi",
+      "taxon_id": 21693,
+      "scientific_name": "Atelopus lozanoi",
+      "common_name": "Lynch's Stubfoot Toad",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/233235066/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/21693",
+      "obs_count": 2,
+      "quality_research_count": 2,
+      "year_range": [
+        2022,
+        2025
+      ],
+      "iucn_code": "CR",
+      "iucn_label": "Critically Endangered",
+      "iucn_color": "#D81E05",
+      "centroid": {
+        "lat": 4.4582,
+        "lon": -73.802
+      }
+    },
+    {
+      "id": "oophaga_solanensis",
+      "taxon_id": 1176933,
+      "scientific_name": "Oophaga solanensis",
+      "common_name": "Chocó Poison Dart Frog",
+      "group": "Amphibia",
+      "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/342682391/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/1176933",
+      "obs_count": 1,
+      "quality_research_count": 1,
+      "year_range": [
+        2023,
+        2023
+      ],
+      "iucn_code": "CR",
+      "iucn_label": "Critically Endangered",
+      "iucn_color": "#D81E05",
+      "centroid": {
+        "lat": 5.9954,
+        "lon": -77.2898
+      }
+    },
+    {
+      "id": "oophaga_anchicayensis",
+      "taxon_id": 1176935,
+      "scientific_name": "Oophaga anchicayensis",
+      "common_name": "",
+      "group": "Amphibia",
+      "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/619278571/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/1176935",
+      "obs_count": 1,
+      "quality_research_count": 1,
+      "year_range": [
+        2025,
+        2025
+      ],
+      "iucn_code": "CR",
+      "iucn_label": "Critically Endangered",
+      "iucn_color": "#D81E05",
+      "centroid": {
+        "lat": 3.7579,
+        "lon": -76.9723
+      }
+    },
+    {
+      "id": "hyalinobatrachium_viridissimum",
+      "taxon_id": 1121333,
+      "scientific_name": "Hyalinobatrachium viridissimum",
+      "common_name": "Northern Glassfrog",
+      "group": "Amphibia",
+      "image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/21320/medium.jpg",
+      "inat_url": "https://www.inaturalist.org/taxa/1121333",
+      "obs_count": 1,
+      "quality_research_count": 1,
+      "year_range": [
+        2010,
+        2010
+      ],
+      "iucn_code": "LC",
+      "iucn_label": "Least Concern",
+      "iucn_color": "#60AA00",
+      "centroid": {
+        "lat": 15.5003,
+        "lon": -88.2226
+      }
+    },
+    {
+      "id": "oedipina_savagei",
+      "taxon_id": 27374,
+      "scientific_name": "Oedipina savagei",
+      "common_name": "Savage's Worm Salamander",
+      "group": "Amphibia",
+      "image_url": "https://static.inaturalist.org/photos/409345025/medium.jpeg",
+      "inat_url": "https://www.inaturalist.org/taxa/27374",
+      "obs_count": 1,
+      "quality_research_count": 1,
+      "year_range": [
+        2024,
+        2024
+      ],
+      "iucn_code": "DD",
+      "iucn_label": "Data Deficient",
+      "iucn_color": "#D1D1C6",
+      "centroid": {
+        "lat": 8.7964,
+        "lon": -82.9482
+      }
+    }
+  ]
+}

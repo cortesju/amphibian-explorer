@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__computer",
+      "mcp__Claude_in_Chrome__read_network_requests",
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "Bash(python3 -c ' *)",
+      "Bash(python -c ' *)",
+      "Bash(py -c ' *)",
+      "PowerShell(Get-Command python, python3, py 2>$null)"
+    ]
+  }
+}

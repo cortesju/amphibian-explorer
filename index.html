@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colombia Amphibian Explorer</title>
+
+  <!-- ArcGIS JS API 4.29 — no build step, works on GitHub Pages -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.29/"></script>
+
+  <!-- Google Fonts (matches Audubon clean sans-serif aesthetic) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Loading screen -->
+<div class="loading-overlay" id="loading">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Loading amphibian data…</div>
+</div>
+
+<!-- ── Header ──────────────────────────────────────────────────── -->
+<header class="app-header">
+  <div class="logo">🐸 <span>Colombia</span> Amphibian Explorer</div>
+  <div class="subtitle">Temporal distribution of endemic &amp; threatened amphibians · iNaturalist data</div>
+  <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle species list"
+          style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;">☰</button>
+</header>
+
+<!-- ── Main layout ─────────────────────────────────────────────── -->
+<div class="app-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Species list view -->
+    <div id="species-list-view" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="sidebar-search">
+        <input type="search" id="species-search" placeholder="Search species…" autocomplete="off">
+      </div>
+      <div class="species-list" id="species-list">
+        <!-- populated by app.js -->
+      </div>
+    </div>
+
+    <!-- Species detail view (shown after clicking a species) -->
+    <div class="species-detail" id="species-detail-view">
+      <div class="detail-back" id="detail-back">
+        <svg viewBox="0 0 16 16" fill="currentColor">
+          <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2"
+                fill="none" stroke-linecap="round"/>
+        </svg>
+        All species
+      </div>
+      <div class="detail-hero">
+        <img id="detail-photo" src="" alt="" style="display:none;">
+        <div class="detail-hero-placeholder" id="detail-photo-placeholder">🐸</div>
+        <span class="detail-iucn-badge" id="detail-iucn-badge">LC</span>
+      </div>
+      <div class="detail-body">
+        <div class="detail-common" id="detail-common"></div>
+        <div class="detail-sci"    id="detail-sci"></div>
+
+        <div class="detail-stats">
+          <div class="stat-card">
+            <div class="stat-label">Observations</div>
+            <div class="stat-value" id="stat-obs">—</div>
+            <div class="stat-sub">total</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Research Grade</div>
+            <div class="stat-value" id="stat-research">—</div>
+            <div class="stat-sub">verified</div>
+          </div>
+          <div class="stat-card" style="grid-column:1/-1;">
+            <div class="stat-label">Years on Record</div>
+            <div class="stat-value" style="font-size:15px;" id="stat-years">—</div>
+          </div>
+        </div>
+
+        <a class="detail-inat-link" id="detail-inat-link"
+           target="_blank" rel="noopener">
+          View on iNaturalist ↗
+        </a>
+      </div>
+    </div>
+
+  </aside><!-- /sidebar -->
+
+  <!-- ── Map area ────────────────────────────────────────────── -->
+  <main class="map-area">
+    <div id="viewDiv"></div>
+
+    <!-- Hover tooltip -->
+    <div class="map-tooltip" id="map-tooltip"></div>
+
+    <!-- Layers / Legend panel -->
+    <div class="layers-panel" id="layers-panel">
+      <div class="layers-panel-header" id="layers-panel-toggle">
+        <span>🗺 Map Layers</span>
+        <span id="layers-panel-chevron">▲</span>
+      </div>
+      <div class="layers-panel-body" id="layers-panel-body">
+
+        <!-- Hex bin toggle -->
+        <div class="layer-toggle-row">
+          <div class="layer-info">
+            <div class="layer-name">Observation Density</div>
+            <div class="layer-desc">Weekly hex bin count</div>
+            <!-- Mini legend -->
+            <div class="legend-row">
+              <div class="legend-hex l1"></div>
+              <div class="legend-hex l2"></div>
+              <div class="legend-hex l3"></div>
+              <div class="legend-hex l4"></div>
+              <div class="legend-hex l5"></div>
+            </div>
+            <div class="legend-labels">
+              <span>Very Low</span><span></span><span>Moderate</span><span></span><span>Very High</span>
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-hex" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Ranges toggle -->
+        <div class="layer-toggle-row">
+          <div class="layer-info">
+            <div class="layer-name">Seasonal Range</div>
+            <div class="layer-desc">Known distribution by season</div>
+            <div class="legend-range-item">
+              <div class="legend-range-swatch" style="background:rgba(168,210,120,0.6);border:1px solid #64902c"></div>
+              Rainy Season 1 (Mar–May)
+            </div>
+            <div class="legend-range-item">
+              <div class="legend-range-swatch" style="background:rgba(120,190,175,0.6);border:1px solid #3c8273"></div>
+              Rainy Season 2 (Sep–Nov)
+            </div>
+            <div class="legend-range-item">
+              <div class="legend-range-swatch" style="background:rgba(220,185,105,0.6);border:1px solid #a08228"></div>
+              Dry Seasons
+            </div>
+            <div class="legend-range-item">
+              <div class="legend-range-swatch" style="background:rgba(173,208,225,0.5);border:1px solid #508090"></div>
+              Year-round Range
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-ranges" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+      </div><!-- /layers-panel-body -->
+    </div><!-- /layers-panel -->
+
+    <!-- Data attribution -->
+    <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+                font-size:10px;color:#666;background:rgba(255,255,255,0.85);
+                padding:3px 8px;border-radius:4px;pointer-events:none;white-space:nowrap;">
+      Observations: <a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a>
+      · Basemap: <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>
+    </div>
+
+  </main><!-- /map-area -->
+
+</div><!-- /app-layout -->
+
+<!-- ── Time Slider ────────────────────────────────────────────── -->
+<div class="time-slider-bar">
+
+  <button class="play-btn" id="play-btn" title="Play / Pause (Space)">▶</button>
+
+  <div class="slider-wrap">
+    <div class="week-label" id="week-label">MAY 1 – MAY 7</div>
+
+    <div class="slider-track" id="slider-track">
+      <!-- Migration band: spring ~weeks 12–22 -->
+      <div class="migration-band" style="left:21.6%;width:19.6%" title="Spring Activity"></div>
+      <!-- Migration band: autumn ~weeks 36–46 -->
+      <div class="migration-band" style="left:68.6%;width:19.6%" title="Autumn Activity"></div>
+
+      <div class="slider-fill"  id="slider-fill"  style="width:37%"></div>
+      <div class="slider-thumb" id="slider-thumb" style="left:37%"></div>
+    </div>
+
+    <div class="slider-month-labels">
+      <span>JAN</span><span>APR</span><span>JUL</span><span>OCT</span><span>DEC</span>
+    </div>
+  </div>
+
+</div><!-- /time-slider-bar -->
+
+<!-- ── Scripts ──────────────────────────────────────────────── -->
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+  // Layer panel collapse/expand
+  document.getElementById("layers-panel-toggle").addEventListener("click", () => {
+    const body    = document.getElementById("layers-panel-body");
+    const chevron = document.getElementById("layers-panel-chevron");
+    const hidden  = body.style.display === "none";
+    body.style.display   = hidden ? "block" : "none";
+    chevron.textContent  = hidden ? "▲" : "▼";
+  });
+
+  // Mobile sidebar toggle
+  document.getElementById("mobile-toggle").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.toggle("mobile-open");
+  });
+</script>
+
+</body>
+</html>
