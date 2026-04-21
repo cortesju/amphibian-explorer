@@ -22,10 +22,10 @@ const CONFIG = {
   services: {
 
     // Output of script 02_create_hexbins.py  →  published as "amphibian_hexbins"
-    hexBins: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibian_hexbins/FeatureServer",
+    hexBins: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_hexbins1/FeatureServer",
 
     // Output of script 03_create_ranges.py   →  published as "amphibian_ranges"
-    ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges/FeatureServer",
+    ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges1/FeatureServer",
   },
 
   // ── Map view ────────────────────────────────────────────────────────────────

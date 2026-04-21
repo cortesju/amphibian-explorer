@@ -20,7 +20,7 @@ HEX_OUTPUT_FC  = "amphibians_hexbins"
 
 # Hex size — area in square kilometers.  50 km² ≈ 8 km across, good for Colombia.
 # Increase to 150 km² for a sparser, faster-loading layer at global zoom.
-HEX_AREA_KM2 = 50
+HEX_AREA_KM2 = 250
 
 # Colombia + buffer bounding box  (WGS 84)
 EXTENT_XY = "-82 -5 -66 13"   # xmin ymin xmax ymax

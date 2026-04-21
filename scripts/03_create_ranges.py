@@ -23,6 +23,12 @@ from collections import defaultdict
 GDB_PATH      = r"D:\websites\WebMap589\AmphibianMap.gdb"
 POINTS_FC     = "amphibians_points"
 RANGES_OUTPUT = "amphibians_ranges"
+
+# Land polygon for clipping — removes ocean/straight-edge artifacts.
+# Use "World_Countries" if it is loaded in your ArcGIS Pro map (just the layer name).
+# Or set to a full path like r"C:\...\World_Countries.shp"
+# Set to None to skip clipping.
+CLIP_LAYER    = None   # set to "World_Countries" only when running inside ArcGIS Pro Python window
 # ──────────────────────────────────────────────────────────────────────────────
 
 arcpy.env.workspace       = GDB_PATH
@@ -46,11 +52,21 @@ SEASON_LABELS = {
 points_path = os.path.join(GDB_PATH, POINTS_FC)
 ranges_path = os.path.join(GDB_PATH, RANGES_OUTPUT)
 
+# Colombia bounding box — excludes observations clearly outside Colombia
+# (misidentified records, captive animals in zoos, data entry errors)
+# Covers all Colombian territory including Pacific islands and Amazonia
+COL_XMIN, COL_XMAX = -79.0, -66.5
+COL_YMIN, COL_YMAX =  -4.5,  13.5
+
+def in_colombia(x, y):
+    return COL_XMIN <= x <= COL_XMAX and COL_YMIN <= y <= COL_YMAX
+
 # ── 1. Read all points into memory (read-only — no lock needed) ───────────────
 print("Reading points into memory ...")
 
 seasonal_groups = defaultdict(lambda: {"pts": [], "sci": "", "com": ""})
 all_groups      = defaultdict(lambda: {"pts": [], "sci": "", "com": ""})
+skipped_outliers = 0
 
 with arcpy.da.SearchCursor(
         points_path,
@@ -58,6 +74,10 @@ with arcpy.da.SearchCursor(
          "scientific_name", "common_name"]) as cur:
     for sp_code, obs_date, xy, sci, com in cur:
         if not obs_date or not xy:
+            continue
+        # Skip observations outside Colombia
+        if not in_colombia(xy[0], xy[1]):
+            skipped_outliers += 1
             continue
         season = month_to_season(obs_date.month)
         key    = (sp_code, season)
@@ -70,6 +90,8 @@ with arcpy.da.SearchCursor(
         all_groups[sp_code]["com"] = com
 
 print(f"  {len(seasonal_groups)} (species x season) groups, {len(all_groups)} species total")
+if skipped_outliers:
+    print(f"  Skipped {skipped_outliers} observations outside Colombia bounding box")
 
 # ── 2. Create output feature class ────────────────────────────────────────────
 print("Creating output feature class ...")
@@ -127,6 +149,19 @@ if skipped:
 
 final_count = int(arcpy.management.GetCount(ranges_path)[0])
 print(f"\nCreated '{RANGES_OUTPUT}' with {final_count} range polygons")
+
+# ── 4. Clip to land polygons ───────────────────────────────────────────────────
+if CLIP_LAYER:
+    print(f"Clipping to land boundaries using '{CLIP_LAYER}' ...")
+    clipped_path = os.path.join(GDB_PATH, RANGES_OUTPUT + "_clipped")
+    if arcpy.Exists(clipped_path):
+        arcpy.management.Delete(clipped_path)
+    arcpy.analysis.PairwiseClip(ranges_path, CLIP_LAYER, clipped_path)
+    clipped_count = int(arcpy.management.GetCount(clipped_path)[0])
+    print(f"  Clipped result: {clipped_count} polygons -> '{RANGES_OUTPUT}_clipped'")
+    print("  Use 'amphibians_ranges_clipped' for publishing (not amphibians_ranges)")
+else:
+    print("  Skipping clip (CLIP_LAYER is None)")
 
 print("""
 NEXT STEPS IN ARCGIS PRO:

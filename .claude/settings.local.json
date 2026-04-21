@@ -9,7 +9,8 @@
       "Bash(python3 -c ' *)",
       "Bash(python -c ' *)",
       "Bash(py -c ' *)",
-      "PowerShell(Get-Command python, python3, py 2>$null)"
+      "PowerShell(Get-Command python, python3, py 2>$null)",
+      "mcp__Claude_in_Chrome__tabs_create_mcp"
     ]
   }
 }
