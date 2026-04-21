@@ -20,12 +20,11 @@ const CONFIG = {
   // ⚠ Paste your real FeatureServer URLs here after publishing in ArcGIS Pro.
   // Both layers must be set to Public (Everyone can view).
   services: {
-
-    // Output of script 02_create_hexbins.py  →  published as "amphibian_hexbins"
     hexBins: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_hexbins1/FeatureServer",
-
-    // Output of script 03_create_ranges.py   →  published as "amphibian_ranges"
     ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges1/FeatureServer",
+
+    // ⚠ Publish amphibians_points to AGOL, paste the URL here, then uncomment
+    // points: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_points/FeatureServer",
   },
 
   // ── Map view ────────────────────────────────────────────────────────────────
@@ -38,7 +37,7 @@ const CONFIG = {
   // "topo-vector" | "gray-vector" | "dark-gray-vector" | "oceans"
   // "streets-night-vector" | "terrain" | "human-geography-dark"
   // Pale, low-saturation basemap — the transparent UI floats on top
-  basemap: "human-geography-light",
+  basemap: "gray-vector",
 
   // ── Hex bin renderer ────────────────────────────────────────────────────────
   // Aqua-teal — matches glass frog translucent body color

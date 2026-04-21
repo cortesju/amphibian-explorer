@@ -9,14 +9,16 @@ require([
   "esri/layers/FeatureLayer",
   "esri/renderers/ClassBreaksRenderer",
   "esri/renderers/UniqueValueRenderer",
+  "esri/renderers/SimpleRenderer",
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleLineSymbol",
+  "esri/symbols/SimpleMarkerSymbol",
   "esri/geometry/Extent",
   "esri/core/reactiveUtils",
 ], function (
   Map, MapView, FeatureLayer,
-  ClassBreaksRenderer, UniqueValueRenderer,
-  SimpleFillSymbol, SimpleLineSymbol,
+  ClassBreaksRenderer, UniqueValueRenderer, SimpleRenderer,
+  SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol,
   Extent, reactiveUtils
 ) {
 
@@ -28,8 +30,10 @@ require([
   let animTimer       = null;
   let hexLayer        = null;
   let rangesLayer     = null;
+  let pointsLayer     = null;
   let showHex         = true;
   let showRanges      = true;
+  let showPoints      = true;
   let isDragging      = false;
 
   // ── DOM refs ───────────────────────────────────────────────────────────────
@@ -123,6 +127,11 @@ require([
 
     rangesLayer.definitionExpression =
       `species_code = '${currentSpecies.id}'`;
+
+    if (pointsLayer) {
+      pointsLayer.definitionExpression =
+        `species_code = '${currentSpecies.id}'`;
+    }
   }
 
   // ── Time slider logic ──────────────────────────────────────────────────────
@@ -302,6 +311,47 @@ require([
     outFields: ["species_code", "week", "obs_count", "abund_iso"],
     popupEnabled: false,
   });
+
+  // Individual observation points layer (only added if URL is configured)
+  if (CONFIG.services.points) {
+    pointsLayer = new FeatureLayer({
+      url:      CONFIG.services.points,
+      renderer: new SimpleRenderer({
+        symbol: new SimpleMarkerSymbol({
+          style:  "circle",
+          color:  [92, 200, 168, 200],
+          size:   7,
+          outline: { color: [255, 255, 255, 180], width: 1 }
+        })
+      }),
+      opacity:   0.85,
+      visible:   true,
+      definitionExpression: "1=0",
+      outFields: ["scientific_name", "common_name", "observed_on",
+                  "quality_grade", "image_url", "obs_url", "inat_id"],
+      popupEnabled: true,
+      popupTemplate: {
+        title: "{common_name}",
+        content: [{
+          type: "fields",
+          fieldInfos: [
+            { fieldName: "scientific_name", label: "Scientific Name" },
+            { fieldName: "observed_on",     label: "Date Observed" },
+            { fieldName: "quality_grade",   label: "Quality Grade" },
+          ]
+        }, {
+          type: "text",
+          text: `<div style="margin-top:8px;">
+            <a href="{obs_url}" target="_blank" rel="noopener"
+               style="color:#5CC8A8;font-weight:700;">
+              View on iNaturalist ↗
+            </a></div>`
+        }],
+        overwriteActions: true,
+      }
+    });
+    map.add(pointsLayer, 2);   // on top of hex and ranges
+  }
 
   map.addMany([rangesLayer, hexLayer]);
 
