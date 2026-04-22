@@ -439,7 +439,7 @@ require([
     pointsLayer = new FeatureLayer({
       url:      CONFIG.services.points,
       // No renderer → ArcGIS JS API uses the symbology published from ArcGIS Pro
-      opacity:   0.55,
+      opacity:   0.90,
       visible:   true,
       definitionExpression: "1=0",
       outFields: ["scientific_name", "common_name", "observed_on",
