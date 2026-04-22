@@ -496,6 +496,32 @@ input:checked + .toggle-slider::before {
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-text { font-size: 14px; color: rgba(92, 200, 168, 0.75); font-weight: 500; }
 
+/* ── Layer sliders ────────────────────────────────────────────── */
+.layer-sliders {
+  padding: 4px 12px 10px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.layer-slider-row {
+  display: flex; align-items: center; gap: 8px;
+}
+.slider-label {
+  font-size: 11px; color: var(--text-muted); width: 62px; flex-shrink: 0;
+}
+.slider-val {
+  font-size: 11px; color: var(--aqua-dim); width: 34px; text-align: right; flex-shrink: 0;
+}
+.layer-range {
+  flex: 1; height: 3px; appearance: none; -webkit-appearance: none;
+  background: rgba(92,200,168,0.25); border-radius: 2px; outline: none; cursor: pointer;
+}
+.layer-range::-webkit-slider-thumb {
+  appearance: none; -webkit-appearance: none;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--aqua); border: 2px solid white;
+  box-shadow: 0 0 4px rgba(92,200,168,0.5); cursor: pointer;
+}
+
 /* ── Basemap switcher ─────────────────────────────────────────── */
 .basemap-switcher {
   padding: 10px 12px 8px;

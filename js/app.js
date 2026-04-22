@@ -212,6 +212,21 @@ require([
       if (pointsLayer) pointsLayer.visible = showPoints;
     });
   }
+
+  const pointsOpacitySlider    = document.getElementById("points-opacity");
+  const pointsOpacityVal       = document.getElementById("points-opacity-val");
+  const pointsSaturationSlider = document.getElementById("points-saturation");
+  const pointsSaturationVal    = document.getElementById("points-saturation-val");
+
+  function updatePointsEffect() {
+    if (!pointsLayer) return;
+    pointsLayer.opacity = pointsOpacitySlider.value / 100;
+    pointsLayer.effect  = `saturate(${pointsSaturationSlider.value}%)`;
+    pointsOpacityVal.textContent    = pointsOpacitySlider.value + "%";
+    pointsSaturationVal.textContent = pointsSaturationSlider.value + "%";
+  }
+  if (pointsOpacitySlider)    pointsOpacitySlider.addEventListener("input",    updatePointsEffect);
+  if (pointsSaturationSlider) pointsSaturationSlider.addEventListener("input", updatePointsEffect);
   if (protectionAreasToggle) {
     protectionAreasToggle.addEventListener("change", () => {
       showProtectionAreas = protectionAreasToggle.checked;
