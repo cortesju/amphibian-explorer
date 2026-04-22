@@ -3,6 +3,13 @@
  * Uses ArcGIS JS API 4.x (loaded via CDN in index.html)
  */
 
+// Catch any unhandled JS error and show it in the loading screen
+window.onerror = function(msg, src, line) {
+  const el = document.querySelector(".loading-text");
+  if (el) el.textContent = "JS Error: " + msg + " (line " + line + ")";
+  return false;
+};
+
 require([
   "esri/Map",
   "esri/Basemap",
@@ -314,7 +321,7 @@ require([
   });
 
   // Remove default popup
-  view.popup.autoOpenEnabled = false;
+  view.when(() => { if (view.popup) view.popup.autoOpenEnabled = false; });
 
   // Seasonal ranges layer (drawn first = bottom)
   rangesLayer = new FeatureLayer({
