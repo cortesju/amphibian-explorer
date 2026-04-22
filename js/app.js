@@ -347,8 +347,16 @@ require([
     ui: { components: ["zoom"] },
   });
 
-  // Remove default popup
-  view.when(() => { if (view.popup) view.popup.autoOpenEnabled = false; });
+  view.when(() => {
+    // Disable default popup auto-open
+    if (view.popup) view.popup.autoOpenEnabled = false;
+    // Desaturate basemap (ocean + land) without touching data layers
+    map.basemap.load().then(() => {
+      map.basemap.baseLayers.forEach(layer => {
+        layer.effect = "saturate(35%) brightness(105%)";
+      });
+    });
+  });
 
   // Seasonal ranges layer (drawn first = bottom)
   rangesLayer = new FeatureLayer({
@@ -431,12 +439,22 @@ require([
     map.add(climateLayer, 1);
   }
 
-  // Individual observation points layer — uses published ArcGIS Pro symbology
+  // Ranges + hex added first so points layer renders on top
+  map.addMany([rangesLayer, hexLayer]);
+
+  // Individual observation points — soft muted circle, popup with photo
   if (CONFIG.services.points) {
     pointsLayer = new FeatureLayer({
       url:      CONFIG.services.points,
-      // No renderer specified → uses the symbology published from ArcGIS Pro
-      opacity:   0.90,
+      renderer: new SimpleRenderer({
+        symbol: new SimpleMarkerSymbol({
+          style:   "circle",
+          color:   [255, 255, 255, 160],   // soft white fill
+          size:    8,
+          outline: { color: [92, 200, 168, 220], width: 1.5 }  // aqua outline
+        })
+      }),
+      opacity:   0.85,
       visible:   true,
       definitionExpression: "1=0",
       outFields: ["scientific_name", "common_name", "observed_on",
@@ -445,11 +463,18 @@ require([
       popupTemplate: {
         title: "{common_name}",
         content: [{
+          type: "text",
+          text: `<div style="margin:-8px -12px 8px;overflow:hidden;border-radius:6px 6px 0 0;">
+            <img src="{image_url}" alt=""
+              style="width:100%;max-height:180px;object-fit:cover;display:block;"
+              onerror="this.style.display='none'">
+          </div>`
+        }, {
           type: "fields",
           fieldInfos: [
-            { fieldName: "scientific_name", label: "Scientific Name" },
-            { fieldName: "observed_on",     label: "Date Observed" },
-            { fieldName: "quality_grade",   label: "Quality Grade" },
+            { fieldName: "scientific_name", label: "Scientific name" },
+            { fieldName: "observed_on",     label: "Date observed"   },
+            { fieldName: "quality_grade",   label: "Quality grade"   },
           ]
         }, {
           type: "text",
@@ -462,10 +487,8 @@ require([
         overwriteActions: true,
       }
     });
-    map.add(pointsLayer, 2);   // on top of hex and ranges
+    map.add(pointsLayer);   // added last → drawn on top of everything
   }
-
-  map.addMany([rangesLayer, hexLayer]);
 
   // ── Hover interaction ──────────────────────────────────────────────────────
   view.on("pointer-move", (event) => {
