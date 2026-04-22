@@ -17,27 +17,29 @@ const CONFIG = {
   // ── ArcGIS Online ───────────────────────────────────────────────────────────
   orgId: "cortesju_USCSSI",
 
-  // ⚠ Paste your real FeatureServer URLs here after publishing in ArcGIS Pro.
-  // Both layers must be set to Public (Everyone can view).
+  // ── ArcGIS Online Feature Service URLs ────────────────────────────────────
+  // All layers must be set to Public (Everyone can view).
   services: {
     hexBins: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_hexbins1/FeatureServer",
     ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges1/FeatureServer",
 
-    // ⚠ Publish amphibians_points to AGOL, paste the URL here, then uncomment
-    // points: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_points/FeatureServer",
+    // ⚠ Paste your published amphibians_points FeatureServer URL here:
+    points: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_points/FeatureServer",
+
+    // ⚠ Paste your published amphibians_protectionAreas FeatureServer URL here:
+    // protectionAreas: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_protectionAreas/FeatureServer",
   },
 
-  // ── Map view ────────────────────────────────────────────────────────────────
-  initialView: {
-    center: [-75.5, 4.5],   // Colombia centroid [lon, lat]
-    zoom: 6,
-  },
-
-  // Basemap name — ArcGIS Online built-in basemaps:
-  // "topo-vector" | "gray-vector" | "dark-gray-vector" | "oceans"
-  // "streets-night-vector" | "terrain" | "human-geography-dark"
-  // Pale, low-saturation basemap — the transparent UI floats on top
+  // ── Basemap ─────────────────────────────────────────────────────────────────
+  // OPTION A — Built-in ArcGIS basemap string (used when basemapItemId is null):
+  //   "gray-vector" | "topo-vector" | "dark-gray-vector" | "oceans" | "terrain"
   basemap: "gray-vector",
+
+  // OPTION B — Your own custom basemap published to ArcGIS Online.
+  //   After publishing your .vtpk, copy the Item ID from the AGOL item page URL:
+  //   https://www.arcgis.com/home/item.html?id=<THIS_IS_YOUR_ITEM_ID>
+  //   Paste it below and it will override the basemap string above.
+  basemapItemId: null,   // e.g. "a4df3c7b8e1f..." — set to null to use basemap string
 
   // ── Hex bin renderer ────────────────────────────────────────────────────────
   // Aqua-teal — matches glass frog translucent body color

@@ -5,8 +5,10 @@
 
 require([
   "esri/Map",
+  "esri/Basemap",
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
+  "esri/layers/VectorTileLayer",
   "esri/renderers/ClassBreaksRenderer",
   "esri/renderers/UniqueValueRenderer",
   "esri/renderers/SimpleRenderer",
@@ -16,7 +18,7 @@ require([
   "esri/geometry/Extent",
   "esri/core/reactiveUtils",
 ], function (
-  Map, MapView, FeatureLayer,
+  Map, Basemap, MapView, FeatureLayer, VectorTileLayer,
   ClassBreaksRenderer, UniqueValueRenderer, SimpleRenderer,
   SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol,
   Extent, reactiveUtils
@@ -28,13 +30,15 @@ require([
   let currentWeek     = 1;
   let isPlaying       = false;
   let animTimer       = null;
-  let hexLayer        = null;
-  let rangesLayer     = null;
-  let pointsLayer     = null;
-  let showHex         = true;
-  let showRanges      = true;
-  let showPoints      = true;
-  let isDragging      = false;
+  let hexLayer              = null;
+  let rangesLayer           = null;
+  let pointsLayer           = null;
+  let protectionAreasLayer  = null;
+  let showHex               = true;
+  let showRanges            = true;
+  let showPoints            = true;
+  let showProtectionAreas   = true;
+  let isDragging            = false;
 
   // ── DOM refs ───────────────────────────────────────────────────────────────
   const loadingEl        = document.getElementById("loading");
@@ -48,8 +52,10 @@ require([
   const sliderThumb      = document.getElementById("slider-thumb");
   const weekLabelEl      = document.getElementById("week-label");
   const mapTooltip       = document.getElementById("map-tooltip");
-  const hexToggle        = document.getElementById("toggle-hex");
-  const rangesToggle     = document.getElementById("toggle-ranges");
+  const hexToggle              = document.getElementById("toggle-hex");
+  const rangesToggle           = document.getElementById("toggle-ranges");
+  const pointsToggle           = document.getElementById("toggle-points");
+  const protectionAreasToggle  = document.getElementById("toggle-protection-areas");
 
   // ── Helpers ────────────────────────────────────────────────────────────────
   function hexToRgb(hex) {
@@ -185,6 +191,18 @@ require([
     showRanges = rangesToggle.checked;
     if (rangesLayer) rangesLayer.visible = showRanges;
   });
+  if (pointsToggle) {
+    pointsToggle.addEventListener("change", () => {
+      showPoints = pointsToggle.checked;
+      if (pointsLayer) pointsLayer.visible = showPoints;
+    });
+  }
+  if (protectionAreasToggle) {
+    protectionAreasToggle.addEventListener("change", () => {
+      showProtectionAreas = protectionAreasToggle.checked;
+      if (protectionAreasLayer) protectionAreasLayer.visible = showProtectionAreas;
+    });
+  }
 
   // ── Species list ───────────────────────────────────────────────────────────
   function renderSpeciesList(list) {
@@ -277,7 +295,15 @@ require([
   const ABUND_LABELS = ["", "Very Low","Low","Moderate","High","Very High"];
 
   // ── Initialize map ─────────────────────────────────────────────────────────
-  const map = new Map({ basemap: CONFIG.basemap });
+  // Use custom VTPK basemap if an item ID is provided, otherwise use built-in string
+  let resolvedBasemap;
+  if (CONFIG.basemapItemId) {
+    resolvedBasemap = new Basemap({ portalItem: { id: CONFIG.basemapItemId } });
+  } else {
+    resolvedBasemap = CONFIG.basemap;
+  }
+
+  const map = new Map({ basemap: resolvedBasemap });
 
   const view = new MapView({
     container: "viewDiv",
@@ -311,6 +337,36 @@ require([
     outFields: ["species_code", "week", "obs_count", "abund_iso"],
     popupEnabled: false,
   });
+
+  // Protection areas layer (always visible — not species-filtered)
+  if (CONFIG.services.protectionAreas) {
+    protectionAreasLayer = new FeatureLayer({
+      url:      CONFIG.services.protectionAreas,
+      renderer: new SimpleRenderer({
+        symbol: new SimpleFillSymbol({
+          color: [200, 180, 30, 40],                          // warm gold fill, very transparent
+          outline: { color: [200, 180, 30, 200], width: 1.5 } // gold border
+        })
+      }),
+      opacity:   0.85,
+      visible:   true,
+      outFields: ["*"],
+      popupEnabled: true,
+      popupTemplate: {
+        title: "{name}",
+        content: [{
+          type: "fields",
+          fieldInfos: [
+            { fieldName: "category",     label: "Category"          },
+            { fieldName: "area_km2",     label: "Area (km²)"        },
+            { fieldName: "species_count",label: "Amphibian Species"  },
+          ]
+        }],
+        overwriteActions: true,
+      }
+    });
+    map.add(protectionAreasLayer, 0);   // drawn below everything else
+  }
 
   // Individual observation points layer (only added if URL is configured)
   if (CONFIG.services.points) {
