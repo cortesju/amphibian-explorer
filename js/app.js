@@ -438,8 +438,15 @@ require([
   if (CONFIG.services.points) {
     pointsLayer = new FeatureLayer({
       url:      CONFIG.services.points,
-      // No renderer → ArcGIS JS API uses the symbology published from ArcGIS Pro
-      opacity:   0.90,
+      renderer: new SimpleRenderer({
+        symbol: new SimpleMarkerSymbol({
+          style:   "circle",
+          color:   [20, 65, 40, 255],          // dark green, fully opaque
+          size:    7,
+          outline: { color: [255, 255, 255, 120], width: 0.8 }
+        })
+      }),
+      opacity: 0.90,
       visible:   true,
       definitionExpression: "1=0",
       outFields: ["scientific_name", "common_name", "observed_on",
