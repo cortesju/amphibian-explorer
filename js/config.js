@@ -20,8 +20,8 @@ const CONFIG = {
   // ── ArcGIS Online Feature Service URLs ────────────────────────────────────
   // All layers must be set to Public (Everyone can view).
   services: {
-    hexBins: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_hexbins1/FeatureServer",
-    ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges1/FeatureServer",
+    hexBins: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_hexbins2/FeatureServer",
+    ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges2/FeatureServer",
 
     // ⚠ Paste your published amphibians_points FeatureServer URL here:
     points: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_points/FeatureServer",
@@ -37,9 +37,9 @@ const CONFIG = {
 
   // OPTION B — Your own custom basemap published to ArcGIS Online.
   //   After publishing your .vtpk, copy the Item ID from the AGOL item page URL:
-  //   https://www.arcgis.com/home/item.html?id=<THIS_IS_YOUR_ITEM_ID>
+  //   https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/VectorBasemapAmphi/VectorTileServer
   //   Paste it below and it will override the basemap string above.
-  basemapItemId: null,   // e.g. "a4df3c7b8e1f..." — set to null to use basemap string
+  basemapItemId: 6159e9c473fc4456a1ae8fd49e4a37a8,   // e.g. "a4df3c7b8e1f..." — set to null to use basemap string
 
   // ── Hex bin renderer ────────────────────────────────────────────────────────
   // Aqua-teal — matches glass frog translucent body color
