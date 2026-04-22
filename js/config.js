@@ -30,6 +30,12 @@ const CONFIG = {
     // protectionAreas: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_protectionAreas/FeatureServer",
   },
 
+  // ── Map view ────────────────────────────────────────────────────────────────
+  initialView: {
+    center: [-75.5, 4.5],   // Colombia centroid [lon, lat]
+    zoom: 6,
+  },
+
   // ── Basemap ─────────────────────────────────────────────────────────────────
   // OPTION A — Built-in ArcGIS basemap string (used when basemapItemId is null):
   //   "gray-vector" | "topo-vector" | "dark-gray-vector" | "oceans" | "terrain"
