@@ -259,7 +259,7 @@ require([
       b.classList.toggle("active", b.dataset.bm === id));
     if (id === "custom" && CONFIG.basemapUrl) {
       map.basemap = new Basemap({
-        baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl, effect: "brightness(130%)" }) ]
+        baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl, effect: "brightness(115%) saturate(75%) hue-rotate(-15deg)" }) ]
       });
     } else {
       map.basemap = id;
@@ -382,7 +382,7 @@ require([
     resolvedBasemap = new Basemap({ portalItem: { id: CONFIG.basemapItemId } });
   } else if (CONFIG.basemapUrl) {
     resolvedBasemap = new Basemap({
-      baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl, effect: "brightness(130%)" }) ]
+      baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl, effect: "brightness(115%) saturate(75%) hue-rotate(-15deg)" }) ]
     });
   } else {
     resolvedBasemap = CONFIG.basemap;
