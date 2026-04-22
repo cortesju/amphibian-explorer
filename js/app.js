@@ -235,6 +235,7 @@ require([
   if (pointsSaturationSlider) pointsSaturationSlider.addEventListener("input", updatePointsEffect);
   if (pointsBrightnessSlider) pointsBrightnessSlider.addEventListener("input", updatePointsEffect);
   if (pointsContrastSlider)   pointsContrastSlider.addEventListener("input",   updatePointsEffect);
+  updatePointsEffect(); // apply defaults on load
   if (protectionAreasToggle) {
     protectionAreasToggle.addEventListener("change", () => {
       showProtectionAreas = protectionAreasToggle.checked;
