@@ -44,6 +44,7 @@ require([
   let pointsLayer           = null;
   let protectionAreasLayer  = null;
   let climateLayer          = null;
+  let hillshadeLayer        = null;
   let showHex               = true;
   let showRanges            = true;
   let showPoints            = true;
@@ -68,6 +69,7 @@ require([
   const pointsToggle           = document.getElementById("toggle-points");
   const protectionAreasToggle  = document.getElementById("toggle-protection-areas");
   const climateToggle          = document.getElementById("toggle-climate");
+  const hillshadeToggle        = document.getElementById("toggle-hillshade");
   const mapHint                = document.getElementById("map-hint");
 
   // ── Helpers ────────────────────────────────────────────────────────────────
@@ -222,6 +224,29 @@ require([
       if (climateLayer) climateLayer.visible = showClimate;
     });
   }
+  if (hillshadeToggle) {
+    hillshadeToggle.addEventListener("change", () => {
+      if (hillshadeLayer) hillshadeLayer.visible = hillshadeToggle.checked;
+    });
+  }
+
+  // ── Basemap switcher ───────────────────────────────────────────────────────
+  function applyBasemap(id) {
+    document.querySelectorAll(".basemap-btn").forEach(b =>
+      b.classList.toggle("active", b.dataset.bm === id));
+    if (id === "custom" && CONFIG.basemapUrl) {
+      map.basemap = new Basemap({
+        baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl, effect: "brightness(130%)" }) ]
+      });
+    } else {
+      map.basemap = id;
+    }
+  }
+  document.querySelectorAll(".basemap-btn").forEach(btn => {
+    btn.addEventListener("click", () => applyBasemap(btn.dataset.bm));
+  });
+  // Set initial active state
+  applyBasemap(CONFIG.basemapUrl ? "custom" : "gray-vector");
 
   // ── Overview / hint state ──────────────────────────────────────────────────
   function showOverview() {
@@ -404,7 +429,7 @@ require([
   }
 
   // Hillshade layer — free Esri public service, blended below everything
-  const hillshadeLayer = new TileLayer({
+  hillshadeLayer = new TileLayer({
     url: "https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer",
     opacity: 0.28,
     blendMode: "multiply",

@@ -124,6 +124,41 @@
       </div>
       <div class="layers-panel-body" id="layers-panel-body">
 
+        <!-- Basemap switcher -->
+        <div class="basemap-switcher">
+          <div class="layer-name" style="margin-bottom:7px;">Basemap</div>
+          <div class="basemap-btn-row">
+            <button class="basemap-btn" data-bm="custom">
+              <div class="basemap-thumb basemap-thumb-custom"></div>
+              <span>Terrain</span>
+            </button>
+            <button class="basemap-btn" data-bm="gray-vector">
+              <div class="basemap-thumb basemap-thumb-gray"></div>
+              <span>Gray</span>
+            </button>
+            <button class="basemap-btn" data-bm="dark-gray-vector">
+              <div class="basemap-thumb basemap-thumb-dark"></div>
+              <span>Dark</span>
+            </button>
+            <button class="basemap-btn" data-bm="topo-vector">
+              <div class="basemap-thumb basemap-thumb-topo"></div>
+              <span>Topo</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hillshade toggle -->
+        <div class="layer-toggle-row">
+          <div class="layer-info">
+            <div class="layer-name">Hillshade</div>
+            <div class="layer-desc">Terrain depth — turn off if colors look dark</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-hillshade" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
         <!-- Hex bin toggle -->
         <div class="layer-toggle-row">
           <div class="layer-info">
