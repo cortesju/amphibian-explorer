@@ -29,7 +29,7 @@ require([
   ClassBreaksRenderer, UniqueValueRenderer, SimpleRenderer,
   SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol,
   Extent, reactiveUtils
-) {
+) { try {
 
   // ── State ──────────────────────────────────────────────────────────────────
   let speciesList     = [];
@@ -466,4 +466,9 @@ require([
     if (e.key === "ArrowLeft")   setWeek(currentWeek - 1);
   });
 
+} catch(e) {
+    const el = document.querySelector(".loading-text");
+    if (el) el.textContent = "Init error: " + e.message;
+    console.error(e);
+  }
 }); // end require
