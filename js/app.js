@@ -347,16 +347,8 @@ require([
     ui: { components: ["zoom"] },
   });
 
-  view.when(() => {
-    // Disable default popup auto-open
-    if (view.popup) view.popup.autoOpenEnabled = false;
-    // Desaturate basemap (ocean + land) without touching data layers
-    map.basemap.load().then(() => {
-      map.basemap.baseLayers.forEach(layer => {
-        layer.effect = "saturate(35%) brightness(105%)";
-      });
-    });
-  });
+  // Popup auto-open stays ON (default) so point clicks show the popup.
+  // Hex + ranges layers have popupEnabled:false so they won't interfere.
 
   // Seasonal ranges layer (drawn first = bottom)
   rangesLayer = new FeatureLayer({
@@ -442,19 +434,12 @@ require([
   // Ranges + hex added first so points layer renders on top
   map.addMany([rangesLayer, hexLayer]);
 
-  // Individual observation points — soft muted circle, popup with photo
+  // Individual observation points — uses published AGOL symbology (frog icon from ArcGIS Pro)
   if (CONFIG.services.points) {
     pointsLayer = new FeatureLayer({
       url:      CONFIG.services.points,
-      renderer: new SimpleRenderer({
-        symbol: new SimpleMarkerSymbol({
-          style:   "circle",
-          color:   [255, 255, 255, 160],   // soft white fill
-          size:    8,
-          outline: { color: [92, 200, 168, 220], width: 1.5 }  // aqua outline
-        })
-      }),
-      opacity:   0.85,
+      // No renderer → ArcGIS JS API uses the symbology published from ArcGIS Pro
+      opacity:   0.95,
       visible:   true,
       definitionExpression: "1=0",
       outFields: ["scientific_name", "common_name", "observed_on",
