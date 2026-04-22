@@ -35,11 +35,11 @@ const CONFIG = {
   //   "gray-vector" | "topo-vector" | "dark-gray-vector" | "oceans" | "terrain"
   basemap: "gray-vector",
 
-  // OPTION B — Your own custom basemap published to ArcGIS Online.
-  //   After publishing your .vtpk, copy the Item ID from the AGOL item page URL:
-  //   https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/VectorBasemapAmphi/VectorTileServer
-  //   Paste it below and it will override the basemap string above.
-  basemapItemId: 6159e9c473fc4456a1ae8fd49e4a37a8,   // e.g. "a4df3c7b8e1f..." — set to null to use basemap string
+  // OPTION B — Your own custom basemap (VectorTileServer URL).
+  //   Set basemapUrl to your VectorTileServer URL and it overrides the basemap string above.
+  //   e.g. "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/VectorBasemapAmphi/VectorTileServer"
+  basemapItemId: null,
+  basemapUrl: "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/VectorBasemapAmphi/VectorTileServer",
 
   // ── Hex bin renderer ────────────────────────────────────────────────────────
   // Aqua-teal — matches glass frog translucent body color

@@ -306,6 +306,10 @@ require([
   let resolvedBasemap;
   if (CONFIG.basemapItemId) {
     resolvedBasemap = new Basemap({ portalItem: { id: CONFIG.basemapItemId } });
+  } else if (CONFIG.basemapUrl) {
+    resolvedBasemap = new Basemap({
+      baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl }) ]
+    });
   } else {
     resolvedBasemap = CONFIG.basemap;
   }
