@@ -23,12 +23,13 @@ require([
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleMarkerSymbol",
+  "esri/symbols/PictureMarkerSymbol",
   "esri/geometry/Extent",
   "esri/core/reactiveUtils",
 ], function (
   Map, Basemap, MapView, FeatureLayer, VectorTileLayer, TileLayer,
   ClassBreaksRenderer, UniqueValueRenderer, SimpleRenderer,
-  SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol,
+  SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureMarkerSymbol,
   Extent, reactiveUtils
 ) { try {
 
@@ -439,14 +440,13 @@ require([
     pointsLayer = new FeatureLayer({
       url:      CONFIG.services.points,
       renderer: new SimpleRenderer({
-        symbol: new SimpleMarkerSymbol({
-          style:   "circle",
-          color:   [20, 65, 40, 255],          // dark green, fully opaque
-          size:    7,
-          outline: { color: [255, 255, 255, 120], width: 0.8 }
+        symbol: new PictureMarkerSymbol({
+          url:    "mim.png",
+          width:  "20px",
+          height: "20px",
         })
       }),
-      opacity: 0.90,
+      opacity: 1.0,
       visible:   true,
       definitionExpression: "1=0",
       outFields: ["scientific_name", "common_name", "observed_on",
