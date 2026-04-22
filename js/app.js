@@ -245,8 +245,10 @@ require([
   document.querySelectorAll(".basemap-btn").forEach(btn => {
     btn.addEventListener("click", () => applyBasemap(btn.dataset.bm));
   });
-  // Set initial active state
-  applyBasemap(CONFIG.basemapUrl ? "custom" : "gray-vector");
+  // Highlight the initially active basemap button (map already set — just update UI)
+  const initialBm = CONFIG.basemapUrl ? "custom" : "gray-vector";
+  document.querySelectorAll(".basemap-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.bm === initialBm));
 
   // ── Overview / hint state ──────────────────────────────────────────────────
   function showOverview() {
