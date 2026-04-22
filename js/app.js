@@ -332,7 +332,7 @@ require([
     resolvedBasemap = new Basemap({ portalItem: { id: CONFIG.basemapItemId } });
   } else if (CONFIG.basemapUrl) {
     resolvedBasemap = new Basemap({
-      baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl }) ]
+      baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl, effect: "brightness(130%)" }) ]
     });
   } else {
     resolvedBasemap = CONFIG.basemap;
@@ -439,13 +439,7 @@ require([
   if (CONFIG.services.points) {
     pointsLayer = new FeatureLayer({
       url:      CONFIG.services.points,
-      renderer: new SimpleRenderer({
-        symbol: new PictureMarkerSymbol({
-          url:    "mim.png",
-          width:  "20px",
-          height: "20px",
-        })
-      }),
+      // Renderer comes from AGOL published symbology — change it there to update the map
       opacity: 1.0,
       visible:   true,
       definitionExpression: "1=0",
