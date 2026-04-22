@@ -496,6 +496,61 @@ input:checked + .toggle-slider::before {
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-text { font-size: 14px; color: rgba(92, 200, 168, 0.75); font-weight: 500; }
 
+/* ── Map hint overlay ─────────────────────────────────────────── */
+.map-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+.map-hint-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: rgba(4, 12, 8, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 32px 40px;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(92, 200, 168, 0.18), 0 8px 32px rgba(0,0,0,0.5);
+}
+.map-hint-frog {
+  width: 72px; height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(92, 200, 168, 0.7));
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-8px); }
+}
+.map-hint-title {
+  font-size: 18px; font-weight: 700;
+  color: rgba(200, 240, 225, 0.95);
+  letter-spacing: -0.3px;
+}
+.map-hint-text {
+  font-size: 13px; color: rgba(92, 200, 168, 0.75);
+  line-height: 1.55;
+}
+.map-hint-arrow {
+  font-size: 12px; font-weight: 600;
+  color: var(--aqua);
+  letter-spacing: 0.5px;
+  animation: pulse-opacity 2s ease-in-out infinite;
+}
+@keyframes pulse-opacity {
+  0%, 100% { opacity: 1;   }
+  50%       { opacity: 0.4; }
+}
+
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 700px) {
   :root { --sidebar-width: 100vw; }

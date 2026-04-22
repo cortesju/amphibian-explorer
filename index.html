@@ -106,6 +106,16 @@
     <!-- Hover tooltip -->
     <div class="map-tooltip" id="map-tooltip"></div>
 
+    <!-- Overview hint — shown until a species is selected -->
+    <div class="map-hint" id="map-hint">
+      <div class="map-hint-inner">
+        <img src="mim.png" alt="frog" class="map-hint-frog">
+        <div class="map-hint-title">Colombia Amphibian Explorer</div>
+        <div class="map-hint-text">Select a species from the list to explore its seasonal distribution across Colombia</div>
+        <div class="map-hint-arrow">← Choose a species</div>
+      </div>
+    </div>
+
     <!-- Layers / Legend panel -->
     <div class="layers-panel" id="layers-panel">
       <div class="layers-panel-header" id="layers-panel-toggle">
@@ -192,6 +202,18 @@
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="toggle-protection-areas" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Climate zones toggle -->
+        <div class="layer-toggle-row">
+          <div class="layer-info">
+            <div class="layer-name">Climate Zones</div>
+            <div class="layer-desc">Köppen-Geiger climate classification</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-climate" checked>
             <span class="toggle-slider"></span>
           </label>
         </div>

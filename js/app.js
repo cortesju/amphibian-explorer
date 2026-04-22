@@ -16,6 +16,7 @@ require([
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
   "esri/layers/VectorTileLayer",
+  "esri/layers/TileLayer",
   "esri/renderers/ClassBreaksRenderer",
   "esri/renderers/UniqueValueRenderer",
   "esri/renderers/SimpleRenderer",
@@ -25,7 +26,7 @@ require([
   "esri/geometry/Extent",
   "esri/core/reactiveUtils",
 ], function (
-  Map, Basemap, MapView, FeatureLayer, VectorTileLayer,
+  Map, Basemap, MapView, FeatureLayer, VectorTileLayer, TileLayer,
   ClassBreaksRenderer, UniqueValueRenderer, SimpleRenderer,
   SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol,
   Extent, reactiveUtils
@@ -41,10 +42,12 @@ require([
   let rangesLayer           = null;
   let pointsLayer           = null;
   let protectionAreasLayer  = null;
+  let climateLayer          = null;
   let showHex               = true;
   let showRanges            = true;
   let showPoints            = true;
   let showProtectionAreas   = true;
+  let showClimate           = true;
   let isDragging            = false;
 
   // ── DOM refs ───────────────────────────────────────────────────────────────
@@ -63,6 +66,8 @@ require([
   const rangesToggle           = document.getElementById("toggle-ranges");
   const pointsToggle           = document.getElementById("toggle-points");
   const protectionAreasToggle  = document.getElementById("toggle-protection-areas");
+  const climateToggle          = document.getElementById("toggle-climate");
+  const mapHint                = document.getElementById("map-hint");
 
   // ── Helpers ────────────────────────────────────────────────────────────────
   function hexToRgb(hex) {
@@ -210,6 +215,22 @@ require([
       if (protectionAreasLayer) protectionAreasLayer.visible = showProtectionAreas;
     });
   }
+  if (climateToggle) {
+    climateToggle.addEventListener("change", () => {
+      showClimate = climateToggle.checked;
+      if (climateLayer) climateLayer.visible = showClimate;
+    });
+  }
+
+  // ── Overview / hint state ──────────────────────────────────────────────────
+  function showOverview() {
+    currentSpecies = null;
+    document.querySelectorAll(".species-item").forEach(el => el.classList.remove("active"));
+    if (hexLayer)    hexLayer.definitionExpression    = "1=0";
+    if (rangesLayer) rangesLayer.definitionExpression = "1=0";
+    if (pointsLayer) pointsLayer.definitionExpression = "1=0";
+    if (mapHint) mapHint.style.display = "flex";
+  }
 
   // ── Species list ───────────────────────────────────────────────────────────
   function renderSpeciesList(list) {
@@ -269,11 +290,13 @@ require([
   document.getElementById("detail-back").addEventListener("click", () => {
     listView.style.display   = "flex";
     detailView.style.display = "none";
+    showOverview();
   });
 
   // ── Select species → update map ────────────────────────────────────────────
   function selectSpecies(sp) {
     currentSpecies = sp;
+    if (mapHint) mapHint.style.display = "none";
 
     // Highlight in list
     document.querySelectorAll(".species-item").forEach(el => {
@@ -379,19 +402,41 @@ require([
     map.add(protectionAreasLayer, 0);   // drawn below everything else
   }
 
-  // Individual observation points layer (only added if URL is configured)
+  // Hillshade layer — free Esri public service, blended below everything
+  const hillshadeLayer = new TileLayer({
+    url: "https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer",
+    opacity: 0.28,
+    blendMode: "multiply",
+  });
+  map.add(hillshadeLayer, 0);
+
+  // Climate zones layer (added if URL is configured)
+  if (CONFIG.services.climate) {
+    climateLayer = new FeatureLayer({
+      url:     CONFIG.services.climate,
+      opacity: 0.45,
+      visible: true,
+      popupEnabled: true,
+      popupTemplate: {
+        title: "{climate_name}",
+        content: [{ type: "fields", fieldInfos: [
+          { fieldName: "climate_code",  label: "Code"        },
+          { fieldName: "climate_name",  label: "Climate Type" },
+          { fieldName: "avg_temp_c",    label: "Avg Temp (°C)"},
+          { fieldName: "avg_precip_mm", label: "Avg Precip (mm)"},
+        ]}],
+        overwriteActions: true,
+      }
+    });
+    map.add(climateLayer, 1);
+  }
+
+  // Individual observation points layer — uses published ArcGIS Pro symbology
   if (CONFIG.services.points) {
     pointsLayer = new FeatureLayer({
       url:      CONFIG.services.points,
-      renderer: new SimpleRenderer({
-        symbol: new SimpleMarkerSymbol({
-          style:  "circle",
-          color:  [92, 200, 168, 200],
-          size:   7,
-          outline: { color: [255, 255, 255, 180], width: 1 }
-        })
-      }),
-      opacity:   0.85,
+      // No renderer specified → uses the symbology published from ArcGIS Pro
+      opacity:   0.90,
       visible:   true,
       definitionExpression: "1=0",
       outFields: ["scientific_name", "common_name", "observed_on",
@@ -447,12 +492,8 @@ require([
       speciesList = data.species;
       renderSpeciesList(speciesList);
 
-      // Auto-select most-observed species
-      if (speciesList.length > 0) {
-        selectSpecies(speciesList[0]);
-      }
-
       setWeek(20);  // Start at week 20 (~mid-May, active season)
+      showOverview(); // Start in overview — user picks a species
 
       loadingEl.classList.add("hidden");
     })
