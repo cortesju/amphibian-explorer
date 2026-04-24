@@ -134,10 +134,19 @@ for sid, d in sorted(species.items(), key=lambda x: -x[1]["obs_count"]):
         "iucn_code":       iucn_code,
         "iucn_label":      IUCN_LABELS.get(iucn_code, "Unknown"),
         "iucn_color":      IUCN_COLORS.get(iucn_code, "#AAAAAA"),
+        "iucn_severity":   {"CR":6,"EN":5,"VU":4,"NT":3,"LC":2,"DD":1,"NE":0}.get(iucn_code, 0),
         "centroid":        {
             "lat": round(sum(lats) / len(lats), 4),
             "lon": round(sum(lons) / len(lons), 4),
         },
+        "bbox": {
+            "xmin": round(min(lons), 4),
+            "ymin": round(min(lats), 4),
+            "xmax": round(max(lons), 4),
+            "ymax": round(max(lats), 4),
+        },
+        "sound_url":       "",
+        "description":     "",
     })
 
 os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)

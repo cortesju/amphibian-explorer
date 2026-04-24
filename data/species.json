@@ -17,10 +17,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 5.9888,
         "lon": -81.237
-      }
+      },
+      "bbox": {
+        "xmin": -106.0691,
+        "ymin": -17.8346,
+        "xmax": -63.0988,
+        "ymax": 28.633
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "leptodactylus_insularum",
@@ -39,10 +48,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 9.2817,
         "lon": -76.9334
-      }
+      },
+      "bbox": {
+        "xmin": -92.6189,
+        "ymin": 2.7339,
+        "xmax": 155.625,
+        "ymax": 20.7445
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "dendropsophus_columbianus",
@@ -61,10 +79,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 4.5808,
         "lon": -75.8589
-      }
+      },
+      "bbox": {
+        "xmin": -83.4383,
+        "ymin": -20.3745,
+        "xmax": -41.7273,
+        "ymax": 8.9123
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "hyalinobatrachium_fleischmanni",
@@ -83,10 +110,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 10.6313,
         "lon": -83.765
-      }
+      },
+      "bbox": {
+        "xmin": -102.886,
+        "ymin": -17.3739,
+        "xmax": 135.5338,
+        "ymax": 41.4688
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "cochranella_granulosa",
@@ -105,10 +141,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 9.9948,
         "lon": -84.0345
-      }
+      },
+      "bbox": {
+        "xmin": -122.4664,
+        "ymin": -0.8376,
+        "xmax": -77.1275,
+        "ymax": 37.7727
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "pristimantis_palmeri",
@@ -127,10 +172,19 @@
       "iucn_code": "VU",
       "iucn_label": "Vulnerable",
       "iucn_color": "#F9A800",
+      "iucn_severity": 4,
       "centroid": {
         "lat": 4.183,
         "lon": -76.1184
-      }
+      },
+      "bbox": {
+        "xmin": -79.5927,
+        "ymin": -2.8479,
+        "xmax": -74.3115,
+        "ymax": 6.9853
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "rheobates_palmatus",
@@ -149,10 +203,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 5.7187,
         "lon": -73.8069
-      }
+      },
+      "bbox": {
+        "xmin": -77.9147,
+        "ymin": -1.6251,
+        "xmax": -72.3176,
+        "ymax": 7.274
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "andinobates_bombetes",
@@ -171,10 +234,19 @@
       "iucn_code": "EN",
       "iucn_label": "Endangered",
       "iucn_color": "#FC7F3F",
+      "iucn_severity": 5,
       "centroid": {
         "lat": 4.37,
         "lon": -76.0335
-      }
+      },
+      "bbox": {
+        "xmin": -76.7835,
+        "ymin": 2.5385,
+        "xmax": -75.4002,
+        "ymax": 5.1946
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "pristimantis_erythropleura",
@@ -193,10 +265,19 @@
       "iucn_code": "EN",
       "iucn_label": "Endangered",
       "iucn_color": "#FC7F3F",
+      "iucn_severity": 5,
       "centroid": {
         "lat": 5.2108,
         "lon": -76.0508
-      }
+      },
+      "bbox": {
+        "xmin": -76.7526,
+        "ymin": 3.2439,
+        "xmax": -75.0146,
+        "ymax": 7.1842
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "atelopus_laetissimus",
@@ -215,10 +296,19 @@
       "iucn_code": "CR",
       "iucn_label": "Critically Endangered",
       "iucn_color": "#D81E05",
+      "iucn_severity": 6,
       "centroid": {
         "lat": 10.9846,
         "lon": -74.049
-      }
+      },
+      "bbox": {
+        "xmin": -74.4361,
+        "ymin": 10.3482,
+        "xmax": -73.4032,
+        "ymax": 11.206
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "centrolene_savagei",
@@ -237,10 +327,19 @@
       "iucn_code": "EN",
       "iucn_label": "Endangered",
       "iucn_color": "#FC7F3F",
+      "iucn_severity": 5,
       "centroid": {
         "lat": 4.7207,
         "lon": -75.7912
-      }
+      },
+      "bbox": {
+        "xmin": -76.9652,
+        "ymin": 3.3346,
+        "xmax": -75.2041,
+        "ymax": 6.2926
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "rulyrana_susatamai",
@@ -259,10 +358,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 6.1121,
         "lon": -75.1064
-      }
+      },
+      "bbox": {
+        "xmin": -76.1344,
+        "ymin": 3.1954,
+        "xmax": -74.6215,
+        "ymax": 7.9599
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "colostethus_inguinalis",
@@ -281,10 +389,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 7.6812,
         "lon": -75.1234
-      }
+      },
+      "bbox": {
+        "xmin": -76.6307,
+        "ymin": 5.9681,
+        "xmax": -73.4582,
+        "ymax": 9.8993
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "oophaga_lehmanni",
@@ -303,10 +420,19 @@
       "iucn_code": "CR",
       "iucn_label": "Critically Endangered",
       "iucn_color": "#D81E05",
+      "iucn_severity": 6,
       "centroid": {
         "lat": 4.9517,
         "lon": -78.2996
-      }
+      },
+      "bbox": {
+        "xmin": -117.0856,
+        "ymin": 1.3979,
+        "xmax": -76.5028,
+        "ymax": 32.741
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "bolitoglossa_ramosi",
@@ -325,10 +451,19 @@
       "iucn_code": "EN",
       "iucn_label": "Endangered",
       "iucn_color": "#FC7F3F",
+      "iucn_severity": 5,
       "centroid": {
         "lat": 5.8864,
         "lon": -75.1586
-      }
+      },
+      "bbox": {
+        "xmin": -75.7778,
+        "ymin": 4.2596,
+        "xmax": -74.8065,
+        "ymax": 6.9999
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "bolitoglossa_vallecula",
@@ -347,10 +482,19 @@
       "iucn_code": "VU",
       "iucn_label": "Vulnerable",
       "iucn_color": "#F9A800",
+      "iucn_severity": 4,
       "centroid": {
         "lat": 6.3197,
         "lon": -75.4067
-      }
+      },
+      "bbox": {
+        "xmin": -75.6787,
+        "ymin": 5.459,
+        "xmax": -75.1183,
+        "ymax": 6.9849
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "pristimantis_mutabilis",
@@ -369,10 +513,19 @@
       "iucn_code": "VU",
       "iucn_label": "Vulnerable",
       "iucn_color": "#F9A800",
+      "iucn_severity": 4,
       "centroid": {
         "lat": 0.1814,
         "lon": -78.6784
-      }
+      },
+      "bbox": {
+        "xmin": -79.1827,
+        "ymin": -0.4991,
+        "xmax": -78.0019,
+        "ymax": 0.6932
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "hyalinobatrachium_tatayoi",
@@ -391,10 +544,19 @@
       "iucn_code": "EN",
       "iucn_label": "Endangered",
       "iucn_color": "#FC7F3F",
+      "iucn_severity": 5,
       "centroid": {
         "lat": 5.0371,
         "lon": -79.6634
-      }
+      },
+      "bbox": {
+        "xmin": -80.0664,
+        "ymin": -2.7408,
+        "xmax": -79.1614,
+        "ymax": 9.2506
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "dendropsophus_ebraccatus",
@@ -413,10 +575,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 9.5361,
         "lon": -82.4167
-      }
+      },
+      "bbox": {
+        "xmin": -84.7288,
+        "ymin": 8.6203,
+        "xmax": -80.1046,
+        "ymax": 10.4519
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "atelopus_lozanoi",
@@ -435,10 +606,19 @@
       "iucn_code": "CR",
       "iucn_label": "Critically Endangered",
       "iucn_color": "#D81E05",
+      "iucn_severity": 6,
       "centroid": {
         "lat": 4.4582,
         "lon": -73.802
-      }
+      },
+      "bbox": {
+        "xmin": -73.8957,
+        "ymin": 4.4337,
+        "xmax": -73.7084,
+        "ymax": 4.4826
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "oophaga_solanensis",
@@ -457,10 +637,19 @@
       "iucn_code": "CR",
       "iucn_label": "Critically Endangered",
       "iucn_color": "#D81E05",
+      "iucn_severity": 6,
       "centroid": {
         "lat": 5.9954,
         "lon": -77.2898
-      }
+      },
+      "bbox": {
+        "xmin": -77.2898,
+        "ymin": 5.9954,
+        "xmax": -77.2898,
+        "ymax": 5.9954
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "oophaga_anchicayensis",
@@ -479,10 +668,19 @@
       "iucn_code": "CR",
       "iucn_label": "Critically Endangered",
       "iucn_color": "#D81E05",
+      "iucn_severity": 6,
       "centroid": {
         "lat": 3.7579,
         "lon": -76.9723
-      }
+      },
+      "bbox": {
+        "xmin": -76.9723,
+        "ymin": 3.7579,
+        "xmax": -76.9723,
+        "ymax": 3.7579
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "hyalinobatrachium_viridissimum",
@@ -501,10 +699,19 @@
       "iucn_code": "LC",
       "iucn_label": "Least Concern",
       "iucn_color": "#60AA00",
+      "iucn_severity": 2,
       "centroid": {
         "lat": 15.5003,
         "lon": -88.2226
-      }
+      },
+      "bbox": {
+        "xmin": -88.2226,
+        "ymin": 15.5003,
+        "xmax": -88.2226,
+        "ymax": 15.5003
+      },
+      "sound_url": "",
+      "description": ""
     },
     {
       "id": "oedipina_savagei",
@@ -523,10 +730,19 @@
       "iucn_code": "DD",
       "iucn_label": "Data Deficient",
       "iucn_color": "#D1D1C6",
+      "iucn_severity": 1,
       "centroid": {
         "lat": 8.7964,
         "lon": -82.9482
-      }
+      },
+      "bbox": {
+        "xmin": -82.9482,
+        "ymin": 8.7964,
+        "xmax": -82.9482,
+        "ymax": 8.7964
+      },
+      "sound_url": "",
+      "description": ""
     }
   ]
 }

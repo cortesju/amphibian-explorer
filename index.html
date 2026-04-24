@@ -41,6 +41,25 @@
     <div id="species-list-view" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
       <div class="sidebar-header">
         <div class="sidebar-header-label">24 Species</div>
+        <!-- Item 2: IUCN filter chips -->
+        <div class="iucn-chips" id="iucn-chips">
+          <button class="iucn-chip active" data-iucn="all" style="--chip-color:#4ABFA0">All</button>
+          <button class="iucn-chip" data-iucn="CR" style="--chip-color:#D81E05">CR</button>
+          <button class="iucn-chip" data-iucn="EN" style="--chip-color:#FC7F3F">EN</button>
+          <button class="iucn-chip" data-iucn="VU" style="--chip-color:#F9A800">VU</button>
+          <button class="iucn-chip" data-iucn="NT" style="--chip-color:#CCE226">NT</button>
+          <button class="iucn-chip" data-iucn="LC" style="--chip-color:#60AA00">LC</button>
+          <button class="iucn-chip" data-iucn="DD" style="--chip-color:#D1D1C6">DD</button>
+        </div>
+        <!-- Item 2: Sort select -->
+        <div class="sort-row">
+          <label class="sort-label" for="species-sort">Sort:</label>
+          <select id="species-sort" class="species-sort-select">
+            <option value="obs">Most Observed</option>
+            <option value="threat">Most Threatened</option>
+            <option value="az">A–Z</option>
+          </select>
+        </div>
         <div class="sidebar-search">
           <input type="search" id="species-search" placeholder="Search species…" autocomplete="off">
         </div>
@@ -73,6 +92,14 @@
 
         <div class="detail-description" id="detail-description"></div>
 
+        <!-- Item 9: Sound button -->
+        <div class="detail-sound" id="detail-sound" style="display:none;">
+          <button class="sound-btn" id="sound-btn" onclick="document.getElementById('frog-audio').play()">
+            🔊 Play Call
+          </button>
+          <audio id="frog-audio" preload="none"></audio>
+        </div>
+
         <div class="detail-stats">
           <div class="stat-card">
             <div class="stat-label">Observations</div>
@@ -102,6 +129,10 @@
   <!-- ── Map area ────────────────────────────────────────────── -->
   <main class="map-area">
     <div id="viewDiv"></div>
+    <!-- Item 3: Inset globe -->
+    <div id="globe-inset">
+      <div class="globe-label">Colombia</div>
+    </div>
 
     <!-- Hover tooltip -->
     <div class="map-tooltip" id="map-tooltip"></div>
@@ -146,6 +177,9 @@
             </button>
           </div>
         </div>
+
+        <!-- Item 11: Divider between basemap and data layers -->
+        <hr class="panel-divider">
 
         <!-- Hillshade toggle -->
         <div class="layer-toggle-row">
@@ -271,6 +305,30 @@
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="toggle-climate" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Item 12: iNaturalist recording bias -->
+        <div class="layer-toggle-row">
+          <div class="layer-info">
+            <div class="layer-name">Recording Bias</div>
+            <div class="layer-desc">Predicted habitat with no iNaturalist records — likely under-surveyed areas</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-bias" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Item 13: Conservation challenge hexagons -->
+        <div class="layer-toggle-row">
+          <div class="layer-info">
+            <div class="layer-name">Conservation Pressure</div>
+            <div class="layer-desc">Urban proximity &amp; habitat pressure by region</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-conservation" checked>
             <span class="toggle-slider"></span>
           </label>
         </div>

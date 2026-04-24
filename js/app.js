@@ -45,12 +45,17 @@ require([
   let protectionAreasLayer  = null;
   let climateLayer          = null;
   let hillshadeLayer        = null;
+  let biasLayer             = null;
+  let conservationLayer     = null;
   let showHex               = true;
   let showRanges            = true;
   let showPoints            = true;
   let showProtectionAreas   = true;
   let showClimate           = true;
   let isDragging            = false;
+  // Item 2 — filter/sort state
+  let activeIUCN  = "all";
+  let currentSort = "obs";
 
   // ── DOM refs ───────────────────────────────────────────────────────────────
   const loadingEl        = document.getElementById("loading");
@@ -149,9 +154,10 @@ require([
     rangesLayer.definitionExpression =
       `species_code = '${currentSpecies.id}'`;
 
+    // Item 10 — filter points by species AND week
     if (pointsLayer) {
       pointsLayer.definitionExpression =
-        `species_code = '${currentSpecies.id}'`;
+        `species_code = '${currentSpecies.id}' AND week = ${currentWeek}`;
     }
   }
 
@@ -254,13 +260,27 @@ require([
     });
   }
 
+  // Item 12 & 13: bias and conservation toggles
+  const biasToggle = document.getElementById("toggle-bias");
+  if (biasToggle) {
+    biasToggle.addEventListener("change", () => {
+      if (biasLayer) biasLayer.visible = biasToggle.checked;
+    });
+  }
+  const conservationToggle = document.getElementById("toggle-conservation");
+  if (conservationToggle) {
+    conservationToggle.addEventListener("change", () => {
+      if (conservationLayer) conservationLayer.visible = conservationToggle.checked;
+    });
+  }
+
   // ── Basemap switcher ───────────────────────────────────────────────────────
   function applyBasemap(id) {
     document.querySelectorAll(".basemap-btn").forEach(b =>
       b.classList.toggle("active", b.dataset.bm === id));
     if (id === "custom" && CONFIG.basemapUrl) {
       map.basemap = new Basemap({
-        baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl, effect: "brightness(115%) saturate(75%) hue-rotate(-15deg)" }) ]
+        baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl }) ]
       });
     } else {
       map.basemap = id;
@@ -284,9 +304,41 @@ require([
     if (mapHint) mapHint.style.display = "flex";
   }
 
+  // ── Item 2: getFilteredSorted ──────────────────────────────────────────────
+  function getFilteredSorted() {
+    const q = searchInput.value.trim().toLowerCase();
+    let list = speciesList.slice();
+
+    // IUCN filter
+    if (activeIUCN !== "all") {
+      list = list.filter(s => s.iucn_code === activeIUCN);
+    }
+
+    // Search filter
+    if (q) {
+      list = list.filter(s =>
+        s.scientific_name.toLowerCase().includes(q) ||
+        s.common_name.toLowerCase().includes(q));
+    }
+
+    // Sort
+    if (currentSort === "obs") {
+      list.sort((a, b) => b.obs_count - a.obs_count);
+    } else if (currentSort === "threat") {
+      list.sort((a, b) => (b.iucn_severity || 0) - (a.iucn_severity || 0));
+    } else if (currentSort === "az") {
+      list.sort((a, b) => (a.common_name || a.scientific_name)
+        .localeCompare(b.common_name || b.scientific_name));
+    }
+
+    return list;
+  }
+
   // ── Species list ───────────────────────────────────────────────────────────
   function renderSpeciesList(list) {
     listContainer.innerHTML = "";
+    // Item 7: maxObs for bar width calculation
+    const maxObs = speciesList.length ? speciesList[0].obs_count : 1;
     list.forEach(sp => {
       const item = document.createElement("div");
       item.className = "species-item" + (currentSpecies?.id === sp.id ? " active" : "");
@@ -296,6 +348,9 @@ require([
         ? `<img class="species-thumb" src="${sp.image_url}" loading="lazy" alt="">`
         : `<div class="species-thumb-placeholder">🐸</div>`;
 
+      // Item 7: obs count bar
+      const barPct = Math.round((sp.obs_count / maxObs) * 100);
+
       item.innerHTML = `
         ${thumb}
         <div class="species-item-text">
@@ -303,21 +358,32 @@ require([
           <div class="species-item-sci">${sp.scientific_name}</div>
         </div>
         <span class="iucn-badge" style="background:${sp.iucn_color}">${sp.iucn_code}</span>
+        <div class="obs-bar" style="width:${barPct}%"></div>
       `;
       item.addEventListener("click", () => selectSpecies(sp));
       listContainer.appendChild(item);
     });
   }
 
-  searchInput.addEventListener("input", () => {
-    const q = searchInput.value.trim().toLowerCase();
-    const filtered = q
-      ? speciesList.filter(s =>
-          s.scientific_name.toLowerCase().includes(q) ||
-          s.common_name.toLowerCase().includes(q))
-      : speciesList;
-    renderSpeciesList(filtered);
+  // Item 2: wire search, chips, and sort
+  searchInput.addEventListener("input", () => renderSpeciesList(getFilteredSorted()));
+
+  document.querySelectorAll(".iucn-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      activeIUCN = chip.dataset.iucn;
+      document.querySelectorAll(".iucn-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      renderSpeciesList(getFilteredSorted());
+    });
   });
+
+  const sortSelect = document.getElementById("species-sort");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+      currentSort = sortSelect.value;
+      renderSpeciesList(getFilteredSorted());
+    });
+  }
 
   // ── Species detail panel ───────────────────────────────────────────────────
   function showDetail(sp) {
@@ -334,6 +400,16 @@ require([
     document.getElementById("stat-years").textContent   =
       sp.year_range[0] ? `${sp.year_range[0]}–${sp.year_range[1]}` : "—";
     document.getElementById("detail-inat-link").href    = sp.inat_url;
+
+    // Item 9: sound button
+    const soundDiv = document.getElementById("detail-sound");
+    const audio    = document.getElementById("frog-audio");
+    if (sp.sound_url) {
+      audio.src = sp.sound_url;
+      soundDiv.style.display = "block";
+    } else {
+      soundDiv.style.display = "none";
+    }
 
     listView.style.display   = "none";
     detailView.style.display = "flex";
@@ -357,8 +433,15 @@ require([
 
     showDetail(sp);
 
-    // Pan to species centroid
-    if (view && sp.centroid) {
+    // Item 6: zoom to species bbox if available, else fall back to centroid
+    if (view && sp.bbox) {
+      const ext = new Extent({
+        xmin: sp.bbox.xmin - 0.3, ymin: sp.bbox.ymin - 0.3,
+        xmax: sp.bbox.xmax + 0.3, ymax: sp.bbox.ymax + 0.3,
+        spatialReference: { wkid: 4326 }
+      });
+      view.goTo(ext, { duration: 800 });
+    } else if (view && sp.centroid) {
       view.goTo({ center: [sp.centroid.lon, sp.centroid.lat], zoom: 7 }, { duration: 800 });
     }
 
@@ -383,7 +466,7 @@ require([
     resolvedBasemap = new Basemap({ portalItem: { id: CONFIG.basemapItemId } });
   } else if (CONFIG.basemapUrl) {
     resolvedBasemap = new Basemap({
-      baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl, effect: "brightness(115%) saturate(75%) hue-rotate(-15deg)" }) ]
+      baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl }) ]
     });
   } else {
     resolvedBasemap = CONFIG.basemap;
@@ -397,6 +480,17 @@ require([
     center: CONFIG.initialView.center,
     zoom:   CONFIG.initialView.zoom,
     ui: { components: ["zoom"] },
+  });
+
+  // Item 3: Inset globe
+  const globeMap  = new Map({ basemap: "dark-gray-vector" });
+  const globeView = new MapView({
+    container: "globe-inset",
+    map:       globeMap,
+    zoom:      2,
+    center:    [-74, 4],
+    ui:        { components: [] },
+    constraints: { rotationEnabled: false, minZoom: 2, maxZoom: 2 }
   });
 
   // Popup auto-open stays ON (default) so point clicks show the popup.
@@ -483,6 +577,42 @@ require([
     map.add(climateLayer, 1);
   }
 
+  // Item 12: bias layer (under-surveyed areas)
+  if (CONFIG.services.bias) {
+    biasLayer = new FeatureLayer({
+      url: CONFIG.services.bias,
+      opacity: 0.55,
+      visible: true,
+      popupEnabled: true,
+      popupTemplate: {
+        title: "Under-surveyed Area",
+        content: [{ type: "fields", fieldInfos: [
+          { fieldName: "species_name", label: "Species"   },
+          { fieldName: "habitat_type", label: "Habitat"   },
+        ]}]
+      }
+    });
+    map.add(biasLayer, 1);
+  }
+
+  // Item 13: conservation pressure layer
+  if (CONFIG.services.conservation) {
+    conservationLayer = new FeatureLayer({
+      url: CONFIG.services.conservation,
+      opacity: 0.60,
+      visible: true,
+      popupEnabled: true,
+      popupTemplate: {
+        title: "Conservation Pressure",
+        content: [{ type: "fields", fieldInfos: [
+          { fieldName: "pressure_level",       label: "Pressure Level"       },
+          { fieldName: "urban_proximity_km",   label: "Urban Distance (km)"  },
+        ]}]
+      }
+    });
+    map.add(conservationLayer, 2);
+  }
+
   // Ranges + hex added first so points layer renders on top
   map.addMany([rangesLayer, hexLayer]);
 
@@ -503,7 +633,7 @@ require([
           type: "text",
           text: `<div style="margin:-8px -12px 8px;overflow:hidden;border-radius:6px 6px 0 0;">
             <img src="{image_url}" alt=""
-              style="width:100%;max-height:180px;object-fit:cover;display:block;"
+              style="width:100%;max-height:200px;min-height:120px;object-fit:contain;background:#020A04;display:block;"
               onerror="this.style.display='none'">
           </div>`
         }, {

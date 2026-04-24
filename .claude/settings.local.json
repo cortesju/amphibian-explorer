@@ -10,7 +10,17 @@
       "Bash(python -c ' *)",
       "Bash(py -c ' *)",
       "PowerShell(Get-Command python, python3, py 2>$null)",
-      "mcp__Claude_in_Chrome__tabs_create_mcp"
+      "mcp__Claude_in_Chrome__tabs_create_mcp",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git remote *)",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/d/websites/WebMap589/data/species.json'\\)\\); print\\('valid JSON,', len\\(d.get\\('species',[]\\)\\), 'species'\\)\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\('D:/websites/WebMap589/data/species.json'\\)\\); print\\('valid JSON,', len\\(d.get\\('species',[]\\)\\), 'species'\\)\")",
+      "WebFetch(domain:cortesju.github.io)",
+      "Bash(node -e ' *)",
+      "Bash(\"C:/Program Files/ArcGIS/Pro/bin/Python/envs/arcgispro-py3/python.exe\" \"D:/websites/WebMap589/scripts/04_generate_species_json.py\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('D:/websites/WebMap589/data/species.json',encoding='utf-8'\\)\\); s=d['species'][0]; print\\(list\\(s.keys\\(\\)\\)\\); print\\('bbox:', s.get\\('bbox'\\)\\); print\\('iucn_severity:', s.get\\('iucn_severity'\\)\\); print\\('sound_url:', s.get\\('sound_url'\\)\\); print\\('description:', s.get\\('description'\\)\\)\")"
     ]
   }
 }
