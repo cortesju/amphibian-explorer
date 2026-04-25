@@ -24,7 +24,7 @@ const CONFIG = {
     ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges2/FeatureServer",
 
     // ⚠ Paste your published amphibians_points FeatureServer URL here:
-    points: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_points/FeatureServer",
+    points: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_pointsNew/FeatureServer",
 
     // ⚠ Paste your published amphibians_protectionAreas FeatureServer URL here:
     // protectionAreas: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_protectionAreas/FeatureServer",
