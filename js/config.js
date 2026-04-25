@@ -49,9 +49,9 @@ const CONFIG = {
 
   // OPTION B — Your own custom basemap (VectorTileServer URL).
   //   Set basemapUrl to your VectorTileServer URL and it overrides the basemap string above.
-  //   e.g. "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/VectorBasemapAmphi/VectorTileServer"
+  //   e.g. "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/ColombiaBasemapp/VectorTileServer"
   basemapItemId: null,
-  basemapUrl: "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/VectorBasemapAmphi/VectorTileServer",
+  basemapUrl: "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/ColombiaBasemapp/VectorTileServer",
 
   // ── Hex bin renderer ────────────────────────────────────────────────────────
   // Aqua-teal — matches glass frog translucent body color
