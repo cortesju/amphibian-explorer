@@ -25,12 +25,15 @@ require([
   "esri/symbols/SimpleMarkerSymbol",
   "esri/symbols/PictureMarkerSymbol",
   "esri/geometry/Extent",
+  "esri/geometry/Point",
+  "esri/Graphic",
+  "esri/layers/GraphicsLayer",
   "esri/core/reactiveUtils",
 ], function (
   Map, Basemap, MapView, FeatureLayer, VectorTileLayer, TileLayer,
   ClassBreaksRenderer, UniqueValueRenderer, SimpleRenderer,
   SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureMarkerSymbol,
-  Extent, reactiveUtils
+  Extent, Point, Graphic, GraphicsLayer, reactiveUtils
 ) { try {
 
   // ── State ──────────────────────────────────────────────────────────────────
@@ -488,15 +491,27 @@ require([
     ui: { components: ["zoom"] },
   });
 
-  // Item 3: Inset globe
-  const globeMap  = new Map({ basemap: "dark-gray-vector" });
+  // Item 3: Inset map — Colombia in South America context
+  // GraphicsLayer with pulsing marker at Colombia's centroid
+  const colombiaDot = new Graphic({
+    geometry: new Point({ longitude: -74.0, latitude: 4.0 }),
+    symbol: new SimpleMarkerSymbol({
+      style: "circle",
+      color: [108, 220, 184, 0.95],         // teal #6CDCB8
+      size: "9px",
+      outline: { color: [255, 255, 255, 0.70], width: 1.5 }
+    })
+  });
+  const globeGraphics = new GraphicsLayer({ graphics: [colombiaDot] });
+
+  const globeMap  = new Map({ basemap: "dark-gray-vector", layers: [globeGraphics] });
   const globeView = new MapView({
     container: "globe-inset",
     map:       globeMap,
-    zoom:      3,
-    center:    [-74, 4],   // Colombia
+    zoom:      4,            // shows Colombia + neighbours (≈ 1:36M at equator)
+    center:    [-74.0, 4.0], // Colombia centroid
     ui:        { components: [] },
-    constraints: { rotationEnabled: false, minZoom: 3, maxZoom: 3 }
+    constraints: { rotationEnabled: false, minZoom: 4, maxZoom: 4 }
   });
 
   // Popup auto-open stays ON (default) so point clicks show the popup.
