@@ -154,10 +154,10 @@ require([
     rangesLayer.definitionExpression =
       `species_code = '${currentSpecies.id}'`;
 
-    // Item 10 — filter points by species AND week
+    // Points show ALL weeks for the species — not filtered by slider
     if (pointsLayer) {
       pointsLayer.definitionExpression =
-        `species_code = '${currentSpecies.id}' AND week = ${currentWeek}`;
+        `species_code = '${currentSpecies.id}'`;
     }
   }
 
@@ -433,13 +433,19 @@ require([
 
     showDetail(sp);
 
-    // Item 6: zoom to species bbox if available, else fall back to centroid
+    // Zoom to species point extent — padded so points are never at the edge,
+    // and enforced to a minimum span so the map doesn't zoom in too tightly.
     if (view && sp.bbox) {
-      const ext = new Extent({
-        xmin: sp.bbox.xmin - 0.3, ymin: sp.bbox.ymin - 0.3,
-        xmax: sp.bbox.xmax + 0.3, ymax: sp.bbox.ymax + 0.3,
-        spatialReference: { wkid: 4326 }
-      });
+      const PAD = 0.8;          // degrees of padding around the bbox
+      const MIN_SPAN = 2.0;     // never zoom tighter than ~2° wide or tall
+      let xmin = sp.bbox.xmin - PAD;
+      let ymin = sp.bbox.ymin - PAD;
+      let xmax = sp.bbox.xmax + PAD;
+      let ymax = sp.bbox.ymax + PAD;
+      // Enforce minimum span so a single-location species isn't zoomed to street level
+      if ((xmax - xmin) < MIN_SPAN) { const cx = (xmin+xmax)/2; xmin=cx-MIN_SPAN/2; xmax=cx+MIN_SPAN/2; }
+      if ((ymax - ymin) < MIN_SPAN) { const cy = (ymin+ymax)/2; ymin=cy-MIN_SPAN/2; ymax=cy+MIN_SPAN/2; }
+      const ext = new Extent({ xmin, ymin, xmax, ymax, spatialReference: { wkid: 4326 } });
       view.goTo(ext, { duration: 800 });
     } else if (view && sp.centroid) {
       view.goTo({ center: [sp.centroid.lon, sp.centroid.lat], zoom: 7 }, { duration: 800 });
@@ -487,10 +493,10 @@ require([
   const globeView = new MapView({
     container: "globe-inset",
     map:       globeMap,
-    zoom:      2,
-    center:    [-74, 4],
+    zoom:      1,
+    center:    [-50, 0],   // shifted west so South America sits centre-right of the inset
     ui:        { components: [] },
-    constraints: { rotationEnabled: false, minZoom: 2, maxZoom: 2 }
+    constraints: { rotationEnabled: false, minZoom: 1, maxZoom: 1 }
   });
 
   // Popup auto-open stays ON (default) so point clicks show the popup.
