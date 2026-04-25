@@ -423,9 +423,23 @@ require([
 
     showDetail(sp);
 
-    // Zoom to the real extent of points for this species by querying the live layer.
-    // This guarantees the view always lands exactly where the data actually is.
-    if (view && pointsLayer) {
+    // Species whose points are too scattered — always zoom to full Colombia view.
+    const COLOMBIA_ZOOM_IDS = new Set([
+      "espadarana_prosoblepon",
+      "leptodactylus_insularum",
+      "dendropsophus_columbianus",
+      "hyalinobatrachium_fleischmanni",
+      "cochranella_granulosa",
+    ]);
+
+    if (view && COLOMBIA_ZOOM_IDS.has(sp.id)) {
+      // Fixed Colombia-wide view for species with scattered/unreliable extents
+      view.goTo(new Extent({
+        xmin: -79.0, ymin: -4.5, xmax: -66.5, ymax: 13.5,
+        spatialReference: { wkid: 4326 }
+      }), { duration: 800 });
+    } else if (view && pointsLayer) {
+      // All other species: query the live layer for the real point extent
       pointsLayer.queryExtent({
         where: `species_code = '${sp.id}'`,
         outSpatialReference: { wkid: 4326 }
@@ -445,7 +459,6 @@ require([
           view.goTo({ center: [sp.centroid.lon, sp.centroid.lat], zoom: 7 }, { duration: 800 });
         }
       }).catch(function() {
-        // fallback to centroid if query fails
         if (sp.centroid) view.goTo({ center: [sp.centroid.lon, sp.centroid.lat], zoom: 7 }, { duration: 800 });
       });
     } else if (view && sp.centroid) {
