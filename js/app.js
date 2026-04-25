@@ -436,18 +436,21 @@ require([
 
     showDetail(sp);
 
-    // Zoom to species point extent — padded so points are never at the edge,
-    // and enforced to a minimum span so the map doesn't zoom in too tightly.
+    // Zoom to species point extent with padding, min and max span guards.
     if (view && sp.bbox) {
-      const PAD = 0.8;          // degrees of padding around the bbox
-      const MIN_SPAN = 2.0;     // never zoom tighter than ~2° wide or tall
+      const PAD      = 0.4;   // degrees of padding around the bbox
+      const MIN_SPAN = 1.5;   // never tighter than ~1.5° (avoids street-level zoom)
+      const MAX_SPAN = 6.0;   // never wider than ~6° (avoids zooming out past Colombia)
       let xmin = sp.bbox.xmin - PAD;
       let ymin = sp.bbox.ymin - PAD;
       let xmax = sp.bbox.xmax + PAD;
       let ymax = sp.bbox.ymax + PAD;
-      // Enforce minimum span so a single-location species isn't zoomed to street level
-      if ((xmax - xmin) < MIN_SPAN) { const cx = (xmin+xmax)/2; xmin=cx-MIN_SPAN/2; xmax=cx+MIN_SPAN/2; }
-      if ((ymax - ymin) < MIN_SPAN) { const cy = (ymin+ymax)/2; ymin=cy-MIN_SPAN/2; ymax=cy+MIN_SPAN/2; }
+      // Enforce minimum span
+      if ((xmax - xmin) < MIN_SPAN) { const cx=(xmin+xmax)/2; xmin=cx-MIN_SPAN/2; xmax=cx+MIN_SPAN/2; }
+      if ((ymax - ymin) < MIN_SPAN) { const cy=(ymin+ymax)/2; ymin=cy-MIN_SPAN/2; ymax=cy+MIN_SPAN/2; }
+      // Enforce maximum span — clamp to centre so it never zooms too far out
+      if ((xmax - xmin) > MAX_SPAN) { const cx=(xmin+xmax)/2; xmin=cx-MAX_SPAN/2; xmax=cx+MAX_SPAN/2; }
+      if ((ymax - ymin) > MAX_SPAN) { const cy=(ymin+ymax)/2; ymin=cy-MAX_SPAN/2; ymax=cy+MAX_SPAN/2; }
       const ext = new Extent({ xmin, ymin, xmax, ymax, spatialReference: { wkid: 4326 } });
       view.goTo(ext, { duration: 800 });
     } else if (view && sp.centroid) {
