@@ -346,6 +346,20 @@ html, body {
 }
 .legend-range-swatch { width: 16px; height: 12px; border-radius: 3px; flex-shrink: 0; }
 
+/* Observation point pin — matches the lime-green ArcGIS pin symbol on the map */
+.legend-point-pin {
+  width: 12px; height: 18px; flex-shrink: 0;
+  background: #C8DE00;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 0 0 2px rgba(200,222,0,0.35);
+}
+.legend-point-note {
+  font-size: 9.5px; color: var(--text-muted);
+  margin-top: 5px; font-style: italic; line-height: 1.4;
+  padding-left: 2px;
+}
+
 /* Toggle switch */
 .toggle-switch {
   position: relative; width: 36px; height: 20px;
