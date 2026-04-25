@@ -423,23 +423,31 @@ require([
 
     showDetail(sp);
 
-    // Zoom to species point extent with padding, min and max span guards.
-    if (view && sp.bbox) {
-      const PAD      = 0.4;   // degrees of padding around the bbox
-      const MIN_SPAN = 1.5;   // never tighter than ~1.5° (avoids street-level zoom)
-      const MAX_SPAN = 6.0;   // never wider than ~6° (avoids zooming out past Colombia)
-      let xmin = sp.bbox.xmin - PAD;
-      let ymin = sp.bbox.ymin - PAD;
-      let xmax = sp.bbox.xmax + PAD;
-      let ymax = sp.bbox.ymax + PAD;
-      // Enforce minimum span
-      if ((xmax - xmin) < MIN_SPAN) { const cx=(xmin+xmax)/2; xmin=cx-MIN_SPAN/2; xmax=cx+MIN_SPAN/2; }
-      if ((ymax - ymin) < MIN_SPAN) { const cy=(ymin+ymax)/2; ymin=cy-MIN_SPAN/2; ymax=cy+MIN_SPAN/2; }
-      // Enforce maximum span — clamp to centre so it never zooms too far out
-      if ((xmax - xmin) > MAX_SPAN) { const cx=(xmin+xmax)/2; xmin=cx-MAX_SPAN/2; xmax=cx+MAX_SPAN/2; }
-      if ((ymax - ymin) > MAX_SPAN) { const cy=(ymin+ymax)/2; ymin=cy-MAX_SPAN/2; ymax=cy+MAX_SPAN/2; }
-      const ext = new Extent({ xmin, ymin, xmax, ymax, spatialReference: { wkid: 4326 } });
-      view.goTo(ext, { duration: 800 });
+    // Zoom to the real extent of points for this species by querying the live layer.
+    // This guarantees the view always lands exactly where the data actually is.
+    if (view && pointsLayer) {
+      pointsLayer.queryExtent({
+        where: `species_code = '${sp.id}'`,
+        outSpatialReference: { wkid: 4326 }
+      }).then(function(result) {
+        if (result && result.count > 0 && result.extent) {
+          const PAD      = 0.4;
+          const MIN_SPAN = 1.5;
+          const MAX_SPAN = 6.0;
+          let { xmin, ymin, xmax, ymax } = result.extent;
+          xmin -= PAD; ymin -= PAD; xmax += PAD; ymax += PAD;
+          if ((xmax - xmin) < MIN_SPAN) { const cx=(xmin+xmax)/2; xmin=cx-MIN_SPAN/2; xmax=cx+MIN_SPAN/2; }
+          if ((ymax - ymin) < MIN_SPAN) { const cy=(ymin+ymax)/2; ymin=cy-MIN_SPAN/2; ymax=cy+MIN_SPAN/2; }
+          if ((xmax - xmin) > MAX_SPAN) { const cx=(xmin+xmax)/2; xmin=cx-MAX_SPAN/2; xmax=cx+MAX_SPAN/2; }
+          if ((ymax - ymin) > MAX_SPAN) { const cy=(ymin+ymax)/2; ymin=cy-MAX_SPAN/2; ymax=cy+MAX_SPAN/2; }
+          view.goTo(new Extent({ xmin, ymin, xmax, ymax, spatialReference: { wkid: 4326 } }), { duration: 800 });
+        } else if (sp.centroid) {
+          view.goTo({ center: [sp.centroid.lon, sp.centroid.lat], zoom: 7 }, { duration: 800 });
+        }
+      }).catch(function() {
+        // fallback to centroid if query fails
+        if (sp.centroid) view.goTo({ center: [sp.centroid.lon, sp.centroid.lat], zoom: 7 }, { duration: 800 });
+      });
     } else if (view && sp.centroid) {
       view.goTo({ center: [sp.centroid.lon, sp.centroid.lat], zoom: 7 }, { duration: 800 });
     }
