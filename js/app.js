@@ -508,10 +508,10 @@ require([
   const globeView = new MapView({
     container: "globe-inset",
     map:       globeMap,
-    zoom:      4,            // shows Colombia + neighbours (≈ 1:36M at equator)
-    center:    [-74.0, 4.0], // Colombia centroid
+    zoom:      2,            // ≈ 1:148M — hemisphere view, Colombia visible as small dot
+    center:    [-74.0, 4.0], // Colombia centroid keeps it in frame
     ui:        { components: [] },
-    constraints: { rotationEnabled: false, minZoom: 4, maxZoom: 4 }
+    constraints: { rotationEnabled: false, minZoom: 2, maxZoom: 2 }
   });
 
   // Popup auto-open stays ON (default) so point clicks show the popup.
