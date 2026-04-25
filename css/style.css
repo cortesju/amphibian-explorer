@@ -346,21 +346,21 @@ html, body {
 }
 .legend-range-swatch { width: 16px; height: 12px; border-radius: 3px; flex-shrink: 0; }
 
-/* Observation point pin — Tear Pin 2: teardrop with inner circle, lime-green */
+/* Observation point pin — Tear Pin 2: dark green tear, bright yellow circle */
 .legend-point-pin {
   position: relative;
   width: 14px; height: 14px; flex-shrink: 0;
-  background: #C8DE00;
+  background: #1E4020;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
-  box-shadow: 0 0 5px rgba(200,222,0,0.50);
+  box-shadow: 0 0 5px rgba(30,64,32,0.60);
   margin-right: 3px;
 }
 .legend-point-pin::after {
   content: '';
   position: absolute;
-  width: 5px; height: 5px;
-  background: rgba(0,0,0,0.75);
+  width: 7px; height: 7px;
+  background: #C8DE00;
   border-radius: 50%;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
