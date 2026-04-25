@@ -658,27 +658,6 @@ input:checked + .toggle-slider::before {
   transition: width 0.3s;
 }
 
-/* ── Item 3: Globe inset ──────────────────────────────────────── */
-#globe-inset {
-  position: absolute;
-  bottom: 36px; left: 14px;
-  width: 150px; height: 130px;
-  border-radius: 10px;
-  border: 1.5px solid rgba(74,191,160,0.40);
-  box-shadow: 0 4px 18px rgba(0,0,0,0.60), 0 0 14px rgba(74,191,160,0.12);
-  overflow: hidden;
-  z-index: 40;
-  /* NOTE: pointer-events must stay ON so ArcGIS MapView can render tiles */
-}
-.globe-label {
-  position: absolute;
-  bottom: 6px; left: 50%; transform: translateX(-50%);
-  font-size: 9px; font-weight: 700; letter-spacing: 1px;
-  color: rgba(74,191,160,0.80); text-transform: uppercase;
-  pointer-events: none; z-index: 5;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.80);
-}
-/* Colombia dot is now an ArcGIS Graphic on the globe inset map view */
 
 /* ── Item 9: Sound button ─────────────────────────────────────── */
 .detail-sound {

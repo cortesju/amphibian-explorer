@@ -491,28 +491,6 @@ require([
     ui: { components: ["zoom"] },
   });
 
-  // Item 3: Inset map — Colombia in South America context
-  // GraphicsLayer with pulsing marker at Colombia's centroid
-  const colombiaDot = new Graphic({
-    geometry: new Point({ longitude: -74.0, latitude: 4.0 }),
-    symbol: new SimpleMarkerSymbol({
-      style: "circle",
-      color: [108, 220, 184, 0.95],         // teal #6CDCB8
-      size: "9px",
-      outline: { color: [255, 255, 255, 0.70], width: 1.5 }
-    })
-  });
-  const globeGraphics = new GraphicsLayer({ graphics: [colombiaDot] });
-
-  const globeMap  = new Map({ basemap: "dark-gray-vector", layers: [globeGraphics] });
-  const globeView = new MapView({
-    container: "globe-inset",
-    map:       globeMap,
-    zoom:      2,            // ≈ 1:148M — hemisphere view, Colombia visible as small dot
-    center:    [-74.0, 4.0], // Colombia centroid keeps it in frame
-    ui:        { components: [] },
-    constraints: { rotationEnabled: false, minZoom: 2, maxZoom: 2 }
-  });
 
   // Popup auto-open stays ON (default) so point clicks show the popup.
   // Hex + ranges layers have popupEnabled:false so they won't interfere.
