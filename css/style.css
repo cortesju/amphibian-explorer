@@ -678,6 +678,21 @@ input:checked + .toggle-slider::before {
   pointer-events: none; z-index: 5;
   text-shadow: 0 1px 4px rgba(0,0,0,0.80);
 }
+.globe-colombia-dot {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #6CDCB8;
+  box-shadow: 0 0 0 3px rgba(108,220,184,0.30), 0 0 12px rgba(108,220,184,0.70);
+  z-index: 10; pointer-events: none;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(108,220,184,0.30), 0 0 12px rgba(108,220,184,0.70); }
+  50%       { box-shadow: 0 0 0 7px rgba(108,220,184,0.12), 0 0 22px rgba(108,220,184,0.90); }
+}
 
 /* ── Item 9: Sound button ─────────────────────────────────────── */
 .detail-sound {

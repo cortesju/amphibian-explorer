@@ -493,10 +493,10 @@ require([
   const globeView = new MapView({
     container: "globe-inset",
     map:       globeMap,
-    zoom:      1,
-    center:    [-50, 0],   // shifted west so South America sits centre-right of the inset
+    zoom:      3,
+    center:    [-74, 4],   // Colombia
     ui:        { components: [] },
-    constraints: { rotationEnabled: false, minZoom: 1, maxZoom: 1 }
+    constraints: { rotationEnabled: false, minZoom: 3, maxZoom: 3 }
   });
 
   // Popup auto-open stays ON (default) so point clicks show the popup.
