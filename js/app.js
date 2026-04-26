@@ -324,6 +324,34 @@ require([
     return list;
   }
 
+  // ── Audio player — single shared Audio element ────────────────────────────
+  let currentAudio    = null;
+  let currentAudioBtn = null;
+
+  function stopAudio() {
+    if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+    if (currentAudioBtn) { currentAudioBtn.textContent = "🔊"; currentAudioBtn.classList.remove("playing"); }
+    currentAudio    = null;
+    currentAudioBtn = null;
+  }
+
+  function toggleAudio(btn, url) {
+    // If same button pressed while playing — stop
+    if (currentAudioBtn === btn) { stopAudio(); return; }
+    // Stop whatever was playing before
+    stopAudio();
+    const audio = new Audio(url);
+    audio.addEventListener("ended", () => {
+      btn.textContent = "🔊"; btn.classList.remove("playing");
+      currentAudio = null; currentAudioBtn = null;
+    });
+    audio.play().then(() => {
+      btn.textContent = "⏹"; btn.classList.add("playing");
+      currentAudio    = audio;
+      currentAudioBtn = btn;
+    }).catch(() => { btn.textContent = "🔊"; });
+  }
+
   // ── Species list ───────────────────────────────────────────────────────────
   function renderSpeciesList(list) {
     listContainer.innerHTML = "";
@@ -347,9 +375,20 @@ require([
           <div class="species-item-common">${sp.common_name || sp.scientific_name}</div>
           <div class="species-item-sci">${sp.scientific_name}</div>
         </div>
+        ${sp.sound_url ? `<button class="species-audio-btn" title="Play call">🔊</button>` : ""}
         <span class="iucn-badge" style="background:${sp.iucn_color}">${sp.iucn_code}</span>
         <div class="obs-bar" style="width:${barPct}%"></div>
       `;
+
+      // Wire audio button — stop propagation so it doesn't select the species
+      if (sp.sound_url) {
+        const audioBtn = item.querySelector(".species-audio-btn");
+        audioBtn.addEventListener("click", e => {
+          e.stopPropagation();
+          toggleAudio(audioBtn, sp.sound_url);
+        });
+      }
+
       item.addEventListener("click", () => selectSpecies(sp));
       listContainer.appendChild(item);
     });
