@@ -432,10 +432,21 @@ require([
       "cochranella_granulosa",
     ]);
 
-    if (view && COLOMBIA_ZOOM_IDS.has(sp.id)) {
-      // Fixed Colombia-wide view for species with scattered/unreliable extents
+    // Species with custom fixed extents (queryExtent gives wrong results)
+    const CUSTOM_EXTENTS = {
+      // Full Colombia
+      "espadarana_prosoblepon":        { xmin:-79.0, ymin:-4.5,  xmax:-66.5, ymax:13.5 },
+      "leptodactylus_insularum":       { xmin:-79.0, ymin:-4.5,  xmax:-66.5, ymax:13.5 },
+      "dendropsophus_columbianus":     { xmin:-79.0, ymin:-4.5,  xmax:-66.5, ymax:13.5 },
+      "hyalinobatrachium_fleischmanni":{ xmin:-79.0, ymin:-4.5,  xmax:-66.5, ymax:13.5 },
+      "cochranella_granulosa":         { xmin:-79.0, ymin:-4.5,  xmax:-66.5, ymax:13.5 },
+      // Pacific Colombia (Chocó / Valle del Cauca coast)
+      "oophaga_lehmanni":              { xmin:-78.5, ymin:1.0,   xmax:-75.5, ymax:6.5  },
+    };
+
+    if (view && CUSTOM_EXTENTS[sp.id]) {
       view.goTo(new Extent({
-        xmin: -79.0, ymin: -4.5, xmax: -66.5, ymax: 13.5,
+        ...CUSTOM_EXTENTS[sp.id],
         spatialReference: { wkid: 4326 }
       }), { duration: 800 });
     } else if (view && pointsLayer) {
