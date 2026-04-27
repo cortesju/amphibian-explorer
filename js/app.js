@@ -52,7 +52,7 @@ require([
   let biasLayer             = null;
   let conservationLayer     = null;
   let showHex               = true;
-  let showRanges            = true;
+  let showRanges            = false;  // off by default
   let showPoints            = true;
   let showProtectionAreas   = true;
   let showClimate           = true;
@@ -337,15 +337,30 @@ require([
     }).join("");
   }
 
+  // Rows exclusive to Species Records — hidden in other map options
+  const SPECIES_RECORDS_ROWS = ["row-hex","row-ranges","row-points","row-points-slider","row-protection"];
+
   function setMapOption(id) {
     activeMapOption = id;
     // Update card UI
     document.querySelectorAll(".map-option-card").forEach(c =>
       c.classList.toggle("active", c.dataset.map === id));
-    // Show/hide analytical layers
-    if (hexLayer)          hexLayer.visible          = (id === "density")      && !!currentSpecies;
-    if (conservationLayer) conservationLayer.visible  = (id === "conservation");
-    if (biasLayer)         biasLayer.visible          = (id === "bias");
+
+    // Show/hide layer toggle rows that belong only to Species Records
+    const isRecords = (id === "density");
+    SPECIES_RECORDS_ROWS.forEach(rowId => {
+      const el = document.getElementById(rowId);
+      if (el) el.style.display = isRecords ? "" : "none";
+    });
+
+    // Show/hide actual map layers
+    if (hexLayer)          hexLayer.visible          = isRecords && !!currentSpecies;
+    if (rangesLayer)       rangesLayer.visible       = isRecords && showRanges && !!currentSpecies;
+    if (pointsLayer)       pointsLayer.visible       = isRecords && showPoints;
+    if (protectionAreasLayer) protectionAreasLayer.visible = isRecords && showProtectionAreas;
+    if (conservationLayer) conservationLayer.visible = (id === "conservation");
+    if (biasLayer)         biasLayer.visible         = (id === "bias");
+
     // Show/hide distribution legend
     const distLegend = document.getElementById("map-distribution-legend");
     if (distLegend) distLegend.style.display = (id === "conservation") ? "block" : "none";

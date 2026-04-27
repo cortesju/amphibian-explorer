@@ -218,7 +218,7 @@
         </div>
 
         <!-- Hex bin toggle -->
-        <div class="layer-toggle-row">
+        <div class="layer-toggle-row" id="row-hex">
           <div class="layer-info">
             <div class="layer-name">Observation Density</div>
             <div class="layer-desc">Total iNaturalist records per hexagonal cell</div>
@@ -237,7 +237,7 @@
         </div>
 
         <!-- Ranges toggle -->
-        <div class="layer-toggle-row">
+        <div class="layer-toggle-row" id="row-ranges">
           <div class="layer-info">
             <div class="layer-name">Seasonal Range</div>
             <div class="layer-desc">Known distribution by Colombia season</div>
@@ -259,13 +259,13 @@
             </div>
           </div>
           <label class="toggle-switch">
-            <input type="checkbox" id="toggle-ranges" checked>
+            <input type="checkbox" id="toggle-ranges">
             <span class="toggle-slider"></span>
           </label>
         </div>
 
         <!-- Observations points toggle -->
-        <div class="layer-toggle-row">
+        <div class="layer-toggle-row" id="row-points">
           <div class="layer-info">
             <div class="layer-name">Observations</div>
             <div class="layer-desc">iNaturalist records — click any dot for photo &amp; details</div>
@@ -280,7 +280,7 @@
             <span class="toggle-slider"></span>
           </label>
         </div>
-        <div class="layer-sliders">
+        <div class="layer-sliders" id="row-points-slider">
           <div class="layer-slider-row">
             <span class="slider-label">Opacity</span>
             <input type="range" id="points-opacity" min="0" max="100" value="63" class="layer-range">
@@ -289,7 +289,7 @@
         </div>
 
         <!-- Protection areas toggle -->
-        <div class="layer-toggle-row">
+        <div class="layer-toggle-row" id="row-protection">
           <div class="layer-info">
             <div class="layer-name">Protection Areas</div>
             <div class="layer-desc">Zones with highest amphibian concentration</div>
