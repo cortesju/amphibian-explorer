@@ -20,7 +20,7 @@ const CONFIG = {
   // ── ArcGIS Online Feature Service URLs ────────────────────────────────────
   // All layers must be set to Public (Everyone can view).
   services: {
-    hexBins: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_hexbins2/FeatureServer",
+    hexBins: "https://vectortileservices1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/Hex_Frog_Summary2/VectorTileServer",
     ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges2/FeatureServer",
 
     // ⚠ Paste your published amphibians_points FeatureServer URL here:

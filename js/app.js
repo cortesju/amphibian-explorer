@@ -41,6 +41,7 @@ require([
   let currentSpecies  = null;
   let currentWeek     = 1;
   let isPlaying       = false;
+  let isTemporalActive = false;   // true only while Play is running
   let animTimer       = null;
   let hexLayer              = null;
   let rangesLayer           = null;
@@ -151,17 +152,17 @@ require([
   function updateLayers() {
     if (!currentSpecies || !hexLayer || !rangesLayer) return;
 
-    // Hexbins: new layer has no temporal field — show all, no week filter
+    // Hexbins: VectorTileLayer — just toggle visibility, no filtering supported
     hexLayer.visible = true;
-    hexLayer.definitionExpression = "1=1";
 
     rangesLayer.definitionExpression =
       `species_code = '${currentSpecies.id}'`;
 
-    // Points: filtered by species AND by ISO week of year from observed_on
+    // Points: show all for species by default; filter by week only while playing
     if (pointsLayer) {
-      pointsLayer.definitionExpression =
-        `species_code = '${currentSpecies.id}' AND EXTRACT(WEEK FROM observed_on) = ${currentWeek}`;
+      pointsLayer.definitionExpression = isTemporalActive
+        ? `species_code = '${currentSpecies.id}' AND EXTRACT(WEEK FROM observed_on) = ${currentWeek}`
+        : `species_code = '${currentSpecies.id}'`;
     }
   }
 
@@ -182,12 +183,15 @@ require([
     isPlaying = !isPlaying;
     playBtn.innerHTML = isPlaying ? "⏸" : "▶";
     if (isPlaying) {
+      isTemporalActive = true;
       animTimer = setInterval(() => {
         const next = currentWeek >= CONFIG.totalWeeks ? 1 : currentWeek + 1;
         setWeek(next);
       }, 1000 / CONFIG.animationFps);
     } else {
       clearInterval(animTimer);
+      isTemporalActive = false;
+      updateLayers();   // revert points back to showing all observations
     }
   }
 
@@ -289,7 +293,7 @@ require([
   function showOverview() {
     currentSpecies = null;
     document.querySelectorAll(".species-item").forEach(el => el.classList.remove("active"));
-    if (hexLayer)    { hexLayer.definitionExpression = "1=0"; hexLayer.visible = false; }
+    if (hexLayer)    hexLayer.visible = false;
     if (rangesLayer) rangesLayer.definitionExpression = "1=0";
     if (pointsLayer) pointsLayer.definitionExpression = "1=0";
     if (mapHint) mapHint.style.display = "flex";
@@ -568,14 +572,11 @@ require([
     popupEnabled: false,
   });
 
-  // Hex bin layer — uses published AGOL symbology (gold graduated by Count of Points)
-  hexLayer = new FeatureLayer({
-    url:       CONFIG.services.hexBins,
-    opacity:   1,
-    visible:   false,          // hidden until species selected
-    definitionExpression: "1=0",
-    outFields: ["*"],
-    popupEnabled: false,
+  // Hex bin layer — VectorTileLayer (no definitionExpression; visibility only)
+  hexLayer = new VectorTileLayer({
+    url:     CONFIG.services.hexBins,
+    opacity: 0.85,
+    visible: false,   // shown when a species is selected
   });
 
   // Protection areas layer (always visible — not species-filtered)
