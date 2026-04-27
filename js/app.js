@@ -154,8 +154,8 @@ require([
   function updateLayers() {
     if (!currentSpecies || !hexLayer || !rangesLayer) return;
 
-    // Hexbins: VectorTileLayer — visible only when density map option is active
-    hexLayer.visible = (activeMapOption === "density");
+    // Hexbins: VectorTileLayer — visible only when density map option is active AND toggle is on
+    hexLayer.visible = (activeMapOption === "density") && showHex;
 
     rangesLayer.definitionExpression =
       `species_code = '${currentSpecies.id}'`;
