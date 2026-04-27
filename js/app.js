@@ -649,8 +649,9 @@ require([
     ui: { components: ["zoom"] },
   });
 
-  // ── Scale bar — bottom-left, discrete style ────────────────────────────────
-  view.ui.add(new ScaleBar({ view, unit: "metric", style: "line" }), "bottom-left");
+  // ── Dual scale bar (km + miles) — two stacked widgets ────────────────────
+  view.ui.add(new ScaleBar({ view, unit: "metric",     style: "line" }), "bottom-left");
+  view.ui.add(new ScaleBar({ view, unit: "non-metric", style: "line" }), "bottom-left");
 
   // ── Compass / North arrow — top-left below zoom buttons ──────────────────
   view.ui.add(new Compass({ view }), "top-left");
