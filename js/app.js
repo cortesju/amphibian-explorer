@@ -151,16 +151,17 @@ require([
   function updateLayers() {
     if (!currentSpecies || !hexLayer || !rangesLayer) return;
 
-    hexLayer.definitionExpression =
-      `species_code = '${currentSpecies.id}' AND week = ${currentWeek}`;
+    // Hexbins: new layer has no temporal field — show all, no week filter
+    hexLayer.visible = true;
+    hexLayer.definitionExpression = "1=1";
 
     rangesLayer.definitionExpression =
       `species_code = '${currentSpecies.id}'`;
 
-    // Points show ALL weeks for the species — not filtered by slider
+    // Points: filtered by species AND by ISO week of year from observed_on
     if (pointsLayer) {
       pointsLayer.definitionExpression =
-        `species_code = '${currentSpecies.id}'`;
+        `species_code = '${currentSpecies.id}' AND EXTRACT(WEEK FROM observed_on) = ${currentWeek}`;
     }
   }
 
@@ -288,7 +289,7 @@ require([
   function showOverview() {
     currentSpecies = null;
     document.querySelectorAll(".species-item").forEach(el => el.classList.remove("active"));
-    if (hexLayer)    hexLayer.definitionExpression    = "1=0";
+    if (hexLayer)    { hexLayer.definitionExpression = "1=0"; hexLayer.visible = false; }
     if (rangesLayer) rangesLayer.definitionExpression = "1=0";
     if (pointsLayer) pointsLayer.definitionExpression = "1=0";
     if (mapHint) mapHint.style.display = "flex";
@@ -567,14 +568,13 @@ require([
     popupEnabled: false,
   });
 
-  // Hex bin layer (drawn on top)
+  // Hex bin layer — uses published AGOL symbology (gold graduated by Count of Points)
   hexLayer = new FeatureLayer({
     url:       CONFIG.services.hexBins,
-    renderer:  makeHexRenderer(),
     opacity:   1,
-    visible:   true,
-    definitionExpression: "1=0",  // hidden until species selected
-    outFields: ["species_code", "week", "obs_count", "abund_iso"],
+    visible:   false,          // hidden until species selected
+    definitionExpression: "1=0",
+    outFields: ["*"],
     popupEnabled: false,
   });
 

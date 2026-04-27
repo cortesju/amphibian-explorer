@@ -188,16 +188,13 @@
         <div class="layer-toggle-row">
           <div class="layer-info">
             <div class="layer-name">Observation Density</div>
-            <div class="layer-desc">Weekly abundance per 250 km² cell</div>
-            <div class="legend-row">
-              <div class="legend-hex l1"></div>
-              <div class="legend-hex l2"></div>
-              <div class="legend-hex l3"></div>
-              <div class="legend-hex l4"></div>
-              <div class="legend-hex l5"></div>
-            </div>
-            <div class="legend-labels">
-              <span>Very Low</span><span>Very High</span>
+            <div class="layer-desc">Total iNaturalist records per hexagonal cell</div>
+            <div class="legend-hex-grad">
+              <div class="legend-hex-item"><div class="hex-dot s1"></div><span>0 – 4</span></div>
+              <div class="legend-hex-item"><div class="hex-dot s2"></div><span>5 – 15</span></div>
+              <div class="legend-hex-item"><div class="hex-dot s3"></div><span>16 – 36</span></div>
+              <div class="legend-hex-item"><div class="hex-dot s4"></div><span>37 – 80</span></div>
+              <div class="legend-hex-item"><div class="hex-dot s5"></div><span>81 – 296</span></div>
             </div>
           </div>
           <label class="toggle-switch">
@@ -350,6 +347,7 @@
     <div class="slider-month-labels">
       <span>JAN</span><span>APR</span><span>JUL</span><span>OCT</span><span>DEC</span>
     </div>
+    <div class="slider-sublabel">Filters observation points by week of year</div>
   </div>
 
 </div><!-- /time-slider-bar -->

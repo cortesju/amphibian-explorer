@@ -331,24 +331,23 @@ html, body {
 .layer-name { font-size: 12px; font-weight: 700; color: var(--text-primary); }
 .layer-desc { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
 
-/* Legend */
-.legend-row { display: flex; gap: 4px; margin-top: 8px; align-items: flex-end; height: 20px; }
-.legend-hex {
-  /* Item 11: flat-top hexagon clip-path instead of circle */
+/* Legend — hex density: gold graduated dots matching AGOL symbology */
+.legend-hex-grad {
+  display: flex; flex-direction: column; gap: 4px; margin-top: 8px;
+}
+.legend-hex-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 10px; color: var(--text-muted);
+}
+.hex-dot {
+  border-radius: 50%; flex-shrink: 0;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  border-radius: 0;
-  background: var(--aqua); flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(74, 191, 160, 0.45);
 }
-.legend-hex.l1 { width: 10px; height: 9px;  opacity: 0.35; }
-.legend-hex.l2 { width: 13px; height: 11px; opacity: 0.52; }
-.legend-hex.l3 { width: 16px; height: 14px; opacity: 0.68; }
-.legend-hex.l4 { width: 19px; height: 17px; opacity: 0.82; }
-.legend-hex.l5 { width: 22px; height: 19px; opacity: 1.00; }
-.legend-labels {
-  display: flex; justify-content: space-between; margin-top: 4px;
-  font-size: 9px; color: var(--text-muted);
-}
+.hex-dot.s1 { width: 8px;  height: 7px;  background: #7A6A1A; opacity: 0.70; }
+.hex-dot.s2 { width: 12px; height: 10px; background: #9E8820; opacity: 0.80; }
+.hex-dot.s3 { width: 16px; height: 14px; background: #C4AA28; opacity: 0.88; }
+.hex-dot.s4 { width: 20px; height: 17px; background: #D4B830; opacity: 0.94; }
+.hex-dot.s5 { width: 24px; height: 21px; background: #C89A00; opacity: 1.00; }
 
 .legend-range-item {
   display: flex; align-items: center; gap: 7px;
@@ -498,6 +497,10 @@ input:checked + .toggle-slider::before {
 .slider-month-labels span {
   font-size: 9.5px; color: rgba(74, 191, 160, 0.38);
   font-weight: 700; letter-spacing: 0.8px;
+}
+.slider-sublabel {
+  font-size: 9px; color: rgba(74,191,160,0.35);
+  text-align: center; margin-top: 3px; letter-spacing: 0.3px; font-style: italic;
 }
 
 .migration-band {
