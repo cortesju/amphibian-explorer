@@ -53,7 +53,7 @@ require([
   let hillshadeLayer        = null;
   let biasLayer             = null;
   let conservationLayer     = null;
-  let showHex               = true;
+  let showHex               = false;
   let showRanges            = false;  // off by default
   let showPoints            = true;
   let showProtectionAreas   = true;
