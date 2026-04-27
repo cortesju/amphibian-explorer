@@ -32,7 +32,7 @@ const CONFIG = {
     // ⚠ Paste your published Colombia climate zones FeatureServer URL here:
     // climate: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/colombia_climate_zones/FeatureServer",
 
-    bias:         "",   // paste URL after creating in ArcGIS Pro
+    bias:         "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/CoberturadelaT_Vector/FeatureServer",   // paste URL after creating in ArcGIS Pro
     conservation: "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/SUMHE2/MapServer",   // paste URL after creating in ArcGIS Pro
   },
 

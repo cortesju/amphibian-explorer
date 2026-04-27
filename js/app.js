@@ -257,11 +257,11 @@ require([
     });
   }
 
-  // Item 12 & 13: bias and conservation toggles
-  const biasToggle = document.getElementById("toggle-bias");
-  if (biasToggle) {
-    biasToggle.addEventListener("change", () => {
-      if (biasLayer) biasLayer.visible = biasToggle.checked;
+  // Bias land cover toggle (shown only when Natural Habitat vs Bias card is active)
+  const biasLayerToggle = document.getElementById("toggle-bias-layer");
+  if (biasLayerToggle) {
+    biasLayerToggle.addEventListener("change", () => {
+      if (biasLayer) biasLayer.visible = biasLayerToggle.checked;
     });
   }
   const conservationToggle = document.getElementById("toggle-conservation");
@@ -363,9 +363,13 @@ require([
     if (conservationLayer) conservationLayer.visible = (id === "conservation");
     if (biasLayer)         biasLayer.visible         = (id === "bias");
 
-    // Show/hide distribution legend
+    // Show/hide distribution legend (conservation card)
     const distLegend = document.getElementById("map-distribution-legend");
     if (distLegend) distLegend.style.display = (id === "conservation") ? "block" : "none";
+
+    // Show/hide land cover toggle row (bias card)
+    const biasRow = document.getElementById("row-bias-layer");
+    if (biasRow) biasRow.style.display = (id === "bias") ? "" : "none";
   }
 
   document.querySelectorAll(".map-option-card").forEach(card => {
@@ -737,19 +741,22 @@ require([
     map.add(climateLayer, 1);
   }
 
-  // Item 12: bias layer (under-surveyed areas)
+  // Bias layer — Corine Land Cover (IGAC 2018-2021, FeatureServer)
   if (CONFIG.services.bias) {
     biasLayer = new FeatureLayer({
-      url: CONFIG.services.bias,
-      opacity: 0.55,
-      visible: true,
+      url:     CONFIG.services.bias,
+      opacity: 0.70,
+      visible: false,   // shown only when Natural Habitat vs Bias card is active
       popupEnabled: true,
       popupTemplate: {
-        title: "Under-surveyed Area",
+        title: "Cobertura de la Tierra",
         content: [{ type: "fields", fieldInfos: [
-          { fieldName: "species_name", label: "Species"   },
-          { fieldName: "habitat_type", label: "Habitat"   },
-        ]}]
+          { fieldName: "COBERTURA_N", label: "Cobertura"         },
+          { fieldName: "NIVEL_1",     label: "Grupo principal"    },
+          { fieldName: "AREA_HA",     label: "Área (ha)"          },
+          { fieldName: "PERIMETRO",   label: "Perímetro (m)"      },
+        ]}],
+        overwriteActions: true,
       }
     });
     map.add(biasLayer, 1);

@@ -808,3 +808,30 @@ input:checked + .toggle-slider::before {
 }
 .esri-compass__container { width: 30px !important; height: 30px !important; }
 .esri-icon-compass { font-size: 15px !important; color: #4ABFA0 !important; }
+
+/* ── Corine Land Cover legend ─────────────────────────────────── */
+.corine-legend {
+  margin-top: 8px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.corine-group {
+  margin-bottom: 7px;
+}
+.corine-group:last-child { margin-bottom: 0; }
+.corine-group-hdr {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 9.5px; font-weight: 700; color: var(--text-primary);
+  margin-bottom: 3px;
+}
+.corine-sub {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 9px; color: var(--text-muted);
+  padding-left: 6px; margin-bottom: 2px; line-height: 1.3;
+}
+.corine-sw {
+  width: 10px; height: 10px; border-radius: 2px;
+  flex-shrink: 0; border: 1px solid rgba(255,255,255,0.15);
+}
+.corine-sw.sm {
+  width: 8px; height: 8px;
+}
