@@ -172,6 +172,32 @@
         <!-- Item 11: Divider between basemap and data layers -->
         <hr class="panel-divider">
 
+        <!-- ── Available Maps (mutually exclusive hex / conservation / bias) ── -->
+        <div class="map-options-section">
+          <div class="layer-name" style="margin-bottom:9px;">Available Maps</div>
+          <div class="map-option-cards">
+
+            <div class="map-option-card active" data-map="density" id="map-opt-density">
+              <div class="map-option-icon">⬡</div>
+              <div class="map-option-title">Species<br>Density</div>
+            </div>
+
+            <div class="map-option-card" data-map="conservation" id="map-opt-conservation">
+              <div class="map-option-icon">🛡</div>
+              <div class="map-option-title">Conservation<br>Pressure</div>
+              <div class="map-option-soon" id="map-soon-conservation">Soon</div>
+            </div>
+
+            <div class="map-option-card" data-map="bias" id="map-opt-bias">
+              <div class="map-option-icon">📡</div>
+              <div class="map-option-title">Recording<br>Bias</div>
+              <div class="map-option-soon" id="map-soon-bias">Soon</div>
+            </div>
+
+          </div>
+        </div>
+        <hr class="panel-divider">
+
         <!-- Hillshade toggle -->
         <div class="layer-toggle-row">
           <div class="layer-info">
@@ -283,29 +309,6 @@
           </label>
         </div>
 
-        <!-- Item 12: iNaturalist recording bias -->
-        <div class="layer-toggle-row">
-          <div class="layer-info">
-            <div class="layer-name">Recording Bias</div>
-            <div class="layer-desc">Predicted habitat with no iNaturalist records — likely under-surveyed areas</div>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="toggle-bias" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <!-- Item 13: Conservation challenge hexagons -->
-        <div class="layer-toggle-row">
-          <div class="layer-info">
-            <div class="layer-name">Conservation Pressure</div>
-            <div class="layer-desc">Urban proximity &amp; habitat pressure by region</div>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="toggle-conservation" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
 
       </div><!-- /layers-panel-body -->
     </div><!-- /layers-panel -->

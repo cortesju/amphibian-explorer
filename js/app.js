@@ -152,8 +152,8 @@ require([
   function updateLayers() {
     if (!currentSpecies || !hexLayer || !rangesLayer) return;
 
-    // Hexbins: VectorTileLayer — just toggle visibility, no filtering supported
-    hexLayer.visible = true;
+    // Hexbins: VectorTileLayer — visible only when density map option is active
+    hexLayer.visible = (activeMapOption === "density");
 
     rangesLayer.definitionExpression =
       `species_code = '${currentSpecies.id}'`;
@@ -289,11 +289,38 @@ require([
   document.querySelectorAll(".basemap-btn").forEach(b =>
     b.classList.toggle("active", b.dataset.bm === initialBm));
 
+  // ── Available Maps switcher ───────────────────────────────────────────────
+  let activeMapOption = "density";
+
+  function setMapOption(id) {
+    activeMapOption = id;
+    // Update card UI
+    document.querySelectorAll(".map-option-card").forEach(c =>
+      c.classList.toggle("active", c.dataset.map === id));
+    // Show/hide analytical layers
+    if (hexLayer)          hexLayer.visible          = (id === "density")      && !!currentSpecies;
+    if (conservationLayer) conservationLayer.visible  = (id === "conservation");
+    if (biasLayer)         biasLayer.visible          = (id === "bias");
+  }
+
+  document.querySelectorAll(".map-option-card").forEach(card => {
+    const id = card.dataset.map;
+    // Disable cards whose service URL is not yet configured
+    const urlMap = { density: true, conservation: !!CONFIG.services.conservation, bias: !!CONFIG.services.bias };
+    if (!urlMap[id]) { card.classList.add("disabled"); return; }
+    // Hide "Soon" badge if URL is present
+    const soon = card.querySelector(".map-option-soon");
+    if (soon) soon.style.display = "none";
+    card.addEventListener("click", () => setMapOption(id));
+  });
+
   // ── Overview / hint state ──────────────────────────────────────────────────
   function showOverview() {
     currentSpecies = null;
     document.querySelectorAll(".species-item").forEach(el => el.classList.remove("active"));
-    if (hexLayer)    hexLayer.visible = false;
+    if (hexLayer) hexLayer.visible = false;
+    if (conservationLayer) conservationLayer.visible = (activeMapOption === "conservation");
+    if (biasLayer)         biasLayer.visible         = (activeMapOption === "bias");
     if (rangesLayer) rangesLayer.definitionExpression = "1=0";
     if (pointsLayer) pointsLayer.definitionExpression = "1=0";
     if (mapHint) mapHint.style.display = "flex";

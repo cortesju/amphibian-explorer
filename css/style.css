@@ -565,6 +565,30 @@ input:checked + .toggle-slider::before {
   padding: 10px 0 8px;
   border-bottom: 1px solid var(--border-soft);
 }
+/* ── Available Maps cards ─────────────────────────────────────── */
+.map-options-section { margin-bottom: 4px; }
+.map-option-cards { display: flex; gap: 6px; }
+.map-option-card {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  gap: 5px; padding: 8px 4px 7px;
+  background: rgba(74,191,160,0.04);
+  border: 1.5px solid rgba(74,191,160,0.18);
+  border-radius: 8px; cursor: pointer; text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+.map-option-card:hover  { border-color: rgba(74,191,160,0.45); background: rgba(74,191,160,0.09); }
+.map-option-card.active { border-color: var(--aqua-bright); background: rgba(74,191,160,0.15); }
+.map-option-card.disabled { opacity: 0.45; cursor: default; pointer-events: none; }
+.map-option-icon  { font-size: 18px; line-height: 1; }
+.map-option-title { font-size: 9px; font-weight: 700; color: var(--text-secondary); line-height: 1.3; }
+.map-option-soon  {
+  position: absolute; top: 4px; right: 4px;
+  font-size: 7.5px; font-weight: 700; letter-spacing: 0.3px;
+  background: rgba(74,191,160,0.20); color: var(--aqua);
+  padding: 1px 4px; border-radius: 3px;
+}
+
 .basemap-btn-row { display: flex; gap: 6px; }
 .basemap-btn {
   flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
