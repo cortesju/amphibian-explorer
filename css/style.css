@@ -319,7 +319,17 @@ html, body {
 }
 .layers-panel-header span:first-child { font-size: 12.5px; font-weight: 700; color: var(--text-primary); }
 .layers-panel-header span:last-child  { font-size: 11px; color: var(--text-muted); }
-.layers-panel-body { padding: 10px 12px 12px; }
+.layers-panel-body {
+  padding: 10px 12px 12px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(74,191,160,0.35) transparent;
+}
+.layers-panel-body::-webkit-scrollbar { width: 4px; }
+.layers-panel-body::-webkit-scrollbar-track { background: transparent; }
+.layers-panel-body::-webkit-scrollbar-thumb { background: rgba(74,191,160,0.35); border-radius: 2px; }
+.layers-panel-body::-webkit-scrollbar-thumb:hover { background: rgba(74,191,160,0.60); }
 
 .layer-toggle-row {
   display: flex; align-items: flex-start; justify-content: space-between;
