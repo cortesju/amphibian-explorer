@@ -790,18 +790,21 @@ input:checked + .toggle-slider::before {
 .esri-scale-bar__line { border-color: rgba(200,222,180,0.70) !important; }
 .esri-scale-bar__line--bottom { border-color: rgba(200,222,180,0.70) !important; }
 
-/* ── Compass / North arrow — subtle glass ────────────────────── */
+/* ── Compass / North arrow — top-left, green glass ──────────── */
 .esri-compass {
-  background: rgba(2,10,4,0.55) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(74,191,160,0.22) !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.40) !important;
-  border-radius: 6px !important;
-  opacity: 0.65;
-  transition: opacity 0.2s;
-  width: 28px !important; height: 28px !important;
+  background: rgba(4,30,12,0.70) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1.5px solid rgba(74,191,160,0.45) !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.50), 0 0 8px rgba(74,191,160,0.15) !important;
+  border-radius: 7px !important;
+  opacity: 0.75;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  width: 30px !important; height: 30px !important;
 }
-.esri-compass:hover { opacity: 1; }
-.esri-compass__container { width: 28px !important; height: 28px !important; }
-.esri-icon-compass { font-size: 14px !important; color: rgba(108,220,184,0.85) !important; }
+.esri-compass:hover {
+  opacity: 1;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.55), 0 0 12px rgba(74,191,160,0.30) !important;
+}
+.esri-compass__container { width: 30px !important; height: 30px !important; }
+.esri-icon-compass { font-size: 15px !important; color: #4ABFA0 !important; }

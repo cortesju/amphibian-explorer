@@ -652,8 +652,8 @@ require([
   // ── Scale bar — bottom-left, discrete style ────────────────────────────────
   view.ui.add(new ScaleBar({ view, unit: "metric", style: "line" }), "bottom-left");
 
-  // ── Compass / North arrow — bottom-left above scale bar ───────────────────
-  view.ui.add(new Compass({ view }), "bottom-left");
+  // ── Compass / North arrow — top-left below zoom buttons ──────────────────
+  view.ui.add(new Compass({ view }), "top-left");
 
 
   // Popup auto-open stays ON (default) so point clicks show the popup.
