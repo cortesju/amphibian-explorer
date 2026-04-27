@@ -371,6 +371,10 @@ require([
     // Show/hide land cover toggle row (bias card)
     const biasRow = document.getElementById("row-bias-layer");
     if (biasRow) biasRow.style.display = (id === "bias") ? "" : "none";
+
+    // Show/hide work-in-progress banner (conservation & bias cards)
+    const wipBanner = document.getElementById("wip-banner");
+    if (wipBanner) wipBanner.style.display = (id === "conservation" || id === "bias") ? "block" : "none";
   }
 
   document.querySelectorAll(".map-option-card").forEach(card => {
