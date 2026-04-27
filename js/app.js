@@ -28,12 +28,14 @@ require([
   "esri/geometry/Point",
   "esri/Graphic",
   "esri/layers/GraphicsLayer",
+  "esri/widgets/ScaleBar",
+  "esri/widgets/Compass",
   "esri/core/reactiveUtils",
 ], function (
   Map, Basemap, MapView, FeatureLayer, VectorTileLayer, TileLayer,
   ClassBreaksRenderer, UniqueValueRenderer, SimpleRenderer,
   SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureMarkerSymbol,
-  Extent, Point, Graphic, GraphicsLayer, reactiveUtils
+  Extent, Point, Graphic, GraphicsLayer, ScaleBar, Compass, reactiveUtils
 ) { try {
 
   // ── State ──────────────────────────────────────────────────────────────────
@@ -646,6 +648,12 @@ require([
     zoom:   CONFIG.initialView.zoom,
     ui: { components: ["zoom"] },
   });
+
+  // ── Scale bar — bottom-left, discrete style ────────────────────────────────
+  view.ui.add(new ScaleBar({ view, unit: "metric", style: "line" }), "bottom-left");
+
+  // ── Compass / North arrow — bottom-left above scale bar ───────────────────
+  view.ui.add(new Compass({ view }), "bottom-left");
 
 
   // Popup auto-open stays ON (default) so point clicks show the popup.
