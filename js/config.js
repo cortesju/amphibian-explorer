@@ -20,7 +20,7 @@ const CONFIG = {
   // ── ArcGIS Online Feature Service URLs ────────────────────────────────────
   // All layers must be set to Public (Everyone can view).
   services: {
-    hexBins: "https://vectortileservices1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/Hex_Frog_Summary2/VectorTileServer",
+    hexBins: "https://vectortileservices1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/Hex_Frog_SummaryYellow/VectorTileServer",
     ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges2/FeatureServer",
 
     // ⚠ Paste your published amphibians_points FeatureServer URL here:
@@ -33,7 +33,7 @@ const CONFIG = {
     // climate: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/colombia_climate_zones/FeatureServer",
 
     bias:         "",   // paste URL after creating in ArcGIS Pro
-    conservation: "",   // paste URL after creating in ArcGIS Pro
+    conservation: "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/SUMHE2/MapServer",   // paste URL after creating in ArcGIS Pro
   },
 
   // ── Map view ────────────────────────────────────────────────────────────────

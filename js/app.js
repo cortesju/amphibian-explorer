@@ -683,20 +683,12 @@ require([
     map.add(biasLayer, 1);
   }
 
-  // Item 13: conservation pressure layer
+  // Item 13: conservation pressure layer (MapServer → TileLayer)
   if (CONFIG.services.conservation) {
-    conservationLayer = new FeatureLayer({
-      url: CONFIG.services.conservation,
-      opacity: 0.60,
-      visible: true,
-      popupEnabled: true,
-      popupTemplate: {
-        title: "Conservation Pressure",
-        content: [{ type: "fields", fieldInfos: [
-          { fieldName: "pressure_level",       label: "Pressure Level"       },
-          { fieldName: "urban_proximity_km",   label: "Urban Distance (km)"  },
-        ]}]
-      }
+    conservationLayer = new TileLayer({
+      url:     CONFIG.services.conservation,
+      opacity: 0.80,
+      visible: false,   // shown only when Conservation card is active
     });
     map.add(conservationLayer, 2);
   }
