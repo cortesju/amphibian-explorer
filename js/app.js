@@ -357,7 +357,7 @@ require([
     });
 
     // Show/hide actual map layers
-    if (hexLayer)          hexLayer.visible          = isRecords && !!currentSpecies;
+    if (hexLayer)          hexLayer.visible          = isRecords && showHex && !!currentSpecies;
     if (rangesLayer)       rangesLayer.visible       = isRecords && showRanges && !!currentSpecies;
     if (pointsLayer)       pointsLayer.visible       = isRecords && showPoints;
     if (protectionAreasLayer) protectionAreasLayer.visible = isRecords && showProtectionAreas;
