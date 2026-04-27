@@ -292,6 +292,51 @@ require([
   // ── Available Maps switcher ───────────────────────────────────────────────
   let activeMapOption = "density";
 
+  // Colors assigned alphabetically by scientific name — matches ArcGIS pie chart
+  const SPECIES_DIST_COLORS = {
+    "andinobates_bombetes":           "#26C6DA",
+    "atelopus_laetissimus":           "#1565C0",
+    "atelopus_lozanoi":               "#5C8AE6",
+    "bolitoglossa_ramosi":            "#A5D6A7",
+    "bolitoglossa_vallecula":         "#E53935",
+    "centrolene_savagei":             "#2E7D32",
+    "cochranella_granulosa":          "#FF7043",
+    "colostethus_inguinalis":         "#FFEE58",
+    "dendropsophus_columbianus":      "#F5A623",
+    "dendropsophus_ebraccatus":       "#FBC02D",
+    "espadarana_prosoblepon":         "#8B6914",
+    "hyalinobatrachium_fleischmanni": "#607D8B",
+    "hyalinobatrachium_tatayoi":      "#B0BEC5",
+    "hyalinobatrachium_viridissimum": "#80DEEA",
+    "leptodactylus_insularum":        "#00BCD4",
+    "oedipina_savagei":               "#4E342E",
+    "oophaga_anchicayensis":          "#CE93D8",
+    "oophaga_lehmanni":               "#F48FB1",
+    "oophaga_solanensis":             "#FF8A65",
+    "pristimantis_erythropleura":     "#90CAF9",
+    "pristimantis_mutabilis":         "#6A1B9A",
+    "pristimantis_palmeri":           "#8D6E63",
+    "rheobates_palmatus":             "#795548",
+    "rulyrana_susatamai":             "#7E57C2",
+  };
+
+  function buildDistributionLegend() {
+    const body = document.getElementById("map-distribution-legend-body");
+    if (!body || !speciesList.length) return;
+    const total = speciesList.reduce((s, sp) => s + (sp.obs_count || 0), 0);
+    const sorted = [...speciesList].sort((a, b) => b.obs_count - a.obs_count);
+    body.innerHTML = sorted.map(sp => {
+      const pct  = total > 0 ? ((sp.obs_count / total) * 100).toFixed(1) : "0.0";
+      const color = SPECIES_DIST_COLORS[sp.id] || "#888888";
+      const name  = sp.scientific_name;
+      return `<div class="dist-legend-item">
+        <div class="dist-legend-swatch" style="background:${color}"></div>
+        <div class="dist-legend-name">${name}</div>
+        <div class="dist-legend-pct">${pct}%</div>
+      </div>`;
+    }).join("");
+  }
+
   function setMapOption(id) {
     activeMapOption = id;
     // Update card UI
@@ -301,6 +346,9 @@ require([
     if (hexLayer)          hexLayer.visible          = (id === "density")      && !!currentSpecies;
     if (conservationLayer) conservationLayer.visible  = (id === "conservation");
     if (biasLayer)         biasLayer.visible          = (id === "bias");
+    // Show/hide distribution legend
+    const distLegend = document.getElementById("map-distribution-legend");
+    if (distLegend) distLegend.style.display = (id === "conservation") ? "block" : "none";
   }
 
   document.querySelectorAll(".map-option-card").forEach(card => {
@@ -761,6 +809,7 @@ require([
     .then(data => {
       speciesList = data.species;
       renderSpeciesList(speciesList);
+      buildDistributionLegend();   // pre-build the conservation legend
 
       setWeek(20);  // Start at week 20 (~mid-May, active season)
       showOverview(); // Start in overview — user picks a species
