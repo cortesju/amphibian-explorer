@@ -365,6 +365,15 @@ html, body {
 }
 .legend-range-swatch { width: 16px; height: 12px; border-radius: 3px; flex-shrink: 0; }
 
+/* Protection areas legend — muted green with dot pattern */
+.legend-protection-swatch {
+  width: 16px; height: 12px; border-radius: 3px; flex-shrink: 0;
+  background-color: rgba(90, 140, 100, 0.30);
+  border: 1.5px solid rgba(90, 140, 100, 0.75);
+  background-image: radial-gradient(circle, rgba(90,140,100,0.80) 1.2px, transparent 1.2px);
+  background-size: 4px 4px;
+}
+
 /* Observation point pin — Tear Pin 2: dark green tear, bright yellow circle */
 .legend-point-pin {
   position: relative;

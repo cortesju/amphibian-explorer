@@ -26,7 +26,7 @@ const CONFIG = {
     // ⚠ Paste your published amphibians_points FeatureServer URL here:
     points: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_pointsNew/FeatureServer",
 
-    protectionAreas: "https://vectortileservices1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/Protected_Area/VectorTileServer",
+    protectionAreas: "https://vectortileservices1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/ProtectedArea_ClipLayer/VectorTileServer",
 
     // ⚠ Paste your published Colombia climate zones FeatureServer URL here:
     // climate: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/colombia_climate_zones/FeatureServer",
