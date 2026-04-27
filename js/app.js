@@ -682,32 +682,12 @@ require([
     visible: false,   // shown when a species is selected
   });
 
-  // Protection areas layer (always visible — not species-filtered)
+  // Protection areas layer — VectorTileLayer (VectorTileServer URL)
   if (CONFIG.services.protectionAreas) {
-    protectionAreasLayer = new FeatureLayer({
-      url:      CONFIG.services.protectionAreas,
-      renderer: new SimpleRenderer({
-        symbol: new SimpleFillSymbol({
-          color: [200, 180, 30, 40],                          // warm gold fill, very transparent
-          outline: { color: [200, 180, 30, 200], width: 1.5 } // gold border
-        })
-      }),
-      opacity:   0.85,
-      visible:   true,
-      outFields: ["*"],
-      popupEnabled: true,
-      popupTemplate: {
-        title: "{name}",
-        content: [{
-          type: "fields",
-          fieldInfos: [
-            { fieldName: "category",     label: "Category"          },
-            { fieldName: "area_km2",     label: "Area (km²)"        },
-            { fieldName: "species_count",label: "Amphibian Species"  },
-          ]
-        }],
-        overwriteActions: true,
-      }
+    protectionAreasLayer = new VectorTileLayer({
+      url:     CONFIG.services.protectionAreas,
+      opacity: 0.75,
+      visible: true,
     });
     map.add(protectionAreasLayer, 0);   // drawn below everything else
   }
