@@ -322,11 +322,20 @@ require([
       if (conservationLayer) conservationLayer.visible = showConservationLayer && (activeMapOption === "conservation");
     });
   }
-  const ecosystemsToggle = document.getElementById("toggle-ecosystems");
+  const ecosystemsToggle        = document.getElementById("toggle-ecosystems");
+  const ecosystemsOpacitySlider = document.getElementById("ecosystems-opacity");
+  const ecosystemsOpacityVal    = document.getElementById("ecosystems-opacity-val");
+
   if (ecosystemsToggle) {
     ecosystemsToggle.addEventListener("change", () => {
       showEcosystems = ecosystemsToggle.checked;
       if (ecosystemsLayer) ecosystemsLayer.visible = showEcosystems && (activeMapOption === "conservation");
+    });
+  }
+  if (ecosystemsOpacitySlider) {
+    ecosystemsOpacitySlider.addEventListener("input", () => {
+      if (ecosystemsLayer) ecosystemsLayer.opacity = ecosystemsOpacitySlider.value / 100;
+      ecosystemsOpacityVal.textContent = ecosystemsOpacitySlider.value + "%";
     });
   }
 
@@ -401,7 +410,7 @@ require([
   // Rows exclusive to Species Records — hidden in other map options
   // row-ranges is NOT in this list — precipitation layer is always relevant
   const SPECIES_RECORDS_ROWS   = ["row-hex","row-points","row-points-slider","row-protection"];
-  const CONSERVATION_ROWS      = ["row-ecosystems","row-conservation-layer"];
+  const CONSERVATION_ROWS      = ["row-ecosystems","row-ecosystems-slider","row-conservation-layer"];
 
   function setMapOption(id) {
     activeMapOption = id;
@@ -842,7 +851,7 @@ require([
     ecosystemsLayer = new FeatureLayer({
       url:      CONFIG.services.ecosystems,
       // No renderer override — uses the symbology published in ArcGIS Online
-      opacity:  0.85,
+      opacity:  0.75,   // matches the default slider value (75%)
       visible:  false,   // shown only when Conservation card is active
       outFields: ["TIPO_BIOMA"],
       popupEnabled: true,
