@@ -341,6 +341,20 @@ html, body {
 .layer-name { font-size: 12px; font-weight: 700; color: var(--text-primary); }
 .layer-desc { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
 
+/* ── Precipitation legend ─────────────────────────────────────── */
+.precip-legend {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3px 10px;
+  margin-top: 7px;
+}
+.precip-row {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; color: var(--text-secondary);
+}
+.precip-sw {
+  width: 14px; height: 10px; border-radius: 2px; flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
 /* Legend — hex density: gold graduated dots matching AGOL symbology */
 .legend-hex-grad {
   display: flex; flex-direction: column; gap: 4px; margin-top: 8px;

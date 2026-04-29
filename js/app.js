@@ -125,41 +125,49 @@ require([
     });
   }
 
-  // ── Build seasonal range renderer ─────────────────────────────────────────
+  // ── Build precipitation range renderer ───────────────────────────────────
+  // Matches the "rango" field (annual precipitation mm/yr) published from ArcGIS Pro.
+  // Colors replicate the ArcGIS Pro symbology exactly — edit here if you change it.
   function makeRangesRenderer() {
-    const sc = CONFIG.seasonColors;
-    const makeSymbol = (key) => new SimpleFillSymbol({
-      color: sc[key].fill,
-      outline: {
-        color: sc[key].outline,
-        width: 1,
-      }
-    });
+    const precipClasses = [
+      { value: "0-500",        color: [122, 18,  8,  190], outline: [90,  10,  5,  210] },
+      { value: "500 - 1000",   color: [212, 80,  16, 190], outline: [175, 55,  8,  210] },
+      { value: "1000 - 1500",  color: [232, 120, 32, 190], outline: [195, 90, 18,  210] },
+      { value: "1500 - 2000",  color: [245, 192, 112,190], outline: [215, 160, 75, 210] },
+      { value: "2000 - 2500",  color: [248, 240, 160,190], outline: [218, 210,118, 210] },
+      { value: "2500 - 3000",  color: [168, 216, 112,190], outline: [128, 178, 75, 210] },
+      { value: "3000 - 4000",  color: [120, 208, 192,190], outline: [78,  168,152, 210] },
+      { value: "4000 - 5000",  color: [128, 184, 224,190], outline: [88,  142,188, 210] },
+      { value: "5000 - 7000",  color: [56,  128, 192,190], outline: [28,  92, 158, 210] },
+      { value: "7000 - 9000",  color: [32,  80,  160,190], outline: [18,  52, 128, 210] },
+      { value: "9000 - 11000", color: [8,   32,  96, 190], outline: [4,   18,  64, 210] },
+    ];
 
     return new UniqueValueRenderer({
-      field: "season",
-      uniqueValueInfos: Object.keys(sc).map(key => ({
-        value: key,
-        symbol: makeSymbol(key),
-        label: sc[key].label,
+      field: "rango",
+      uniqueValueInfos: precipClasses.map(cls => ({
+        value:  cls.value,
+        symbol: new SimpleFillSymbol({
+          color:   cls.color,
+          outline: { color: cls.outline, width: 0.5 }
+        }),
+        label: cls.value + " mm/yr",
       })),
       defaultSymbol: new SimpleFillSymbol({
-        color: [200,200,200,60],
-        outline: { color: [150,150,150,180], width: 0.5 }
+        color: [200, 200, 200, 40],
+        outline: { color: [150, 150, 150, 80], width: 0.5 }
       })
     });
   }
 
   // ── Update layers for current species + week ───────────────────────────────
   function updateLayers() {
-    if (!currentSpecies || !hexLayer || !rangesLayer) return;
+    if (!currentSpecies || !hexLayer) return;
 
-    // Hexbins: VectorTileLayer — visible only when density map option is active AND toggle is on
+    // Hexbins: visible only when density card is active AND toggle is on
     hexLayer.visible = (activeMapOption === "density") && showHex;
 
-    rangesLayer.visible = (activeMapOption === "density") && showRanges;
-    rangesLayer.definitionExpression =
-      `species_code = '${currentSpecies.id}'`;
+    // rangesLayer is precipitation zones — always visible per its own toggle, not species-filtered
 
     // Points: show all for species by default; filter by week only while playing
     if (pointsLayer) {
@@ -341,7 +349,8 @@ require([
   }
 
   // Rows exclusive to Species Records — hidden in other map options
-  const SPECIES_RECORDS_ROWS = ["row-hex","row-ranges","row-points","row-points-slider","row-protection"];
+  // row-ranges is NOT in this list — precipitation layer is always relevant
+  const SPECIES_RECORDS_ROWS = ["row-hex","row-points","row-points-slider","row-protection"];
 
   function setMapOption(id) {
     activeMapOption = id;
@@ -358,7 +367,7 @@ require([
 
     // Show/hide actual map layers
     if (hexLayer)          hexLayer.visible          = isRecords && showHex && !!currentSpecies;
-    if (rangesLayer)       rangesLayer.visible       = isRecords && showRanges && !!currentSpecies;
+    if (rangesLayer)       rangesLayer.visible       = showRanges;   // precipitation: always visible when toggle is on
     if (pointsLayer)       pointsLayer.visible       = isRecords && showPoints;
     if (protectionAreasLayer) protectionAreasLayer.visible = isRecords && showProtectionAreas;
     if (conservationLayer) conservationLayer.visible = (id === "conservation");
@@ -395,7 +404,6 @@ require([
     if (hexLayer) hexLayer.visible = false;
     if (conservationLayer) conservationLayer.visible = (activeMapOption === "conservation");
     if (biasLayer)         biasLayer.visible         = (activeMapOption === "bias");
-    if (rangesLayer) rangesLayer.definitionExpression = "1=0";
     if (pointsLayer) pointsLayer.definitionExpression = "1=0";
     if (mapHint) mapHint.style.display = "flex";
   }
@@ -669,15 +677,25 @@ require([
   // Popup auto-open stays ON (default) so point clicks show the popup.
   // Hex + ranges layers have popupEnabled:false so they won't interfere.
 
-  // Seasonal ranges layer (drawn first = bottom)
+  // Precipitation zones layer — Colombia-wide annual rainfall (mm/yr).
+  // Always visible; not filtered by species.
   rangesLayer = new FeatureLayer({
-    url:        CONFIG.services.ranges,
-    renderer:   makeRangesRenderer(),
-    opacity:    0.50,
-    visible:    true,
-    definitionExpression: "1=0",   // hidden until species selected
-    outFields:  ["species_code", "season", "season_label", "obs_count"],
-    popupEnabled: false,
+    url:      CONFIG.services.ranges,
+    renderer: makeRangesRenderer(),
+    opacity:  0.60,
+    visible:  true,
+    outFields: ["rango"],
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Annual Precipitation Zone",
+      content: [{
+        type: "fields",
+        fieldInfos: [
+          { fieldName: "rango", label: "Rainfall Range (mm / yr)" },
+        ]
+      }],
+      overwriteActions: true,
+    }
   });
 
   // Hex bin layer — VectorTileLayer (no definitionExpression; visibility only)
