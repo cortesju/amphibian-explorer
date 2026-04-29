@@ -841,8 +841,8 @@ require([
   if (CONFIG.services.ecosystems) {
     ecosystemsLayer = new FeatureLayer({
       url:      CONFIG.services.ecosystems,
-      renderer: makeEcosystemsRenderer(),
-      opacity:  0.72,
+      // No renderer override — uses the symbology published in ArcGIS Online
+      opacity:  0.85,
       visible:  false,   // shown only when Conservation card is active
       outFields: ["TIPO_BIOMA"],
       popupEnabled: true,
