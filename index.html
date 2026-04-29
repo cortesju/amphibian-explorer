@@ -255,6 +255,29 @@
           </label>
         </div>
 
+        <!-- Observations points toggle -->
+        <div class="layer-toggle-row" id="row-points">
+          <div class="layer-info">
+            <div class="layer-name">Observations</div>
+            <div class="layer-desc">iNaturalist records — click any dot for photo &amp; details</div>
+            <div class="legend-range-item">
+              <div class="legend-point-pin"></div>
+              Individual iNaturalist observation
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-points" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="layer-sliders" id="row-points-slider">
+          <div class="layer-slider-row">
+            <span class="slider-label">Opacity</span>
+            <input type="range" id="points-opacity" min="0" max="100" value="63" class="layer-range">
+            <span class="slider-val" id="points-opacity-val">63%</span>
+          </div>
+        </div>
+
         <!-- Hex bin toggle -->
         <div class="layer-toggle-row" id="row-hex">
           <div class="layer-info">
@@ -274,7 +297,23 @@
           </label>
         </div>
 
-        <!-- Annual Precipitation toggle -->
+        <!-- Protection areas toggle -->
+        <div class="layer-toggle-row" id="row-protection">
+          <div class="layer-info">
+            <div class="layer-name">Protection Areas</div>
+            <div class="layer-desc">Zones with highest amphibian concentration</div>
+            <div class="legend-range-item">
+              <div class="legend-protection-swatch"></div>
+              Protected habitat
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-protection-areas" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Annual Precipitation toggle — default OFF -->
         <div class="layer-toggle-row" id="row-ranges">
           <div class="layer-info">
             <div class="layer-name">Annual Precipitation</div>
@@ -294,47 +333,7 @@
             </div>
           </div>
           <label class="toggle-switch">
-            <input type="checkbox" id="toggle-ranges">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <!-- Observations points toggle -->
-        <div class="layer-toggle-row" id="row-points">
-          <div class="layer-info">
-            <div class="layer-name">Observations</div>
-            <div class="layer-desc">iNaturalist records — click any dot for photo &amp; details</div>
-            <div class="legend-range-item">
-              <div class="legend-point-pin"></div>
-              Individual iNaturalist observation
-            </div>
-
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="toggle-points" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        <div class="layer-sliders" id="row-points-slider">
-          <div class="layer-slider-row">
-            <span class="slider-label">Opacity</span>
-            <input type="range" id="points-opacity" min="0" max="100" value="63" class="layer-range">
-            <span class="slider-val" id="points-opacity-val">63%</span>
-          </div>
-        </div>
-
-        <!-- Protection areas toggle -->
-        <div class="layer-toggle-row" id="row-protection">
-          <div class="layer-info">
-            <div class="layer-name">Protection Areas</div>
-            <div class="layer-desc">Zones with highest amphibian concentration</div>
-            <div class="legend-range-item">
-              <div class="legend-protection-swatch"></div>
-              Protected habitat
-            </div>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="toggle-protection-areas" checked>
+            <input type="checkbox" id="toggle-ranges"><!-- OFF by default -->
             <span class="toggle-slider"></span>
           </label>
         </div>

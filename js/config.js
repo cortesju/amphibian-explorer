@@ -35,7 +35,7 @@ const CONFIG = {
     conservation: "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/SUMHE2/MapServer",
 
     // ⚠ Paste your published Etter_EcosistemasGenerales FeatureServer URL here:
-    ecosystems: null,   // e.g. "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/Etter_EcosistemasGenerales/FeatureServer"
+    ecosystems: null,   // e.g. "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/EcoColombia/FeatureServer"
   },
 
   // ── Map view ────────────────────────────────────────────────────────────────
