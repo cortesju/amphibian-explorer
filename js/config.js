@@ -21,7 +21,7 @@ const CONFIG = {
   // All layers must be set to Public (Everyone can view).
   services: {
     hexBins: "https://vectortileservices1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/Hex_Frog_SummaryYellow/VectorTileServer",
-    ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_ranges2/FeatureServer",
+    ranges:  "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/ColombiaAvrgRaining/FeatureServer",
 
     // ⚠ Paste your published amphibians_points FeatureServer URL here:
     points: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/amphibians_pointsNew/FeatureServer",
@@ -31,8 +31,11 @@ const CONFIG = {
     // ⚠ Paste your published Colombia climate zones FeatureServer URL here:
     // climate: "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/colombia_climate_zones/FeatureServer",
 
-    bias:         "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/CoberturadelaT_Vector/FeatureServer",   // paste URL after creating in ArcGIS Pro
-    conservation: "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/SUMHE2/MapServer",   // paste URL after creating in ArcGIS Pro
+    bias:         "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/CoberturadelaT_Vector/FeatureServer",
+    conservation: "https://tiles.arcgis.com/tiles/ZIL9uO234SBBPGL7/arcgis/rest/services/SUMHE2/MapServer",
+
+    // ⚠ Paste your published Etter_EcosistemasGenerales FeatureServer URL here:
+    ecosystems: null,   // e.g. "https://services1.arcgis.com/ZIL9uO234SBBPGL7/arcgis/rest/services/Etter_EcosistemasGenerales/FeatureServer"
   },
 
   // ── Map view ────────────────────────────────────────────────────────────────

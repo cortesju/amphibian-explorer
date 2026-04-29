@@ -53,8 +53,11 @@ require([
   let hillshadeLayer        = null;
   let biasLayer             = null;
   let conservationLayer     = null;
+  let ecosystemsLayer       = null;
   let showHex               = false;
   let showRanges            = false;  // off by default
+  let showEcosystems        = true;
+  let showConservationLayer = true;
   let showPoints            = true;
   let showProtectionAreas   = true;
   let showClimate           = true;
@@ -156,6 +159,44 @@ require([
       defaultSymbol: new SimpleFillSymbol({
         color: [200, 200, 200, 40],
         outline: { color: [150, 150, 150, 80], width: 0.5 }
+      })
+    });
+  }
+
+  // ── Build ecosystems renderer (Etter_EcosistemasGenerales · TIPO_BIOMA) ────
+  // Colors extracted from ArcGIS Pro symbology. Field values are in Spanish;
+  // English labels appear in the map legend. Update colors here if you change the
+  // symbology in ArcGIS Pro / AGOL.
+  function makeEcosystemsRenderer() {
+    const biomes = [
+      { value: "GENERAL",
+        color: [196, 192, 136, 210], label: "General" },
+      { value: "OROBIOMAS ANDINOS DEL ZONOBIOMA DE BOSQUE HÚMEDO TROPICAL",
+        color: [27, 94, 32, 210],   label: "Andean Orobiomes – Tropical Humid Forest" },
+      { value: "OROBIOMAS DEL ZONOBIOMA DE BOSQUE HÚMEDO TROPICAL",
+        color: [118, 196, 66, 210], label: "Orobiomes – Tropical Humid Forest" },
+      { value: "PEDOBIOMAS Y HELOBIOMAS DEL ZONOBIOMA DE BOSQUE HÚMEDO TROPICAL",
+        color: [61, 122, 24, 210],  label: "Pedobiomes & Helobiomes – Tropical Humid Forest" },
+      { value: "ZONOBIOMA DE DESIERTO TROPICAL",
+        color: [232, 216, 64, 210], label: "Tropical Desert Zonobiome" },
+      { value: "ZONOBIOMA DEL BOSQUE HÚMEDO TROPICAL",
+        color: [104, 184, 48, 210], label: "Tropical Humid Forest Zonobiome" },
+      { value: "ZONOBIOMA DEL BOSQUE SECO TROPICAL",
+        color: [168, 168, 64, 210], label: "Tropical Dry Forest Zonobiome" },
+    ];
+    return new UniqueValueRenderer({
+      field: "TIPO_BIOMA",
+      uniqueValueInfos: biomes.map(b => ({
+        value:  b.value,
+        symbol: new SimpleFillSymbol({
+          color:   b.color,
+          outline: { color: [b.color[0]*0.65|0, b.color[1]*0.65|0, b.color[2]*0.65|0, 180], width: 0.3 }
+        }),
+        label: b.label,
+      })),
+      defaultSymbol: new SimpleFillSymbol({
+        color: [128, 128, 128, 50],
+        outline: { color: [100, 100, 100, 80], width: 0.3 }
       })
     });
   }
@@ -273,10 +314,19 @@ require([
       if (biasLayer) biasLayer.visible = biasLayerToggle.checked;
     });
   }
-  const conservationToggle = document.getElementById("toggle-conservation");
-  if (conservationToggle) {
-    conservationToggle.addEventListener("change", () => {
-      if (conservationLayer) conservationLayer.visible = conservationToggle.checked;
+  // Conservation-card layer toggles
+  const conservationLayerToggle = document.getElementById("toggle-conservation-layer");
+  if (conservationLayerToggle) {
+    conservationLayerToggle.addEventListener("change", () => {
+      showConservationLayer = conservationLayerToggle.checked;
+      if (conservationLayer) conservationLayer.visible = showConservationLayer && (activeMapOption === "conservation");
+    });
+  }
+  const ecosystemsToggle = document.getElementById("toggle-ecosystems");
+  if (ecosystemsToggle) {
+    ecosystemsToggle.addEventListener("change", () => {
+      showEcosystems = ecosystemsToggle.checked;
+      if (ecosystemsLayer) ecosystemsLayer.visible = showEcosystems && (activeMapOption === "conservation");
     });
   }
 
@@ -350,7 +400,8 @@ require([
 
   // Rows exclusive to Species Records — hidden in other map options
   // row-ranges is NOT in this list — precipitation layer is always relevant
-  const SPECIES_RECORDS_ROWS = ["row-hex","row-points","row-points-slider","row-protection"];
+  const SPECIES_RECORDS_ROWS   = ["row-hex","row-points","row-points-slider","row-protection"];
+  const CONSERVATION_ROWS      = ["row-ecosystems","row-conservation-layer"];
 
   function setMapOption(id) {
     activeMapOption = id;
@@ -358,32 +409,42 @@ require([
     document.querySelectorAll(".map-option-card").forEach(c =>
       c.classList.toggle("active", c.dataset.map === id));
 
-    // Show/hide layer toggle rows that belong only to Species Records
-    const isRecords = (id === "density");
+    const isRecords      = (id === "density");
+    const isConservation = (id === "conservation");
+    const isBias         = (id === "bias");
+
+    // Show/hide Species Records layer toggle rows
     SPECIES_RECORDS_ROWS.forEach(rowId => {
       const el = document.getElementById(rowId);
       if (el) el.style.display = isRecords ? "" : "none";
     });
 
+    // Show/hide Conservation card layer toggle rows
+    CONSERVATION_ROWS.forEach(rowId => {
+      const el = document.getElementById(rowId);
+      if (el) el.style.display = isConservation ? "" : "none";
+    });
+
     // Show/hide actual map layers
     if (hexLayer)          hexLayer.visible          = isRecords && showHex && !!currentSpecies;
-    if (rangesLayer)       rangesLayer.visible       = showRanges;   // precipitation: always visible when toggle is on
+    if (rangesLayer)       rangesLayer.visible       = showRanges;
     if (pointsLayer)       pointsLayer.visible       = isRecords && showPoints;
     if (protectionAreasLayer) protectionAreasLayer.visible = isRecords && showProtectionAreas;
-    if (conservationLayer) conservationLayer.visible = (id === "conservation");
-    if (biasLayer)         biasLayer.visible         = (id === "bias");
+    if (conservationLayer) conservationLayer.visible = isConservation && showConservationLayer;
+    if (ecosystemsLayer)   ecosystemsLayer.visible   = isConservation && showEcosystems;
+    if (biasLayer)         biasLayer.visible         = isBias;
 
     // Show/hide distribution legend (conservation card)
     const distLegend = document.getElementById("map-distribution-legend");
-    if (distLegend) distLegend.style.display = (id === "conservation") ? "block" : "none";
+    if (distLegend) distLegend.style.display = isConservation ? "block" : "none";
 
     // Show/hide land cover toggle row (bias card)
     const biasRow = document.getElementById("row-bias-layer");
-    if (biasRow) biasRow.style.display = (id === "bias") ? "" : "none";
+    if (biasRow) biasRow.style.display = isBias ? "" : "none";
 
     // Show/hide work-in-progress banner (conservation & bias cards)
     const wipBanner = document.getElementById("wip-banner");
-    if (wipBanner) wipBanner.style.display = (id === "conservation" || id === "bias") ? "block" : "none";
+    if (wipBanner) wipBanner.style.display = (isConservation || isBias) ? "block" : "none";
   }
 
   document.querySelectorAll(".map-option-card").forEach(card => {
@@ -765,7 +826,7 @@ require([
     map.add(biasLayer, 1);
   }
 
-  // Item 13: conservation pressure layer (MapServer → TileLayer)
+  // Conservation pressure layer (MapServer → TileLayer)
   if (CONFIG.services.conservation) {
     conservationLayer = new TileLayer({
       url:     CONFIG.services.conservation,
@@ -773,6 +834,28 @@ require([
       visible: false,   // shown only when Conservation card is active
     });
     map.add(conservationLayer, 2);
+  }
+
+  // General Ecosystems layer (Etter_EcosistemasGenerales · TIPO_BIOMA)
+  // Paste the FeatureServer URL in config.js → services.ecosystems to activate.
+  if (CONFIG.services.ecosystems) {
+    ecosystemsLayer = new FeatureLayer({
+      url:      CONFIG.services.ecosystems,
+      renderer: makeEcosystemsRenderer(),
+      opacity:  0.72,
+      visible:  false,   // shown only when Conservation card is active
+      outFields: ["TIPO_BIOMA"],
+      popupEnabled: true,
+      popupTemplate: {
+        title: "Ecosystem",
+        content: [{
+          type: "fields",
+          fieldInfos: [{ fieldName: "TIPO_BIOMA", label: "Biome Type" }]
+        }],
+        overwriteActions: true,
+      }
+    });
+    map.add(ecosystemsLayer, 2);   // below conservation pressure
   }
 
   // Ranges + hex added first so points layer renders on top

@@ -201,10 +201,43 @@
 
           </div>
 
-          <!-- Distribution legend — shown when Conservation Pressure is active -->
+          <!-- Distribution legend — shown when Conservation card is active -->
           <div id="map-distribution-legend" style="display:none; margin-top:12px;">
             <div class="layer-name" style="font-size:10px; margin-bottom:6px;">Species Distribution &amp; Count</div>
             <div id="map-distribution-legend-body"></div>
+          </div>
+
+          <!-- General Ecosystems toggle — conservation card only -->
+          <div class="layer-toggle-row cons-row" id="row-ecosystems" style="display:none; margin-top:8px; border-top:1px solid var(--border-soft); padding-top:8px;">
+            <div class="layer-info">
+              <div class="layer-name">General Ecosystems</div>
+              <div class="layer-desc">Colombia biome types · Etter et al.</div>
+              <div class="eco-legend">
+                <div class="eco-row"><div class="eco-sw" style="background:#C4C088"></div><span>General</span></div>
+                <div class="eco-row"><div class="eco-sw" style="background:#1B5E20"></div><span>Andean Orobiomes – Humid Forest</span></div>
+                <div class="eco-row"><div class="eco-sw" style="background:#76C442"></div><span>Orobiomes – Humid Forest</span></div>
+                <div class="eco-row"><div class="eco-sw" style="background:#3D7A18"></div><span>Pedobiomes &amp; Helobiomes – Humid Forest</span></div>
+                <div class="eco-row"><div class="eco-sw" style="background:#E8D840"></div><span>Tropical Desert Zonobiome</span></div>
+                <div class="eco-row"><div class="eco-sw" style="background:#68B830"></div><span>Tropical Humid Forest Zonobiome</span></div>
+                <div class="eco-row"><div class="eco-sw" style="background:#A8A840"></div><span>Tropical Dry Forest Zonobiome</span></div>
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-ecosystems" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <!-- Conservation Pressure toggle — conservation card only -->
+          <div class="layer-toggle-row cons-row" id="row-conservation-layer" style="display:none; border-bottom:none; padding-bottom:0;">
+            <div class="layer-info">
+              <div class="layer-name">Conservation Pressure</div>
+              <div class="layer-desc">Urban proximity &amp; habitat pressure index</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-conservation-layer" checked>
+              <span class="toggle-slider"></span>
+            </label>
           </div>
 
         </div>
