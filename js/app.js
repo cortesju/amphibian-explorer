@@ -743,8 +743,8 @@ require([
   rangesLayer = new FeatureLayer({
     url:      CONFIG.services.ranges,
     renderer: makeRangesRenderer(),
-    opacity:  0.60,
-    visible:  true,
+    opacity:  0.42,
+    visible:  false,   // off by default — matches showRanges = false and unchecked toggle
     outFields: ["rango"],
     popupEnabled: true,
     popupTemplate: {
