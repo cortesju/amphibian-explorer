@@ -456,6 +456,18 @@ require([
       showEcosystems = false;
       const ecoChk = document.getElementById("toggle-ecosystems");
       if (ecoChk) ecoChk.checked = false;
+
+      // SUMHE2/MapServer tile cache is generated starting at zoom level 7.
+      // If the user is zoomed out past that threshold the layer appears empty,
+      // so animate in smoothly to zoom 7 centered on Colombia.
+      // If the user is already zoomed in further we leave their position alone.
+      const CONSERVATION_MIN_ZOOM = 7;
+      if (view && view.ready && view.zoom < CONSERVATION_MIN_ZOOM) {
+        view.goTo(
+          { center: CONFIG.initialView.center, zoom: CONSERVATION_MIN_ZOOM },
+          { duration: 1200, easing: "ease-in-out" }
+        );
+      }
     }
 
     // Show/hide actual map layers
