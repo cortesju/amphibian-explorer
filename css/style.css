@@ -1063,35 +1063,31 @@ input:checked + .toggle-slider::before {
 }
 
 /* ── References & Data Sources ─────────────────────────────── */
+/* Button lives in .app-header flex row — pushed to far right */
 .refs-btn {
-  position: absolute;
-  top: 14px;
-  right: 282px; /* 14px margin + 256px layers-panel + 12px gap */
-  z-index: 51;
+  margin-left: auto;   /* pushes to far right within header flex */
+  flex-shrink: 0;
   display: flex; align-items: center; gap: 5px;
-  padding: 7px 11px 7px 9px;
-  background: rgba(3, 12, 6, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  padding: 6px 11px 6px 9px;
+  background: rgba(74, 191, 160, 0.06);
   border: 1px solid rgba(74, 191, 160, 0.28);
   border-radius: 8px;
-  color: rgba(74, 191, 160, 0.58);
+  color: rgba(74, 191, 160, 0.60);
   font-family: var(--font);
   font-size: 11px; font-weight: 600;
   letter-spacing: 0.3px;
   cursor: pointer;
   transition: color 0.22s, border-color 0.22s, background 0.22s, box-shadow 0.22s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.45);
   white-space: nowrap;
 }
 .refs-btn:hover {
   color: var(--aqua-bright);
-  border-color: rgba(74, 191, 160, 0.58);
-  background: rgba(3, 12, 6, 0.94);
-  box-shadow: 0 0 14px rgba(74, 191, 160, 0.13), 0 2px 8px rgba(0,0,0,0.45);
+  border-color: rgba(74, 191, 160, 0.55);
+  background: rgba(74, 191, 160, 0.12);
+  box-shadow: 0 0 12px rgba(74, 191, 160, 0.14);
 }
 .refs-btn svg {
-  width: 13px; height: 13px; flex-shrink: 0; opacity: 0.78;
+  width: 13px; height: 13px; flex-shrink: 0; opacity: 0.75;
   transition: opacity 0.22s;
 }
 .refs-btn:hover svg { opacity: 1; }
@@ -1252,12 +1248,10 @@ a.refs-item .refs-title::after {
 
 /* ── Mobile overrides for refs panel ─────────────────────────── */
 @media (max-width: 768px) {
-  /* On mobile the layers panel becomes a bottom sheet —
-     top-right area is free, so bring the button there */
-  .refs-btn {
-    top: 14px;
-    right: 14px;
-  }
+  /* Shrink to icon-only so header doesn't crowd; label hidden */
+  .refs-btn-label { display: none; }
+  .refs-btn { padding: 6px 9px; margin-left: 0; }
+
   .refs-panel {
     top: calc(var(--header-height) + 8px);
     right: 8px; left: 8px;

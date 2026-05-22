@@ -27,8 +27,20 @@
 <header class="app-header">
   <div class="logo"><img src="mim.png" alt="frog" class="logo-img"> <span>Colombia</span> Amphibian Explorer</div>
   <div class="subtitle">Temporal distribution of endemic &amp; threatened amphibians · iNaturalist</div>
+  <!-- Sources button lives in the header, pushed right via margin-left:auto -->
+  <button class="refs-btn" id="refs-btn"
+          aria-label="References &amp; Data Sources"
+          title="References &amp; Data Sources">
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <rect x="2.5" y="1.5" width="9" height="13" rx="1.2"
+            stroke="currentColor" stroke-width="1.3"/>
+      <path d="M5 5h5M5 7.5h5M5 10h3.5"
+            stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    <span class="refs-btn-label">Sources</span>
+  </button>
   <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle species list"
-          style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;">☰</button>
+          style="background:none;border:none;font-size:20px;cursor:pointer;">☰</button>
 </header>
 
 <!-- ── Main layout ─────────────────────────────────────────────── -->
@@ -436,20 +448,6 @@
       &nbsp;·&nbsp; Basemap: <a href="https://www.esri.com" target="_blank" rel="noopener" style="color:#C0392B;text-decoration:none;">Esri</a>
       &nbsp;·&nbsp; IUCN: <a href="https://www.iucnredlist.org" target="_blank" rel="noopener" style="color:#C0392B;text-decoration:none;">Red List</a>
     </div>
-
-    <!-- ── References & Data Sources ──────────────────────────── -->
-    <button class="refs-btn" id="refs-btn"
-            aria-label="References &amp; Data Sources"
-            title="References &amp; Data Sources">
-      <!-- book icon -->
-      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <rect x="2.5" y="1.5" width="9" height="13" rx="1.2"
-              stroke="currentColor" stroke-width="1.3"/>
-        <path d="M5 5h5M5 7.5h5M5 10h3.5"
-              stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-      </svg>
-      Sources
-    </button>
 
     <!-- References panel (fixed overlay) -->
     <div class="refs-panel" id="refs-panel" aria-hidden="true">
