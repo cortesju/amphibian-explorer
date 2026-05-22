@@ -31,11 +31,12 @@
           style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;">☰</button>
 </header>
 
-<!-- Backdrop overlay — taps it to close sidebar on mobile -->
-<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
-
 <!-- ── Main layout ─────────────────────────────────────────────── -->
 <div class="app-layout">
+  <!-- Backdrop inside app-layout so it shares the same stacking context
+       as the sidebar. backdrop z-index:999 < sidebar z-index:1000 only
+       works when both are in the SAME stacking context. -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 
   <!-- ── Sidebar ─────────────────────────────────────────────── -->
   <aside class="sidebar" id="sidebar">
@@ -500,14 +501,14 @@
   const _mToggle  = document.getElementById("mobile-toggle");
   const _xBtn     = document.getElementById("drawer-close");
 
-  function openSidebar() {
+  window.openSidebar = function openSidebar() {
     _sidebar.classList.add("mobile-open");
     _backdrop.classList.add("active");
     _mToggle.classList.add("active");
     _mToggle.setAttribute("aria-expanded", "true");
-    // Prevent background page scroll while drawer is open
+    // Lock body scroll on mobile (drawer handles its own internal scroll)
     document.body.style.overflow = "hidden";
-  }
+  };
 
   // Exported so app.js can call it after a species is selected
   window.closeSidebar = function closeSidebar() {
@@ -520,10 +521,18 @@
 
   _mToggle.setAttribute("aria-expanded", "false");
   _mToggle.addEventListener("click", () =>
-    _sidebar.classList.contains("mobile-open") ? window.closeSidebar() : openSidebar()
+    _sidebar.classList.contains("mobile-open") ? window.closeSidebar() : window.openSidebar()
   );
   _backdrop.addEventListener("click", window.closeSidebar);
   if (_xBtn) _xBtn.addEventListener("click", window.closeSidebar);
+
+  // ── Intro card opens the drawer on mobile ────────────────────────
+  const _mapHint = document.getElementById("map-hint");
+  if (_mapHint) {
+    _mapHint.addEventListener("click", () => {
+      if (window.innerWidth <= 768) window.openSidebar();
+    });
+  }
 
   // Escape key closes the drawer (accessibility)
   document.addEventListener("keydown", e => {

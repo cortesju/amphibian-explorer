@@ -802,8 +802,46 @@ input:checked + .toggle-slider::before {
   .drawer-close-btn:hover { background: rgba(74,191,160,0.18);
                              border-color: var(--aqua-bright); }
 
+  /* Species list — scrollable with momentum on iOS */
+  .species-list {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    pointer-events: auto;
+  }
+  /* Species detail scroll */
+  .species-detail {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Intro card — tappable on mobile to open species drawer */
+  .map-hint { pointer-events: none; }
+  .map-hint-inner {
+    pointer-events: auto;
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+  }
+  .map-hint-inner:active {
+    box-shadow: 0 0 50px rgba(74,191,160,0.26), 0 8px 40px rgba(0,0,0,0.7),
+                inset 0 1px 0 rgba(108,220,184,0.15);
+  }
+  /* Replace the ← arrow hint with a mobile-appropriate one */
+  .map-hint-arrow { font-size: 0; }
+  .map-hint-arrow::after {
+    content: "☰  Tap to choose a species";
+    font-size: 12px; font-weight: 600;
+    color: var(--aqua-bright); letter-spacing: 0.5px;
+    animation: pulse-opacity 2s ease-in-out infinite;
+  }
+
   /* Bigger touch targets — species list items */
-  .species-item { padding: 13px 16px; min-height: 52px; }
+  .species-item {
+    padding: 13px 16px; min-height: 52px;
+    touch-action: manipulation;   /* no 300ms delay on tap */
+    pointer-events: auto;
+    cursor: pointer;
+  }
 
   /* IUCN filter chips */
   .iucn-chip { padding: 7px 11px; font-size: 11px; min-height: 38px; }
