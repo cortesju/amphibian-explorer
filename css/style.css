@@ -1061,3 +1061,208 @@ input:checked + .toggle-slider::before {
 .corine-sw.sm {
   width: 8px; height: 8px;
 }
+
+/* ── References & Data Sources ─────────────────────────────── */
+.refs-btn {
+  position: absolute;
+  top: 14px;
+  right: 282px; /* 14px margin + 256px layers-panel + 12px gap */
+  z-index: 51;
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 11px 7px 9px;
+  background: rgba(3, 12, 6, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(74, 191, 160, 0.28);
+  border-radius: 8px;
+  color: rgba(74, 191, 160, 0.58);
+  font-family: var(--font);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: color 0.22s, border-color 0.22s, background 0.22s, box-shadow 0.22s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+  white-space: nowrap;
+}
+.refs-btn:hover {
+  color: var(--aqua-bright);
+  border-color: rgba(74, 191, 160, 0.58);
+  background: rgba(3, 12, 6, 0.94);
+  box-shadow: 0 0 14px rgba(74, 191, 160, 0.13), 0 2px 8px rgba(0,0,0,0.45);
+}
+.refs-btn svg {
+  width: 13px; height: 13px; flex-shrink: 0; opacity: 0.78;
+  transition: opacity 0.22s;
+}
+.refs-btn:hover svg { opacity: 1; }
+
+/* Panel */
+.refs-panel {
+  position: fixed;
+  top: calc(var(--header-height) + 8px);
+  right: 14px;
+  width: min(305px, calc(100vw - 28px));
+  max-height: calc(100vh - var(--header-height) - 22px);
+  z-index: 160;
+  display: flex; flex-direction: column;
+  background: rgba(3, 12, 6, 0.93);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow:
+    0 0 44px rgba(74, 191, 160, 0.10),
+    0 10px 36px rgba(0,0,0,0.72),
+    inset 0 1px 0 rgba(108,220,184,0.08);
+  /* closed — invisible & slightly shifted */
+  opacity: 0;
+  transform: translateY(-10px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+.refs-panel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.refs-panel-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  background: rgba(2, 10, 4, 0.52);
+  border-radius: 12px 12px 0 0;
+  flex-shrink: 0;
+}
+.refs-panel-title {
+  font-size: 12px; font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.2px;
+  display: flex; align-items: center; gap: 6px;
+}
+.refs-panel-title svg { opacity: 0.75; flex-shrink: 0; }
+
+.refs-close {
+  background: none; border: none; cursor: pointer;
+  color: rgba(74, 191, 160, 0.52);
+  font-size: 13px; padding: 2px 5px;
+  border-radius: 4px; line-height: 1;
+  transition: color 0.2s, background 0.2s;
+}
+.refs-close:hover {
+  color: var(--aqua-bright);
+  background: rgba(74, 191, 160, 0.10);
+}
+
+/* Scrollable body */
+.refs-body {
+  flex: 1; overflow-y: auto;
+  padding: 11px 13px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(74,191,160,0.28) transparent;
+}
+.refs-body::-webkit-scrollbar { width: 4px; }
+.refs-body::-webkit-scrollbar-track { background: transparent; }
+.refs-body::-webkit-scrollbar-thumb { background: rgba(74,191,160,0.28); border-radius: 2px; }
+.refs-body::-webkit-scrollbar-thumb:hover { background: rgba(74,191,160,0.52); }
+
+.refs-intro {
+  font-size: 11px; line-height: 1.62;
+  color: rgba(200, 230, 215, 0.66);
+  margin: 0 0 10px;
+}
+.refs-intro strong { color: rgba(200, 230, 215, 0.88); font-weight: 600; }
+
+.refs-ack {
+  font-size: 10.5px; line-height: 1.56;
+  color: rgba(74, 191, 160, 0.54);
+  border-left: 2px solid rgba(74, 191, 160, 0.26);
+  padding: 6px 9px;
+  margin-bottom: 12px;
+  background: rgba(74, 191, 160, 0.04);
+  border-radius: 0 5px 5px 0;
+}
+.refs-ack strong { color: rgba(74, 191, 160, 0.82); font-weight: 600; }
+
+/* Category headers */
+.refs-cat-hdr {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(74, 191, 160, 0.44);
+  padding: 10px 0 5px;
+  border-top: 1px solid var(--border-soft);
+  margin-top: 2px;
+}
+
+/* Reference entries */
+.refs-list {
+  display: flex; flex-direction: column; gap: 1px;
+  margin-bottom: 4px;
+}
+.refs-item {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.15s;
+  cursor: default;
+}
+a.refs-item { cursor: pointer; }
+a.refs-item:hover { background: rgba(74, 191, 160, 0.07); }
+a.refs-item:hover .refs-title { color: var(--aqua-bright); }
+
+.refs-title {
+  font-size: 11px; font-weight: 500;
+  color: rgba(210, 235, 220, 0.82);
+  line-height: 1.42;
+  transition: color 0.15s;
+}
+a.refs-item .refs-title::after {
+  content: " ↗";
+  font-size: 9px; opacity: 0.42;
+}
+
+.refs-meta {
+  font-size: 9.5px;
+  color: rgba(120, 170, 145, 0.56);
+  line-height: 1.32;
+}
+.refs-meta em { font-style: italic; }
+
+/* Footer note */
+.refs-footer {
+  font-size: 9.5px; line-height: 1.52;
+  color: rgba(100, 140, 120, 0.50);
+  padding: 8px 13px 12px;
+  border-top: 1px solid var(--border-soft);
+  flex-shrink: 0;
+}
+
+/* Dim backdrop */
+.refs-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+  z-index: 155;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.24s ease;
+}
+.refs-backdrop.active {
+  opacity: 1; pointer-events: auto;
+}
+
+/* ── Mobile overrides for refs panel ─────────────────────────── */
+@media (max-width: 768px) {
+  /* On mobile the layers panel becomes a bottom sheet —
+     top-right area is free, so bring the button there */
+  .refs-btn {
+    top: 14px;
+    right: 14px;
+  }
+  .refs-panel {
+    top: calc(var(--header-height) + 8px);
+    right: 8px; left: 8px;
+    width: auto;
+    max-height: calc(100vh - var(--header-height) - var(--slider-height) - 20px);
+    border-radius: 12px;
+  }
+}

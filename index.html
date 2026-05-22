@@ -437,6 +437,154 @@
       &nbsp;·&nbsp; IUCN: <a href="https://www.iucnredlist.org" target="_blank" rel="noopener" style="color:#C0392B;text-decoration:none;">Red List</a>
     </div>
 
+    <!-- ── References & Data Sources ──────────────────────────── -->
+    <button class="refs-btn" id="refs-btn"
+            aria-label="References &amp; Data Sources"
+            title="References &amp; Data Sources">
+      <!-- book icon -->
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <rect x="2.5" y="1.5" width="9" height="13" rx="1.2"
+              stroke="currentColor" stroke-width="1.3"/>
+        <path d="M5 5h5M5 7.5h5M5 10h3.5"
+              stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      Sources
+    </button>
+
+    <!-- References panel (fixed overlay) -->
+    <div class="refs-panel" id="refs-panel" aria-hidden="true">
+
+      <div class="refs-panel-hdr">
+        <span class="refs-panel-title">
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13" aria-hidden="true">
+            <rect x="2.5" y="1.5" width="9" height="13" rx="1.2"
+                  stroke="currentColor" stroke-width="1.3"/>
+            <path d="M5 5h5M5 7.5h5M5 10h3.5"
+                  stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          References &amp; Data Sources
+        </span>
+        <button class="refs-close" id="refs-close" aria-label="Close references">✕</button>
+      </div>
+
+      <div class="refs-body">
+
+        <p class="refs-intro">This project integrates <strong>volunteered geographic information (VGI)</strong>, environmental datasets, and GIS workflows to explore the spatial distribution of Colombian amphibians.</p>
+
+        <div class="refs-ack">
+          GIS layers, hexagonal aggregations, and environmental datasets were processed and symbolized in <strong>ArcGIS Pro</strong> before integration into the web application using <strong>ArcGIS Maps SDK for JavaScript</strong>.
+        </div>
+
+        <!-- Scientific Literature -->
+        <div class="refs-cat-hdr">Scientific Literature</div>
+        <div class="refs-list">
+
+          <a class="refs-item" href="https://doi.org/10.1038/sdata.2018.214" target="_blank" rel="noopener">
+            <span class="refs-title">Present and Future Köppen-Geiger Climate Classification Maps at 1-km Resolution</span>
+            <span class="refs-meta">Beck et al. · <em>Scientific Data</em> · 2018</span>
+          </a>
+
+          <div class="refs-item">
+            <span class="refs-title">Where the Animals Go: Tracking Wildlife with Technology in 50 Maps and Graphics</span>
+            <span class="refs-meta">Cheshire &amp; Uberti · Particular Books · 2016</span>
+          </div>
+
+          <a class="refs-item" href="https://doi.org/10.1002/joc.5086" target="_blank" rel="noopener">
+            <span class="refs-title">WorldClim 2: New 1-km Spatial Resolution Climate Surfaces for Global Land Areas</span>
+            <span class="refs-meta">Fick &amp; Hijmans · <em>International Journal of Climatology</em> · 2017</span>
+          </a>
+
+          <div class="refs-item">
+            <span class="refs-title">The Credibility of Volunteered Geographic Information</span>
+            <span class="refs-meta">Flanagin &amp; Metzger · <em>GeoJournal</em> · 2008</span>
+          </div>
+
+          <div class="refs-item">
+            <span class="refs-title">Citizens as Sensors: The World of Volunteered Geography</span>
+            <span class="refs-meta">Goodchild · <em>GeoJournal</em> · 2007</span>
+          </div>
+
+          <div class="refs-item">
+            <span class="refs-title">Conservation Biogeography</span>
+            <span class="refs-meta">Ladle &amp; Whittaker (eds.) · Wiley · 2011</span>
+          </div>
+
+          <div class="refs-item">
+            <span class="refs-title">Biotic Homogenization: A Few Winners Replacing Many Losers in the Next Mass Extinction</span>
+            <span class="refs-meta">McKinney &amp; Lockwood · <em>Trends in Ecology &amp; Evolution</em> · 1999</span>
+          </div>
+
+          <div class="refs-item">
+            <span class="refs-title">Climate Change 2014: Synthesis Report</span>
+            <span class="refs-meta">Pachauri et al. · IPCC · 2014</span>
+          </div>
+
+        </div><!-- /refs-list scientific -->
+
+        <!-- GIS & Software -->
+        <div class="refs-cat-hdr">GIS &amp; Software</div>
+        <div class="refs-list">
+
+          <a class="refs-item" href="https://developers.arcgis.com/javascript/" target="_blank" rel="noopener">
+            <span class="refs-title">ArcGIS Maps SDK for JavaScript, Version 4.29</span>
+            <span class="refs-meta">Esri · Redlands, CA · 2026</span>
+          </a>
+
+          <a class="refs-item" href="https://www.esri.com/en-us/arcgis/products/arcgis-pro/" target="_blank" rel="noopener">
+            <span class="refs-title">ArcGIS Pro</span>
+            <span class="refs-meta">Esri · Redlands, CA · 2026</span>
+          </a>
+
+        </div><!-- /refs-list gis -->
+
+        <!-- Environmental Data -->
+        <div class="refs-cat-hdr">Environmental Data</div>
+        <div class="refs-list">
+
+          <div class="refs-item">
+            <span class="refs-title">Cobertura de la Tierra Corine Land Cover Colombia, Escala 1:100.000</span>
+            <span class="refs-meta">IGAC · Bogotá, Colombia · 2024</span>
+          </div>
+
+          <div class="refs-item">
+            <span class="refs-title">Mapa de Ecosistemas Continentales, Costeros y Marinos de Colombia</span>
+            <span class="refs-meta">IDEAM, IGAC, Instituto Humboldt et al. · Bogotá · 2017</span>
+          </div>
+
+          <a class="refs-item" href="https://runap.parquesnacionales.gov.co/" target="_blank" rel="noopener">
+            <span class="refs-title">Registro Único Nacional de Áreas Protegidas (RUNAP)</span>
+            <span class="refs-meta">Parques Nacionales Naturales de Colombia · 2024</span>
+          </a>
+
+        </div><!-- /refs-list env -->
+
+        <!-- Biodiversity Data -->
+        <div class="refs-cat-hdr">Biodiversity Data</div>
+        <div class="refs-list">
+
+          <a class="refs-item" href="https://www.inaturalist.org/" target="_blank" rel="noopener">
+            <span class="refs-title">iNaturalist Observation Data for Colombian Amphibians</span>
+            <span class="refs-meta">iNaturalist · Accessed May 2026</span>
+          </a>
+
+          <a class="refs-item" href="https://www.iucnredlist.org" target="_blank" rel="noopener">
+            <span class="refs-title">The IUCN Red List of Threatened Species, Version 2024</span>
+            <span class="refs-meta">IUCN · 2024</span>
+          </a>
+
+        </div><!-- /refs-list biodiversity -->
+
+      </div><!-- /refs-body -->
+
+      <div class="refs-footer">
+        Observation records do not represent the full extent of Colombian amphibian biodiversity and are limited to available iNaturalist observations.
+      </div>
+
+    </div><!-- /refs-panel -->
+
+    <!-- Backdrop for refs panel -->
+    <div class="refs-backdrop" id="refs-backdrop"></div>
+
   </main><!-- /map-area -->
 
 </div><!-- /app-layout -->
@@ -532,6 +680,35 @@
     document.getElementById("layers-panel-body").style.display  = "none";
     document.getElementById("layers-panel-chevron").textContent = "▼";
   }
+
+  // ── References & Data Sources panel ──────────────────────────────
+  const _refsBtn    = document.getElementById("refs-btn");
+  const _refsPanel  = document.getElementById("refs-panel");
+  const _refsClose  = document.getElementById("refs-close");
+  const _refsBdrop  = document.getElementById("refs-backdrop");
+
+  function openRefs() {
+    _refsPanel.classList.add("open");
+    _refsPanel.setAttribute("aria-hidden", "false");
+    _refsBdrop.classList.add("active");
+    _refsBtn.setAttribute("aria-expanded", "true");
+  }
+  function closeRefs() {
+    _refsPanel.classList.remove("open");
+    _refsPanel.setAttribute("aria-hidden", "true");
+    _refsBdrop.classList.remove("active");
+    _refsBtn.setAttribute("aria-expanded", "false");
+  }
+
+  _refsBtn.setAttribute("aria-expanded", "false");
+  _refsBtn.addEventListener("click", () =>
+    _refsPanel.classList.contains("open") ? closeRefs() : openRefs()
+  );
+  _refsClose.addEventListener("click", closeRefs);
+  _refsBdrop.addEventListener("click", closeRefs);
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && _refsPanel.classList.contains("open")) closeRefs();
+  });
 </script>
 
 </body>
