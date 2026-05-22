@@ -666,7 +666,7 @@ input:checked + .toggle-slider::before {
 .basemap-thumb-custom { background: linear-gradient(135deg,#6a9a78 0%,#a8a080 50%,#5a8a6a 100%); }
 .basemap-thumb-gray   { background: linear-gradient(135deg,#c0c0c0 0%,#e0e0e0 50%,#a8a8a8 100%); }
 .basemap-thumb-dark   { background: linear-gradient(135deg,#1a2a1e 0%,#2a3a2a 50%,#0a1a0e 100%); }
-.basemap-thumb-topo   { background: linear-gradient(135deg,#8ab090 0%,#d0c898 50%,#a09060 100%); }
+.basemap-thumb-satellite { background: linear-gradient(150deg,#0d2233 0%,#1a4a38 30%,#2a6a42 55%,#4e8a52 78%,#7aaa6a 100%); }
 
 /* ── Map hint overlay ─────────────────────────────────────────── */
 .map-hint {

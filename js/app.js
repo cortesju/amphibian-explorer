@@ -340,6 +340,20 @@ require([
   }
 
   // ── Basemap switcher ───────────────────────────────────────────────────────
+
+  // Disable popup queries on all layers inside the current basemap so that
+  // clicking the map only ever shows data-layer popups, never terrain attributes.
+  function disableBasemapPopups() {
+    if (!map.basemap) return;
+    map.basemap.load().then(() => {
+      const layers = [
+        ...map.basemap.baseLayers.toArray(),
+        ...map.basemap.referenceLayers.toArray(),
+      ];
+      layers.forEach(l => { try { l.popupEnabled = false; } catch(e) {} });
+    }).catch(() => {});
+  }
+
   function applyBasemap(id) {
     document.querySelectorAll(".basemap-btn").forEach(b =>
       b.classList.toggle("active", b.dataset.bm === id));
@@ -348,8 +362,11 @@ require([
         baseLayers: [ new VectorTileLayer({ url: CONFIG.basemapUrl }) ]
       });
     } else {
+      // "satellite" → Esri World Imagery; "gray-vector" → Light Gray Canvas
       map.basemap = id;
     }
+    // Re-disable popups on the newly loaded basemap
+    disableBasemapPopups();
   }
   document.querySelectorAll(".basemap-btn").forEach(btn => {
     btn.addEventListener("click", () => applyBasemap(btn.dataset.bm));
@@ -870,6 +887,38 @@ require([
     map.add(ecosystemsLayer, 2);   // below conservation pressure
   }
 
+  // ── White mask layer — dims basemap when hex density layer is on ──────────
+  // Sits above all background layers but below rangesLayer and hexLayer.
+  // pointer-events are never captured by a GraphicsLayer without a popup template.
+  const hexMaskGraphic = new Graphic({
+    geometry: {
+      type: "polygon",
+      rings: [[
+        [-20037508.3, -20037508.3],
+        [-20037508.3,  20037508.3],
+        [ 20037508.3,  20037508.3],
+        [ 20037508.3, -20037508.3],
+        [-20037508.3, -20037508.3],
+      ]],
+      spatialReference: { wkid: 102100 },
+    },
+    symbol: {
+      type: "simple-fill",
+      color: [255, 255, 255, 0.48],   // 48% white → visually tones down basemap
+      outline: { style: "none", width: 0, color: [0, 0, 0, 0] },
+    },
+  });
+  const hexMaskLayer = new GraphicsLayer({
+    visible:  false,    // shown only when hex layer is on
+    listMode: "hide",   // invisible in any legend widget
+    // No popupTemplate → never intercepts clicks
+  });
+  hexMaskLayer.add(hexMaskGraphic);
+  map.add(hexMaskLayer);  // added here → below rangesLayer / hexLayer
+
+  // Keep mask in sync with hex layer visibility
+  hexLayer.watch("visible", v => { hexMaskLayer.visible = v; });
+
   // Ranges + hex added first so points layer renders on top
   map.addMany([rangesLayer, hexLayer]);
 
@@ -931,6 +980,14 @@ require([
   });
 
   view.on("pointer-leave", hideTooltip);
+
+  // ── Disable basemap attribute popups on initial load ──────────────────────
+  // Also re-runs whenever the basemap is swapped so attributes never leak through.
+  view.when(() => {
+    disableBasemapPopups();
+    // Watch for subsequent basemap changes (e.g. switching to satellite)
+    map.watch("basemap", () => setTimeout(disableBasemapPopups, 400));
+  });
 
   // ── Load species data and initialize ──────────────────────────────────────
   fetch("data/species.json")
