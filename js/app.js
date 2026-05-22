@@ -47,7 +47,6 @@ require([
   let rangesLayer           = null;
   let pointsLayer           = null;
   let protectionAreasLayer  = null;
-  let climateLayer          = null;
   let hillshadeLayer        = null;
   let biasLayer             = null;
   let conservationLayer     = null;
@@ -59,7 +58,6 @@ require([
   let colombiaMaskLayer     = null;   // Colombia-only white mask (density + conservation)
   let showPoints            = true;
   let showProtectionAreas   = true;
-  let showClimate           = true;
   let isDragging            = false;
   // Item 2 — filter/sort state
   let activeIUCN  = "all";
@@ -81,7 +79,6 @@ require([
   const rangesToggle           = document.getElementById("toggle-ranges");
   const pointsToggle           = document.getElementById("toggle-points");
   const protectionAreasToggle  = document.getElementById("toggle-protection-areas");
-  const climateToggle          = document.getElementById("toggle-climate");
   const hillshadeToggle        = document.getElementById("toggle-hillshade");
   const mapHint                = document.getElementById("map-hint");
 
@@ -292,12 +289,6 @@ require([
     protectionAreasToggle.addEventListener("change", () => {
       showProtectionAreas = protectionAreasToggle.checked;
       if (protectionAreasLayer) protectionAreasLayer.visible = showProtectionAreas;
-    });
-  }
-  if (climateToggle) {
-    climateToggle.addEventListener("change", () => {
-      showClimate = climateToggle.checked;
-      if (climateLayer) climateLayer.visible = showClimate;
     });
   }
   if (hillshadeToggle) {
@@ -834,27 +825,6 @@ require([
     blendMode: "multiply",
   });
   map.add(hillshadeLayer, 0);
-
-  // Climate zones layer (added if URL is configured)
-  if (CONFIG.services.climate) {
-    climateLayer = new FeatureLayer({
-      url:     CONFIG.services.climate,
-      opacity: 0.45,
-      visible: true,
-      popupEnabled: true,
-      popupTemplate: {
-        title: "{climate_name}",
-        content: [{ type: "fields", fieldInfos: [
-          { fieldName: "climate_code",  label: "Code"        },
-          { fieldName: "climate_name",  label: "Climate Type" },
-          { fieldName: "avg_temp_c",    label: "Avg Temp (°C)"},
-          { fieldName: "avg_precip_mm", label: "Avg Precip (mm)"},
-        ]}],
-        overwriteActions: true,
-      }
-    });
-    map.add(climateLayer, 1);
-  }
 
   // Bias layer — Corine Land Cover (IGAC 2018-2021, FeatureServer)
   if (CONFIG.services.bias) {
