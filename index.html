@@ -31,6 +31,9 @@
           style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;">☰</button>
 </header>
 
+<!-- Backdrop overlay — taps it to close sidebar on mobile -->
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
 <!-- ── Main layout ─────────────────────────────────────────────── -->
 <div class="app-layout">
 
@@ -149,7 +152,8 @@
 
     <!-- Layers / Legend panel -->
     <div class="layers-panel" id="layers-panel">
-      <div class="layers-panel-header" id="layers-panel-toggle">
+      <div class="layers-panel-header" id="layers-panel-toggle"
+           role="button" tabindex="0" aria-controls="layers-panel-body" aria-label="Toggle map layers panel">
         <span>🗺 Map Layers</span>
         <span id="layers-panel-chevron">▲</span>
       </div>
@@ -475,6 +479,7 @@
 <script src="js/app.js"></script>
 
 <script>
+  // ── Layers panel collapse / expand ──────────────────────────────
   document.getElementById("layers-panel-toggle").addEventListener("click", () => {
     const body    = document.getElementById("layers-panel-body");
     const chevron = document.getElementById("layers-panel-chevron");
@@ -482,9 +487,41 @@
     body.style.display  = hidden ? "block" : "none";
     chevron.textContent = hidden ? "▲" : "▼";
   });
-  document.getElementById("mobile-toggle").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.toggle("mobile-open");
+
+  // ── Mobile sidebar with backdrop ────────────────────────────────
+  const _sidebar  = document.getElementById("sidebar");
+  const _backdrop = document.getElementById("sidebar-backdrop");
+  const _mToggle  = document.getElementById("mobile-toggle");
+
+  function openSidebar() {
+    _sidebar.classList.add("mobile-open");
+    _backdrop.classList.add("active");
+    _mToggle.classList.add("active");
+    _mToggle.setAttribute("aria-expanded", "true");
+  }
+  function closeSidebar() {
+    _sidebar.classList.remove("mobile-open");
+    _backdrop.classList.remove("active");
+    _mToggle.classList.remove("active");
+    _mToggle.setAttribute("aria-expanded", "false");
+  }
+
+  _mToggle.setAttribute("aria-expanded", "false");
+  _mToggle.addEventListener("click", () =>
+    _sidebar.classList.contains("mobile-open") ? closeSidebar() : openSidebar()
+  );
+  _backdrop.addEventListener("click", closeSidebar);
+
+  // Close sidebar on Escape key (accessibility)
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && _sidebar.classList.contains("mobile-open")) closeSidebar();
   });
+
+  // ── Layers panel: start collapsed on mobile ──────────────────────
+  if (window.innerWidth <= 768) {
+    document.getElementById("layers-panel-body").style.display  = "none";
+    document.getElementById("layers-panel-chevron").textContent = "▼";
+  }
 </script>
 
 </body>

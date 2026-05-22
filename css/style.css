@@ -710,16 +710,116 @@ input:checked + .toggle-slider::before {
 }
 
 /* ── Responsive ───────────────────────────────────────────────── */
-@media (max-width: 700px) {
-  :root { --sidebar-width: 100vw; }
-  .sidebar { display: none; }
-  .sidebar.mobile-open {
-    display: flex; position: fixed;
-    inset: var(--header-height) 0 var(--slider-height) 0; z-index: 300;
-  }
-  .mobile-toggle { display: flex !important; }
-}
 .mobile-toggle { display: none; }
+
+/* Sidebar backdrop — dims the map when sidebar slides in on mobile */
+.sidebar-backdrop {
+  display: none;
+  position: fixed; inset: 0; z-index: 299;
+  background: rgba(0, 5, 2, 0.65);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.sidebar-backdrop.active {
+  display: block;
+  animation: backdropIn 0.22s ease forwards;
+}
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Tablet + Mobile  ≤ 768px ─────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Prevent horizontal overflow */
+  html, body, .app-layout { overflow-x: hidden; }
+
+  /* Header — hide subtitle, show hamburger */
+  .app-header { padding: 0 12px; gap: 8px; }
+  .app-header .subtitle { display: none; }
+  .mobile-toggle {
+    display: flex !important;
+    align-items: center; justify-content: center;
+    width: 44px !important; height: 44px !important; min-width: 44px !important;
+    border-radius: 8px !important;
+    background: rgba(74,191,160,0.07) !important;
+    border: 1.5px solid rgba(74,191,160,0.25) !important;
+    color: var(--aqua-bright) !important;
+    font-size: 18px !important;
+    transition: background 0.15s, border-color 0.15s !important;
+    cursor: pointer !important;
+  }
+  .mobile-toggle:hover  { background: rgba(74,191,160,0.14) !important; }
+  .mobile-toggle.active { background: rgba(74,191,160,0.18) !important;
+                          border-color: var(--aqua-bright) !important; }
+
+  /* Sidebar — slide-over from left, always rendered but off-screen */
+  .sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    bottom: var(--slider-height);
+    width: min(360px, 100vw);
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 300;
+    display: flex !important;
+  }
+  .sidebar.mobile-open { transform: translateX(0); }
+
+  /* Bigger touch targets — species list items */
+  .species-item { padding: 13px 16px; min-height: 52px; }
+
+  /* IUCN filter chips */
+  .iucn-chip { padding: 7px 11px; font-size: 11px; min-height: 38px; }
+
+  /* Detail back button */
+  .detail-back { padding: 13px 16px; font-size: 12px; min-height: 44px; }
+
+  /* Layers panel — bottom sheet */
+  .layers-panel {
+    position: fixed;
+    bottom: var(--slider-height);
+    left: 0; right: 0; top: auto;
+    width: 100%;
+    max-height: 65vh;
+    border-radius: 14px 14px 0 0;
+    border-left: none; border-right: none; border-bottom: none;
+  }
+  .layers-panel-body {
+    max-height: calc(65vh - 48px);
+    -webkit-overflow-scrolling: touch;
+  }
+  .layers-panel-header { padding: 14px 16px; min-height: 48px; }
+
+  /* Toggle switches — larger pill */
+  .toggle-switch { width: 44px; height: 26px; min-width: 44px; }
+  .toggle-slider::before { width: 18px; height: 18px; left: 4px; bottom: 4px; }
+  input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+  /* Range slider thumbs */
+  .layer-range::-webkit-slider-thumb { width: 18px; height: 18px; }
+  .layer-range::-moz-range-thumb     { width: 18px; height: 18px; border: none; }
+
+  /* Play / pause button */
+  .play-btn { width: 44px; height: 44px; min-width: 44px; }
+
+  /* Slider drag thumb */
+  .slider-thumb { width: 24px; height: 24px; }
+}
+
+/* ── Small phones ≤ 480px ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  :root { --slider-height: 64px; }
+
+  /* Full-width sidebar on narrow phones */
+  .sidebar { width: 100vw; }
+
+  /* Compact timeline — hide decorative labels to save height */
+  .time-slider-bar { padding: 0 10px; gap: 8px; }
+  .slider-sublabel       { display: none; }
+  .migration-band-label  { display: none; }
+}
 
 /* ── Item 2: IUCN filter chips ────────────────────────────────── */
 .iucn-chips {
