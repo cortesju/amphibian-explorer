@@ -646,6 +646,9 @@ require([
 
     showDetail(sp);
 
+    // Close the mobile species drawer (no-op on desktop where closeSidebar is a no-op)
+    if (typeof window.closeSidebar === "function") window.closeSidebar();
+
     // Species whose points are too scattered — always zoom to full Colombia view.
     const COLOMBIA_ZOOM_IDS = new Set([
       "espadarana_prosoblepon",

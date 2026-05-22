@@ -712,13 +712,12 @@ input:checked + .toggle-slider::before {
 /* ── Responsive ───────────────────────────────────────────────── */
 .mobile-toggle { display: none; }
 
-/* Sidebar backdrop — dims the map when sidebar slides in on mobile */
+/* ── Sidebar backdrop — plain dark veil, no blur on the drawer ── */
 .sidebar-backdrop {
   display: none;
-  position: fixed; inset: 0; z-index: 299;
-  background: rgba(0, 5, 2, 0.65);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  position: fixed; inset: 0; z-index: 999;   /* one below the drawer */
+  background: rgba(0, 0, 0, 0.55);
+  /* NO backdrop-filter — blur bleeds through semi-transparent drawer */
 }
 .sidebar-backdrop.active {
   display: block;
@@ -729,12 +728,17 @@ input:checked + .toggle-slider::before {
   to   { opacity: 1; }
 }
 
+/* ── Drawer close button — visible on mobile only ────────────── */
+.drawer-close-row {
+  display: none;   /* hidden on desktop */
+}
+
 /* ── Tablet + Mobile  ≤ 768px ─────────────────────────────────── */
 @media (max-width: 768px) {
   /* Prevent horizontal overflow */
   html, body, .app-layout { overflow-x: hidden; }
 
-  /* Header — hide subtitle, show hamburger */
+  /* Header — hide subtitle, reveal hamburger */
   .app-header { padding: 0 12px; gap: 8px; }
   .app-header .subtitle { display: none; }
   .mobile-toggle {
@@ -753,19 +757,50 @@ input:checked + .toggle-slider::before {
   .mobile-toggle.active { background: rgba(74,191,160,0.18) !important;
                           border-color: var(--aqua-bright) !important; }
 
-  /* Sidebar — slide-over from left, always rendered but off-screen */
+  /* ── Drawer — slides from left, covers full viewport height ── */
   .sidebar {
     position: fixed;
-    top: var(--header-height);
-    left: 0;
-    bottom: var(--slider-height);
-    width: min(360px, 100vw);
+    top: 0; left: 0;          /* start from very top */
+    height: 100dvh;            /* cover header + content + timeline */
+    bottom: auto;
+    width: min(86vw, 360px);
     transform: translateX(-100%);
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 300;
+    transition: transform 250ms ease;
+    z-index: 1000;             /* above map, header, layers panel, timeline */
     display: flex !important;
+    overflow: hidden;          /* species-list scrolls internally */
+    /* Fully opaque background — no see-through blur artifact */
+    background: #061208;
+    border-right: 1.5px solid var(--glass-border);
+    box-shadow: 6px 0 32px rgba(0,0,0,0.70);
   }
   .sidebar.mobile-open { transform: translateX(0); }
+
+  /* Drawer close row — shown only on mobile */
+  .drawer-close-row {
+    display: flex;
+    align-items: center; justify-content: space-between;
+    padding: 14px 14px 12px;
+    border-bottom: 1px solid var(--border-soft);
+    background: rgba(2, 10, 4, 0.80);
+    flex-shrink: 0;
+  }
+  .drawer-close-title {
+    font-size: 13px; font-weight: 700; color: var(--text-primary);
+    letter-spacing: -0.2px;
+  }
+  .drawer-close-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    background: rgba(74,191,160,0.08);
+    border: 1.5px solid rgba(74,191,160,0.28);
+    border-radius: 7px;
+    color: var(--aqua-bright);
+    font-size: 15px; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .drawer-close-btn:hover { background: rgba(74,191,160,0.18);
+                             border-color: var(--aqua-bright); }
 
   /* Bigger touch targets — species list items */
   .species-item { padding: 13px 16px; min-height: 52px; }
@@ -785,6 +820,7 @@ input:checked + .toggle-slider::before {
     max-height: 65vh;
     border-radius: 14px 14px 0 0;
     border-left: none; border-right: none; border-bottom: none;
+    z-index: 50;
   }
   .layers-panel-body {
     max-height: calc(65vh - 48px);
@@ -812,13 +848,13 @@ input:checked + .toggle-slider::before {
 @media (max-width: 480px) {
   :root { --slider-height: 64px; }
 
-  /* Full-width sidebar on narrow phones */
+  /* Full-width drawer on narrow phones */
   .sidebar { width: 100vw; }
 
-  /* Compact timeline — hide decorative labels to save height */
+  /* Compact timeline — drop decorative labels */
   .time-slider-bar { padding: 0 10px; gap: 8px; }
-  .slider-sublabel       { display: none; }
-  .migration-band-label  { display: none; }
+  .slider-sublabel      { display: none; }
+  .migration-band-label { display: none; }
 }
 
 /* ── Item 2: IUCN filter chips ────────────────────────────────── */

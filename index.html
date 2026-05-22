@@ -40,6 +40,12 @@
   <!-- ── Sidebar ─────────────────────────────────────────────── -->
   <aside class="sidebar" id="sidebar">
 
+    <!-- Mobile-only close row — hidden on desktop via CSS -->
+    <div class="drawer-close-row" id="drawer-close-row">
+      <span class="drawer-close-title">🐸 Species</span>
+      <button class="drawer-close-btn" id="drawer-close" aria-label="Close species drawer">✕</button>
+    </div>
+
     <!-- Species list view -->
     <div id="species-list-view" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
       <div class="sidebar-header">
@@ -488,33 +494,40 @@
     chevron.textContent = hidden ? "▲" : "▼";
   });
 
-  // ── Mobile sidebar with backdrop ────────────────────────────────
+  // ── Mobile drawer with backdrop ─────────────────────────────────
   const _sidebar  = document.getElementById("sidebar");
   const _backdrop = document.getElementById("sidebar-backdrop");
   const _mToggle  = document.getElementById("mobile-toggle");
+  const _xBtn     = document.getElementById("drawer-close");
 
   function openSidebar() {
     _sidebar.classList.add("mobile-open");
     _backdrop.classList.add("active");
     _mToggle.classList.add("active");
     _mToggle.setAttribute("aria-expanded", "true");
+    // Prevent background page scroll while drawer is open
+    document.body.style.overflow = "hidden";
   }
-  function closeSidebar() {
+
+  // Exported so app.js can call it after a species is selected
+  window.closeSidebar = function closeSidebar() {
     _sidebar.classList.remove("mobile-open");
     _backdrop.classList.remove("active");
     _mToggle.classList.remove("active");
     _mToggle.setAttribute("aria-expanded", "false");
-  }
+    document.body.style.overflow = "";
+  };
 
   _mToggle.setAttribute("aria-expanded", "false");
   _mToggle.addEventListener("click", () =>
-    _sidebar.classList.contains("mobile-open") ? closeSidebar() : openSidebar()
+    _sidebar.classList.contains("mobile-open") ? window.closeSidebar() : openSidebar()
   );
-  _backdrop.addEventListener("click", closeSidebar);
+  _backdrop.addEventListener("click", window.closeSidebar);
+  if (_xBtn) _xBtn.addEventListener("click", window.closeSidebar);
 
-  // Close sidebar on Escape key (accessibility)
+  // Escape key closes the drawer (accessibility)
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape" && _sidebar.classList.contains("mobile-open")) closeSidebar();
+    if (e.key === "Escape" && _sidebar.classList.contains("mobile-open")) window.closeSidebar();
   });
 
   // ── Layers panel: start collapsed on mobile ──────────────────────
