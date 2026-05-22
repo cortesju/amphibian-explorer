@@ -26,8 +26,6 @@ require([
   "esri/symbols/PictureMarkerSymbol",
   "esri/geometry/Extent",
   "esri/geometry/Point",
-  "esri/Graphic",
-  "esri/layers/GraphicsLayer",
   "esri/widgets/ScaleBar",
   "esri/widgets/Compass",
   "esri/core/reactiveUtils",
@@ -35,7 +33,7 @@ require([
   Map, Basemap, MapView, FeatureLayer, VectorTileLayer, TileLayer,
   ClassBreaksRenderer, UniqueValueRenderer, SimpleRenderer,
   SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureMarkerSymbol,
-  Extent, Point, Graphic, GraphicsLayer, ScaleBar, Compass, reactiveUtils
+  Extent, Point, ScaleBar, Compass, reactiveUtils
 ) { try {
 
   // ── State ──────────────────────────────────────────────────────────────────
@@ -56,8 +54,9 @@ require([
   let ecosystemsLayer       = null;
   let showHex               = false;
   let showRanges            = false;  // off by default
-  let showEcosystems        = true;
+  let showEcosystems        = false;  // off by default — Conservation Pressure shows alone
   let showConservationLayer = true;
+  let colombiaMaskLayer     = null;   // Colombia-only white mask (density + conservation)
   let showPoints            = true;
   let showProtectionAreas   = true;
   let showClimate           = true;
@@ -451,13 +450,21 @@ require([
       if (el) el.style.display = isConservation ? "" : "none";
     });
 
+    // When switching to Conservation, always reset Ecosystems to OFF so Conservation
+    // Pressure stands out clearly on its own.  User can re-enable Ecosystems manually.
+    if (isConservation) {
+      showEcosystems = false;
+      const ecoChk = document.getElementById("toggle-ecosystems");
+      if (ecoChk) ecoChk.checked = false;
+    }
+
     // Show/hide actual map layers
     if (hexLayer)          hexLayer.visible          = isRecords && showHex && !!currentSpecies;
     if (rangesLayer)       rangesLayer.visible       = showRanges;
     if (pointsLayer)       pointsLayer.visible       = isRecords && showPoints;
     if (protectionAreasLayer) protectionAreasLayer.visible = isRecords && showProtectionAreas;
     if (conservationLayer) conservationLayer.visible = isConservation && showConservationLayer;
-    if (ecosystemsLayer)   ecosystemsLayer.visible   = isConservation && showEcosystems;
+    if (ecosystemsLayer)   ecosystemsLayer.visible   = isConservation && showEcosystems; // false on card open
     if (biasLayer)         biasLayer.visible         = isBias;
 
     // Show/hide distribution legend (conservation card)
@@ -471,6 +478,9 @@ require([
     // Show/hide work-in-progress banner (conservation & bias cards)
     const wipBanner = document.getElementById("wip-banner");
     if (wipBanner) wipBanner.style.display = (isConservation || isBias) ? "block" : "none";
+
+    // Sync Colombia white mask (density + conservation both benefit from lightened basemap)
+    syncColombiaWhiteMask();
   }
 
   document.querySelectorAll(".map-option-card").forEach(card => {
@@ -859,7 +869,7 @@ require([
   if (CONFIG.services.conservation) {
     conservationLayer = new TileLayer({
       url:     CONFIG.services.conservation,
-      opacity: 0.80,
+      opacity: 0.92,    // increased from 0.80 → Conservation Pressure hexagons stand out
       visible: false,   // shown only when Conservation card is active
     });
     map.add(conservationLayer, 2);
@@ -874,50 +884,52 @@ require([
       opacity:  0.75,   // matches the default slider value (75%)
       visible:  false,   // shown only when Conservation card is active
       outFields: ["TIPO_BIOMA"],
-      popupEnabled: true,
-      popupTemplate: {
-        title: "Ecosystem",
-        content: [{
-          type: "fields",
-          fieldInfos: [{ fieldName: "TIPO_BIOMA", label: "Biome Type" }]
-        }],
-        overwriteActions: true,
-      }
+      popupEnabled: false,   // contextual layer — no attribute popup (Task 5)
     });
     map.add(ecosystemsLayer, 2);   // below conservation pressure
   }
 
-  // ── White mask layer — dims basemap when hex density layer is on ──────────
-  // Sits above all background layers but below rangesLayer and hexLayer.
-  // pointer-events are never captured by a GraphicsLayer without a popup template.
-  const hexMaskGraphic = new Graphic({
-    geometry: {
-      type: "polygon",
-      rings: [[
-        [-20037508.3, -20037508.3],
-        [-20037508.3,  20037508.3],
-        [ 20037508.3,  20037508.3],
-        [ 20037508.3, -20037508.3],
-        [-20037508.3, -20037508.3],
-      ]],
-      spatialReference: { wkid: 102100 },
-    },
-    symbol: {
-      type: "simple-fill",
-      color: [255, 255, 255, 0.48],   // 48% white → visually tones down basemap
-      outline: { style: "none", width: 0, color: [0, 0, 0, 0] },
-    },
-  });
-  const hexMaskLayer = new GraphicsLayer({
-    visible:  false,    // shown only when hex layer is on
-    listMode: "hide",   // invisible in any legend widget
-    // No popupTemplate → never intercepts clicks
-  });
-  hexMaskLayer.add(hexMaskGraphic);
-  map.add(hexMaskLayer);  // added here → below rangesLayer / hexLayer
+  // ── Colombia-only white mask ───────────────────────────────────────────────
+  // Dims the basemap ONLY over Colombia's land area — oceans and neighbours stay
+  // unaffected.  Active for both the Observation Density and Distribution &
+  // Conservation views (different opacity per view).
+  //
+  // Source: Esri World Countries (Generalized) — public Living Atlas service,
+  //         filtered to ISO = 'CO' (Colombia).
+  // No popupTemplate → never intercepts clicks, panning, or zooming.
 
-  // Keep mask in sync with hex layer visibility
-  hexLayer.watch("visible", v => { hexMaskLayer.visible = v; });
+  // Declared as a named function so it is hoisted and callable from setMapOption()
+  // (which is defined earlier in this file) before the layer is constructed.
+  function syncColombiaWhiteMask() {
+    if (!colombiaMaskLayer) return;
+    const forDensity      = !!(hexLayer && hexLayer.visible);
+    const forConservation = (activeMapOption === "conservation");
+    colombiaMaskLayer.visible = forDensity || forConservation;
+    // Lighter behind Conservation Pressure (it has its own strong colour);
+    // stronger behind the hex density bins.
+    colombiaMaskLayer.opacity = forConservation ? 0.30 : 0.45;
+  }
+
+  colombiaMaskLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Countries_(Generalized)/FeatureServer/0",
+    definitionExpression: "ISO = 'CO'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-fill",
+        color: [255, 255, 255, 0.45],   // overridden at runtime by syncColombiaWhiteMask
+        outline: { style: "none", width: 0, color: [0, 0, 0, 0] },
+      },
+    },
+    popupEnabled: false,   // visual-only layer — no attribute popup
+    visible:  false,
+    listMode: "hide",
+    outFields: [],
+  });
+  map.add(colombiaMaskLayer);  // above background layers, below rangesLayer / hexLayer
+
+  // Sync mask whenever hex layer visibility changes
+  hexLayer.watch("visible", syncColombiaWhiteMask);
 
   // Ranges + hex added first so points layer renders on top
   map.addMany([rangesLayer, hexLayer]);
