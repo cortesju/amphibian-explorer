@@ -988,21 +988,8 @@ require([
   }
 
   // ── Hover interaction ──────────────────────────────────────────────────────
-  view.on("pointer-move", (event) => {
-    view.hitTest(event, { include: [hexLayer] }).then((hit) => {
-      if (hit.results.length) {
-        const attrs = hit.results[0].graphic.attributes;
-        const label = ABUND_LABELS[attrs.abund_iso] || "Unknown";
-        showTooltip(event.x, event.y,
-          `${label} · ${attrs.obs_count} observation${attrs.obs_count !== 1 ? "s" : ""}`);
-        view.container.style.cursor = "pointer";
-      } else {
-        hideTooltip();
-        view.container.style.cursor = "";
-      }
-    });
-  });
-
+  // Note: hexLayer (VectorTileLayer) is purely visual — no tooltip or cursor
+  // change. Its attributes are not reliably available via hitTest anyway.
   view.on("pointer-leave", hideTooltip);
 
   // ── Disable basemap attribute popups on initial load ──────────────────────
